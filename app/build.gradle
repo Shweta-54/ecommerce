@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId "com.example.ecommerce"
         minSdk 24
-        targetSdk 34
+        targetSdk 35
         versionCode 1
         versionName "1.0"
 
@@ -62,4 +62,6 @@ dependencies {
 
     implementation libs.tinycart
     implementation libs.android.advancedwebview
+    implementation libs.ismaeldivita.chip.navigation.bar
+    implementation libs.jetbrains.kotlin.stdlib
 }

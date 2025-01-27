@@ -26,13 +26,15 @@
         android:id="@+id/splashtextView"
         android:layout_width="0sp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/bangers"
         android:text="Shopique"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="70sp"
         app:layout_constraintEnd_toEndOf="@+id/splashimage"
         app:layout_constraintStart_toStartOf="@+id/splashimage"
-        app:layout_constraintTop_toBottomOf="@+id/splashimage" />
+        app:layout_constraintTop_toBottomOf="@+id/splashimage"
+        tools:ignore="HardcodedText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

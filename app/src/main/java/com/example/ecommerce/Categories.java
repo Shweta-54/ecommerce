@@ -1,52 +1,36 @@
 package com.example.ecommerce;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.Switch;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
-
+public class Categories extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-//images click event.
-        ImageView shopiquehome = findViewById(R.id.shopique);
-        ImageView shopiquegrocery = findViewById(R.id.shopiquegrow);
-        shopiquehome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,MainActivity.class);
-                startActivity(intent);
-            }
-        });
-        shopiquegrocery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Grocery.class);
-                startActivity(intent);
-            }
-        });
-
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_categories);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
-        bottomNavigationView.setSelectedItemId(R.id.bottom_nav_home);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_nav_categories);
 
         bottomNavigationView.setOnItemSelectedListener(menuItem ->{
             int id =menuItem.getItemId();
             if (id == R.id.bottom_nav_home){
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
                 return true;
             }
             if (id == R.id.bottom_nav_categories){
-                startActivity(new Intent(getApplicationContext(),Categories.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
                 return true;
             }
             if (id == R.id.bottom_nav_Profile){
@@ -64,5 +48,4 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
     }
-
 }

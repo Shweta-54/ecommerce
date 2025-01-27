@@ -27,11 +27,6 @@ public class Splashscreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splashscreen);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         //Animation
         topanim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
@@ -44,7 +39,7 @@ public class Splashscreen extends AppCompatActivity {
         logoname.setAnimation(bottomanim);
 
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(Splashscreen.this, Dashboard.class);
+            Intent intent = new Intent(Splashscreen.this, MainActivity.class);
             startActivity(intent);
             finish();
         },Splash_screen);

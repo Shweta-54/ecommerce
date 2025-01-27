@@ -1,6 +1,7 @@
 [versions]
 agp = "8.7.3"
 androidAdvancedwebview = "v3.2.1"
+chipNavigationBarVersion = "1.4.0"
 circleindicator = "2.1.6"
 compiler = "4.16.0"
 glide = "4.16.0"
@@ -8,8 +9,9 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
+kotlinStdlibVersion = "1.9.23"
 material = "1.12.0"
-activity = "1.9.3"
+activity = "1.10.0"
 constraintlayout = "2.2.0"
 materialsearchbar = "0.8.5"
 roundedimageview = "2.3.0"
@@ -22,6 +24,8 @@ android-advancedwebview = { module = "com.github.delight-im:Android-AdvancedWebV
 circleindicator = { module = "me.relex:circleindicator", version.ref = "circleindicator" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
+ismaeldivita-chip-navigation-bar = { module = "com.github.ismaeldivita:chip-navigation-bar", version.ref = "chipNavigationBarVersion" }
+jetbrains-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlinStdlibVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
