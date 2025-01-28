@@ -27,7 +27,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/bangers"
         android:text="@string/shopique"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -50,7 +49,6 @@
         android:layout_height="38dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/bangers"
         android:text="@string/grocery"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -113,10 +111,7 @@
             android:src="@drawable/outline_photo_camera_24" />
     </RelativeLayout>
 
-
-
     <!-- Ad Banner Section -->
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/ad_banner_viewpager"
         android:layout_width="0dp"
@@ -128,13 +123,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/address" />
-
+        app:layout_constraintTop_toBottomOf="@id/address"
+        android:background="#E7F1F8"/>
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/banner_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2sp"
         app:tabIndicatorColor="@color/black"
         app:tabSelectedTextColor="@color/black"
         app:tabIndicatorHeight="4dp"
@@ -142,7 +137,23 @@
         app:layout_constraintTop_toBottomOf="@id/ad_banner_viewpager"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categories_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:clipToPadding="false"
+            android:scrollbars="horizontal"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/banner_indicator"/>
+    </LinearLayout>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -160,5 +171,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu"
         tools:ignore="VisualLintBottomNav" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,6 +24,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug{
+            debuggable true
+            ndk{
+                debuggable true
+            }
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -64,4 +70,6 @@ dependencies {
     implementation libs.android.advancedwebview
     implementation libs.ismaeldivita.chip.navigation.bar
     implementation libs.jetbrains.kotlin.stdlib
+    //implementation libs.realm.android.library // MongoDB Realm
+    implementation libs.drawerlayout
 }

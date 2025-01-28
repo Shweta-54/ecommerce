@@ -26,7 +26,6 @@
         android:id="@+id/splashtextView"
         android:layout_width="0sp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/bangers"
         android:text="Shopique"
         android:textAlignment="center"
         android:textColor="@color/black"
