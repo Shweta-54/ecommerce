@@ -5,9 +5,6 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -23,29 +20,28 @@ public class Categories extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.bottom_nav_categories);
 
         bottomNavigationView.setOnItemSelectedListener(menuItem ->{
-            int id =menuItem.getItemId();
-            if (id == R.id.bottom_nav_home){
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
-                return true;
-            }
-            if (id == R.id.bottom_nav_categories){
-                return true;
-            }
-            if (id == R.id.bottom_nav_Profile){
-                startActivity(new Intent(getApplicationContext(), Profile.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
-                return true;
-            }
-            if (id == R.id.bottom_nav_cart){
-                startActivity(new Intent(getApplicationContext(),Cart.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
-                return true;
-            }
-            return false;
+            handleNavigation(menuItem.getItemId());
+            return true;
         });
+    }
+
+    private void handleNavigation(int menuItemId) {
+        Intent intent = null;
+        if (menuItemId == R.id.bottom_nav_home) {
+            intent = new Intent(getApplicationContext(), MainActivity.class);
+        } else if (menuItemId == R.id.bottom_nav_categories) {
+            // Stay on the current activity
+            return;
+        } else if (menuItemId == R.id.bottom_nav_Profile) {
+            intent = new Intent(getApplicationContext(), Profile.class);
+        } else if (menuItemId == R.id.bottom_nav_cart) {
+            intent = new Intent(getApplicationContext(), Cart.class);
+        }
+
+        if (intent != null) {
+            startActivity(intent);
+            ActivityUtils.applyTransition(Categories.this); // Apply transition after starting the activity
+            finish();
+        }
     }
 }

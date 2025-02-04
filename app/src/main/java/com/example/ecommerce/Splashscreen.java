@@ -3,6 +3,7 @@ package com.example.ecommerce;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -15,7 +16,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class Splashscreen extends AppCompatActivity {
-    private static final int Splash_screen = 5000;
     //Variables
     Animation topanim,bottomanim;
     ImageView logo;
@@ -38,10 +38,10 @@ public class Splashscreen extends AppCompatActivity {
         logo.setAnimation(topanim);
         logoname.setAnimation(bottomanim);
 
-        new Handler().postDelayed(() -> {
-            Intent intent = new Intent(Splashscreen.this, MainActivity.class);
-            startActivity(intent);
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            startActivity(new Intent(Splashscreen.this, MainActivity.class));
+            ActivityUtils.applyTransition(Splashscreen.this);
             finish();
-        },Splash_screen);
+        }, 2000); // 2-second delay
     }
 }

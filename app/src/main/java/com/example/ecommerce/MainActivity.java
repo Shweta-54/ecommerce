@@ -1,9 +1,7 @@
 package com.example.ecommerce;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,22 +14,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 //images click event.
         ImageView shopiquehome = findViewById(R.id.shopique);
         ImageView shopiquegrocery = findViewById(R.id.shopiquegrow);
-        shopiquehome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,MainActivity.class);
-                startActivity(intent);
-            }
+        shopiquehome.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this,MainActivity.class);
+            startActivity(intent);
         });
-        shopiquegrocery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Grocery.class);
-                startActivity(intent);
-            }
+        shopiquegrocery.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Grocery.class);
+            startActivity(intent);
         });
 
 
@@ -39,30 +32,29 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.bottom_nav_home);
 
         bottomNavigationView.setOnItemSelectedListener(menuItem ->{
-            int id =menuItem.getItemId();
-            if (id == R.id.bottom_nav_home){
-                return true;
-            }
-            if (id == R.id.bottom_nav_categories){
-                startActivity(new Intent(getApplicationContext(),Categories.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
-                return true;
-            }
-            if (id == R.id.bottom_nav_Profile){
-                startActivity(new Intent(getApplicationContext(), Profile.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
-                return true;
-            }
-            if (id == R.id.bottom_nav_cart){
-                startActivity(new Intent(getApplicationContext(),Cart.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
-                return true;
-            }
-            return false;
+            handleNavigation(menuItem.getItemId());
+            return true;
         });
     }
 
+    private void handleNavigation(int menuItemId) {
+        Intent intent = null;
+
+        if (menuItemId == R.id.bottom_nav_home) {
+            // Stay on the current activity
+            return;
+        } else if (menuItemId == R.id.bottom_nav_categories) {
+            intent = new Intent(getApplicationContext(), Categories.class);
+        } else if (menuItemId == R.id.bottom_nav_Profile) {
+            intent = new Intent(getApplicationContext(), Profile.class);
+        } else if (menuItemId == R.id.bottom_nav_cart) {
+            intent = new Intent(getApplicationContext(), Cart.class);
+        }
+
+        if (intent != null) {
+            startActivity(intent);
+            ActivityUtils.applyTransition(MainActivity.this); // Apply transition
+            finish();
+        }
+    }
 }
