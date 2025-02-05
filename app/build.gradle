@@ -73,6 +73,8 @@ dependencies {
     implementation libs.android.advancedwebview
     implementation libs.ismaeldivita.chip.navigation.bar
     implementation libs.jetbrains.kotlin.stdlib
-    //implementation libs.realm.android.library // MongoDB Realm
+    //implementation libs.realm.android.library //MongoDB Realm
     implementation libs.drawerlayout
+    //mongodb connection
+    implementation libs.mongodb.driver.sync
 }

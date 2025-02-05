@@ -15,6 +15,7 @@ material = "1.12.0"
 activity = "1.10.0"
 constraintlayout = "2.2.0"
 materialsearchbar = "0.8.5"
+mongodbDriverSync = "4.7.1"
 realmAndroidLibrary = "10.11.0"
 roundedimageview = "2.3.0"
 tinycart = "1.0.1"
@@ -37,6 +38,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 materialsearchbar = { module = "com.github.mancj:MaterialSearchBar", version.ref = "materialsearchbar" }
+mongodb-driver-sync = { module = "org.mongodb:mongodb-driver-sync", version.ref = "mongodbDriverSync" }
 realm-android-library = { module = "io.realm:realm-android-library", version.ref = "realmAndroidLibrary" }
 roundedimageview = { module = "com.makeramen:roundedimageview", version.ref = "roundedimageview" }
 tinycart = { module = "com.github.hishd:TinyCart", version.ref = "tinycart" }
