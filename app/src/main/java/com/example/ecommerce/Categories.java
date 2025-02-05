@@ -30,7 +30,7 @@ public class Categories extends AppCompatActivity {
         if (menuItemId == R.id.bottom_nav_home) {
             intent = new Intent(getApplicationContext(), MainActivity.class);
         } else if (menuItemId == R.id.bottom_nav_categories) {
-            // Stay on the current activity
+            // Stay on the current shweta
             return;
         } else if (menuItemId == R.id.bottom_nav_Profile) {
             intent = new Intent(getApplicationContext(), Profile.class);

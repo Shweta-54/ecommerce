@@ -34,7 +34,7 @@ public class Profile extends AppCompatActivity {
         } else if (menuItemId == R.id.bottom_nav_cart) {
             intent = new Intent(getApplicationContext(), Cart.class);
         } else if (menuItemId == R.id.bottom_nav_Profile) {
-            // Stay on the current activity
+            // Stay on the current shweta
             return;
         }
         if (intent != null) {

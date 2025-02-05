@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = null;
 
         if (menuItemId == R.id.bottom_nav_home) {
-            // Stay on the current activity
+            // Stay on the current shweta
             return;
         } else if (menuItemId == R.id.bottom_nav_categories) {
             intent = new Intent(getApplicationContext(), Categories.class);
