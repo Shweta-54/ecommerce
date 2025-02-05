@@ -34,7 +34,6 @@ public class Splashscreen extends AppCompatActivity {
         //call the imageview and textview
         logo = findViewById(R.id.splashimage);
         logoname = findViewById(R.id.splashtextView);
-
         logo.setAnimation(topanim);
         logoname.setAnimation(bottomanim);
 
