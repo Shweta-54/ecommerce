@@ -42,6 +42,6 @@ public class Splashscreen extends AppCompatActivity {
             startActivity(new Intent(Splashscreen.this, MainActivity.class));
             ActivityUtils.applyTransition(Splashscreen.this);
             finish();
-        }, 2000); // 2-second delay
+        }, 2000); // just for checking
     }
 }
