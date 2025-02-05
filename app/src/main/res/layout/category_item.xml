@@ -11,7 +11,7 @@
         android:id="@+id/category_icon"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/baseline_person_24"
+        android:src="@drawable/grocery1"
         android:contentDescription="Category Icon"
         android:background="@drawable/circle_bg"
         android:padding="10dp"

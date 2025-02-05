@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
 //images click event.
         ImageView shopiquehome = findViewById(R.id.shopique);
         ImageView shopiquegrocery = findViewById(R.id.shopiquegrow);

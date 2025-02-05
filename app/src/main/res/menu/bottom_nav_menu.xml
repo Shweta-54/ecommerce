@@ -5,18 +5,18 @@
 
     <item
         android:id="@+id/bottom_nav_home"
-        android:title="@string/home"
+        android:title="home"
         android:icon="@drawable/outline_home_24"/>
     <item
         android:id="@+id/bottom_nav_categories"
-        android:title="@string/categories"
+        android:title="categories"
         android:icon="@drawable/outline_dashboard_24" />
     <item
         android:id="@+id/bottom_nav_Profile"
-        android:title="@string/profile"
+        android:title="profile"
         android:icon="@drawable/outline_person_outline_24"/>
     <item
         android:id="@+id/bottom_nav_cart"
-        android:title="@string/cart"
+        android:title="cart"
         android:icon="@drawable/outline_shopping_cart_24"/>
 </menu>
