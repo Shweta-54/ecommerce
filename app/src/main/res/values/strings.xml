@@ -3,5 +3,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="todo">TODO</string>
     <string name="shopique">Shopique</string>
+    <string name="grocery">Grocery</string>
+    <string name="the_address_of_every_user">the_address_of_every_user</string>
+    <string name="search_grocery_products">Search grocery products</string>
 
 </resources>

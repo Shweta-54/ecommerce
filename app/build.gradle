@@ -5,9 +5,7 @@ plugins {
 android {
     namespace 'com.example.ecommerce'
     compileSdk 35
-    buildFeatures {
-        viewBinding true
-    }
+
 
     defaultConfig {
         applicationId "com.example.ecommerce"
@@ -31,15 +29,26 @@ android {
             }
         }
     }
+    buildFeatures {
+        viewBinding true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
 
     }
+    packagingOptions {
+        resources {
+            excludes.add("META-INF/native-image/reflect-config.json")
+            excludes.add("META-INF/native-image/native-image.properties")
+        }
+    }
 }
+
 tasks.withType(JavaCompile).configureEach {
     options.compilerArgs.add("-Xlint:deprecation")
 }
+
 dependencies {
 
     implementation libs.appcompat
@@ -73,6 +82,7 @@ dependencies {
     implementation libs.android.advancedwebview
     implementation libs.ismaeldivita.chip.navigation.bar
     implementation libs.jetbrains.kotlin.stdlib
-    //implementation libs.realm.android.library // MongoDB Realm
+    implementation libs.realm.android.library // MongoDB Realm
     implementation libs.drawerlayout
+    implementation libs.mongodb.driver.sync//driver for mongodb
 }

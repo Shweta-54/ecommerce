@@ -23,8 +23,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableEnd="@drawable/baseline_search_24"
-            android:hint="Search grocery products"
+            android:hint="@string/search_grocery_products"
             android:padding="10dp"
+            android:textColorHint="#795548"
             tools:ignore="TouchTargetSizeCheck" />
 
         <ImageView
@@ -32,7 +33,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_search"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="8dp"
+            tools:ignore="ContentDescription" />
     </LinearLayout>
 
     <!-- Categories RecyclerView -->
