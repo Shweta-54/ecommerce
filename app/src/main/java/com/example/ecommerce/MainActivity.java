@@ -4,18 +4,17 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 public class MainActivity extends AppCompatActivity {
-
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//images click event.
+
+          //images click event.
         ImageView shopiquehome = findViewById(R.id.shopique);
         ImageView shopiquegrocery = findViewById(R.id.shopiquegrow);
         shopiquehome.setOnClickListener(v -> {

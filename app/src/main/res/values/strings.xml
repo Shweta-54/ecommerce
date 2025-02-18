@@ -6,5 +6,9 @@
     <string name="grocery">Grocery</string>
     <string name="the_address_of_every_user">the_address_of_every_user</string>
     <string name="search_grocery_products">Search grocery products</string>
+    <string name="login">LOGIN</string>
+    <string name="signup">SIGNUP</string>
+    <string name="welcome_to_our_shopique">WELCOME TO OUR SHOPIQUE</string>
+    <string name="you_can_also_skip_for_now">You can also skip for now</string>
 
 </resources>

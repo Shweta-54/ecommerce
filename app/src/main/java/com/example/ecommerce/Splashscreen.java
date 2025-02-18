@@ -12,9 +12,7 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-
 public class Splashscreen extends AppCompatActivity {
-    private static final int Splash_screen = 5000;
     //Variables
     Animation topanim,bottomanim;
     ImageView logo;
