@@ -9,11 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class LoginTabFregment extends Fragment {
+public class SignupTabFragment extends Fragment {
+
+    public SignupTabFragment() {
+        // Default empty constructor
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.login_tab_fragment, container, false);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.signup_tab_fregment,container,false);
         return root;
     }
 }
