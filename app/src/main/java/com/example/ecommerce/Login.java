@@ -24,7 +24,7 @@ public class Login extends AppCompatActivity {
         creatnewAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Login.this,singup_activity.class));
+
             }
         });
 
