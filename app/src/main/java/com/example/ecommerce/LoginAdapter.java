@@ -12,7 +12,6 @@ public class LoginAdapter extends FragmentPagerAdapter {
     private Context context;
     int totalTabs;
 
-
     public LoginAdapter(@NonNull FragmentManager fm, Context context,int totalTabs) {
         super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.context = context;

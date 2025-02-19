@@ -24,12 +24,12 @@
         tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
-        android:id="@+id/number"
+        android:id="@+id/fullname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/edit_text_bg"
-        android:hint="Moblie number"
+        android:hint="Full Name"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
@@ -55,7 +55,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/number"
+        app:layout_constraintTop_toBottomOf="@+id/fullname"
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintWidth_percent=".8"
         tools:ignore="TouchTargetSizeCheck" />
@@ -78,19 +78,42 @@
         app:layout_constraintWidth_percent=".8"
         tools:ignore="TouchTargetSizeCheck" />
 
+    <ProgressBar
+        android:id="@+id/signupprogressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/signupbtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirmpass" />
+
     <Button
+        android:id="@+id/signupbtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintWidth_percent=".8"
-        app:layout_constraintVertical_bias=".7"
+        android:background="@drawable/button_bg"
         android:text="Signup"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:background="@drawable/button_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/confirmpass"/>
+        app:layout_constraintTop_toBottomOf="@id/confirmpass"
+        app:layout_constraintVertical_bias=".7"
+        app:layout_constraintWidth_percent=".8" />
+
+    <TextView
+        android:id="@+id/alreadyhaveanaccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already have an account?"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signupbtn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
