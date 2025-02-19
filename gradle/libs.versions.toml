@@ -5,6 +5,7 @@ chipNavigationBarVersion = "1.4.0"
 circleindicator = "2.1.6"
 compiler = "4.16.0"
 drawerlayout = "1.2.0"
+firebaseBom = "33.9.0"
 glide = "4.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -26,6 +27,8 @@ whynotimagecarousel = "2.1.0"
 android-advancedwebview = { module = "com.github.delight-im:Android-AdvancedWebView", version.ref = "androidAdvancedwebview" }
 circleindicator = { module = "me.relex:circleindicator", version.ref = "circleindicator" }
 drawerlayout = { module = "androidx.drawerlayout:drawerlayout", version.ref = "drawerlayout" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
 ismaeldivita-chip-navigation-bar = { module = "com.github.ismaeldivita:chip-navigation-bar", version.ref = "chipNavigationBarVersion" }
