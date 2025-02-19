@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class SignupTabFragment extends Fragment {
 
     public SignupTabFragment() {
@@ -26,6 +28,7 @@ public class SignupTabFragment extends Fragment {
     private  EditText confirmPassword;
     private Button signup;
     private ProgressBar progressBar;
+    private FirebaseAuth firebaseAuth;
 
 
     @Nullable
@@ -41,6 +44,7 @@ public class SignupTabFragment extends Fragment {
         signup = view.findViewById(R.id.signupbtn);
         progressBar = view.findViewById(R.id.signupprogressbar);
 
+        firebaseAuth = FirebaseAuth.getInstance();
 
         return view;
     }
