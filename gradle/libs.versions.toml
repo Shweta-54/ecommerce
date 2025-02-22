@@ -1,5 +1,5 @@
 [versions]
-agp = "8.7.3"
+agp = "8.8.1"
 androidAdvancedwebview = "v3.2.1"
 chipNavigationBarVersion = "1.4.0"
 circleindicator = "2.1.6"

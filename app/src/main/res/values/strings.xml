@@ -11,5 +11,7 @@
     <string name="welcome_to_our_shopique">WELCOME TO OUR SHOPIQUE</string>
     <string name="you_can_also_skip_for_now">You can also skip for now</string>
     <string name="welcome_to_shopique">Welcome to Shopique</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

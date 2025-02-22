@@ -14,9 +14,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import org.w3c.dom.Text;
+
 public class LoginTabFragment extends Fragment {
 
     float v=0;
+    private TextView forgotpassword;
     public LoginTabFragment() {
         // Default empty constructor
     }
@@ -27,6 +30,18 @@ public class LoginTabFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_tab_fragment, container, false);
+        super.onViewCreated(view, savedInstanceState);
+
+        forgotpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFragment(new ResetPasswordFragment());
+
+            }
+
+            private void setFragment(ResetPasswordFragment resetPasswordFragment) {
+            }
+        });
 
         EditText email = view.findViewById(R.id.email);
         EditText pass = view.findViewById(R.id.pass);
@@ -34,6 +49,9 @@ public class LoginTabFragment extends Fragment {
         Button login = view.findViewById(R.id.btnLogin);
         dontHaveAnAccount = view.findViewById(R.id.donthaveanaccount);
         parentFrameLayout = getActivity().findViewById(R.id.login_framelayout);
+
+
+
 
         email.setTranslationY(300);
         pass.setTranslationY(300);
