@@ -7,127 +7,16 @@
     tools:context=".Login"
     tools:ignore="SpeakableTextPresentCheck">
 
-    <ImageView
-        android:id="@+id/image2"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/top_background"
+
+    <FrameLayout
+        android:id="@+id/login_framelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".27"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0"
-        tools:ignore="ContentDescription,ImageContrastCheck" />
+        app:layout_constraintTop_toTopOf="parent">
 
-  <androidx.constraintlayout.widget.ConstraintLayout
-      android:id="@+id/constraintlayout"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:background="@drawable/vie_bg"
-      app:layout_constraintHeight_percent=".78"
-      app:layout_constraintVertical_bias="1"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent">
-
-      <androidx.viewpager.widget.ViewPager
-          android:id="@+id/View_pager"
-          android:layout_width="match_parent"
-          android:layout_height="0dp"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintHeight_percent=".7"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/tab_layout"
-          app:layout_constraintVertical_bias="0"
-          tools:ignore="SpeakableTextPresentCheck" />
-
-      <com.google.android.material.tabs.TabLayout
-          android:id="@+id/tab_layout"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          app:tabMode="fixed"
-          app:tabGravity="fill"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintVertical_bias="0"
-          tools:ignore="SpeakableTextPresentCheck" />
-
-      <com.google.android.material.floatingactionbutton.FloatingActionButton
-          android:id="@+id/fab_google"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:backgroundTint="@color/white"
-          android:elevation="35dp"
-          android:src="@drawable/google"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/View_pager"
-          tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
-
-      <com.google.android.material.floatingactionbutton.FloatingActionButton
-          android:id="@+id/fab_facebook"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginEnd="10dp"
-          android:backgroundTint="@color/white"
-          android:elevation="35dp"
-          android:src="@drawable/facebook1"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toStartOf="@+id/fab_google"
-          app:layout_constraintHorizontal_bias="1"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/View_pager"
-          tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
-
-      <com.google.android.material.floatingactionbutton.FloatingActionButton
-          android:id="@+id/fab_twitter"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="10dp"
-          android:backgroundTint="@color/white"
-          android:elevation="35dp"
-          android:src="@drawable/twitter"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintHorizontal_bias="0"
-          app:layout_constraintStart_toEndOf="@+id/fab_google"
-          app:layout_constraintTop_toBottomOf="@+id/View_pager"
-          tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
-  </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ImageView
-        android:id="@+id/image3"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/splash"
-        app:layout_constraintVertical_bias=".3"
-        app:layout_constraintBottom_toTopOf="@+id/constraintlayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/welcome_to_shopique"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/constraintlayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image3"
-        app:layout_constraintVertical_bias=".2"
-        tools:ignore="TextContrastCheck" />
-
-
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

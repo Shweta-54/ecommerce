@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ public class SignupTabFragment extends Fragment {
     }
 
     private TextView alreadyHaveAnAccount;
+    private FrameLayout parentFrameLayout;
     private EditText email;
     private EditText fullname;
     private  EditText password;
@@ -30,6 +32,8 @@ public class SignupTabFragment extends Fragment {
     private Button signupbtn;
     private ProgressBar progressBar;
     private FirebaseAuth firebaseAuth;
+    private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
+
 
 
     @Nullable
@@ -38,6 +42,7 @@ public class SignupTabFragment extends Fragment {
         View view =  inflater.inflate(R.layout.signup_tab_fregment,container,false);
 
         alreadyHaveAnAccount = view.findViewById(R.id.alreadyhaveanaccount);
+        parentFrameLayout = getActivity().findViewById(R.id.login_framelayout);
         email = view.findViewById(R.id.email);
         fullname = view.findViewById(R.id.fullname);
         password = view.findViewById(R.id.pass);
@@ -50,18 +55,20 @@ public class SignupTabFragment extends Fragment {
         return view;
     }
 
-    public void onViewCreated(View view,final Bundle savedInstanceState){
-        super.onViewCreated(view,savedInstanceState);
-        alreadyHaveAnAccount.setOnClickListener((v -> {
-            setFragment(new LoginTabFragment());
-        }));
-
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        alreadyHaveAnAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFragment(new LoginTabFragment());
+            }
+        });
     }
-
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.slide_out_left,R.anim.slide_in_right);
-        fragmentTransaction.replace(getParentFragment().getId(),fragment);
+        fragmentTransaction.replace(parentFrameLayout.getId(),fragment);
         fragmentTransaction.commit();
+
     }
 }
