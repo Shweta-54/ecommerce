@@ -15,8 +15,8 @@
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
     <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
-        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
-        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityOpenEnterAnimation">@anim/slide_from_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_from_left</item>
     </style>
     <style name="Theme.Ecommerce" parent="Base.Theme.Ecommerce" />
 </resources>

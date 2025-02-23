@@ -11,7 +11,7 @@ public class ActivityUtils {
         // Apply transition only for older Android versions
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             // Use the deprecated method for versions below Android M (API 23)
-            activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_from_left);
         }
         // For newer versions, you can either avoid transition or use newer options
         // Alternatively, you can use ActivityOptions to create custom transitions
