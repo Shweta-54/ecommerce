@@ -25,6 +25,7 @@ public class LoginTabFragment extends Fragment {
     }
 
     private TextView dontHaveAnAccount;
+    private TextView forgotPassword;
     private FrameLayout parentFrameLayout;
     @Nullable
     @Override
@@ -32,16 +33,7 @@ public class LoginTabFragment extends Fragment {
         View view = inflater.inflate(R.layout.login_tab_fragment, container, false);
         super.onViewCreated(view, savedInstanceState);
 
-        forgotpassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setFragment(new ResetPasswordFragment());
 
-            }
-
-            private void setFragment(ResetPasswordFragment resetPasswordFragment) {
-            }
-        });
 
         EditText email = view.findViewById(R.id.email);
         EditText pass = view.findViewById(R.id.pass);
@@ -78,7 +70,18 @@ public class LoginTabFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setFragment(new SignupTabFragment());
+
                 
+            }
+        });
+        forgotpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFragment(new ResetPasswordFragment());
+
+            }
+
+            private void setFragment(ResetPasswordFragment resetPasswordFragment) {
             }
         });
     }
