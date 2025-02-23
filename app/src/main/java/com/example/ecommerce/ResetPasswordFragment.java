@@ -10,6 +10,9 @@ import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -111,6 +114,7 @@ public class ResetPasswordFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         registereEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -131,6 +135,8 @@ public class ResetPasswordFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 TransitionManager.beginDelayedTransition(emailIconContainer);
+                emailIconText.setVisibility(View.GONE);
+                TransitionManager.beginDelayedTransition(emailIconContainer);
                 emailIcon.setVisibility(view.VISIBLE);
                 progressBar.setVisibility(view.VISIBLE);
 
@@ -142,15 +148,54 @@ public class ResetPasswordFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(getActivity(), "email sent successfully!", Toast.LENGTH_SHORT).show();
+                                    ScaleAnimation scaleAnimation = new ScaleAnimation(1,0,1,0,maillcon.getWidth()/2,emaillcon.getHeight()/2);
+                                    scaleAnimation.setDuration(100);
+                                    scaleAnimation.setInterpolator(new AccelerateInterpolator());
+                                    scaleAnimation.setRepeatMode(Animation.REVERSE);
+                                    scaleAnimation.setRepeatCount(1);
+
+                                    scaleAnimation.setAnimationListener(new Animation.AnimationListener() {
+                                        @Override
+                                        public void onAnimationStart(Animation animation) {
+
+                                        }
+
+                                        @Override
+                                        public void onAnimationEnd(Animation animation) {
+                                            emaillcom.setText("Recovery email sent successfully ! check your inbox");
+                                            emaillcom.setTextColor(getResources().getColor(R.color.successGreen));
+
+                                            TransitionManager.beginDelayedTransition(emailIconContainer);
+                                            emailIcon.setVisibility(View.VISIBLE);
+                                        }
+
+                                        @Override
+                                        public void onAnimationRepeat(Animation animation) {
+
+                                                emailIcon.setImageResource(R.mipmap.green_email);
+                                            }
+
+                                    });
+                                            emailIcon.startAnimation(scaleAnimation);
+
+
+
+
+
                                 }else {
                                     String error =  task.getException().getMessage();//to be continuation
+                                    resetPasswordBtn.setEnabled(true);
+                                    resetPasswordBtn.setTextColor(Color.rgb(255,255,255));
 
+                                    emailIconText.setText(error);
+                                    emailIconText.setTextColor(getResources().getColor(com.firebase.ui.auth.R.color.colorPrimary));
+                                    TransitionManager.beginDelayedTransition(emailIconContainer);
+                                    emailIconText.setVisibility(View.GONE);
 
 
                                 }
-                                resetPasswordBtn.setEnabled(true);
-                                resetPasswordBtn.setTextColor(Color.rgb(255,255,255));
+                                progressBar.setVisibility(View.GONE);
+
                             }
                         });
 
