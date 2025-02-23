@@ -95,7 +95,7 @@ public class ResetPasswordFragment extends Fragment {
         registereEmail = view.findViewById(R.id.forgot_password_email);
         resetPasswordBtn = view.findViewById(R.id.reset_password_btn);
         goBack = view.findViewById(R.id.tv_forgot_password_go_back);
-        parentFrameLayout = view.findViewById(R.id.login_framelayout);
+        parentFrameLayout = getActivity().findViewById(R.id.login_framelayout);
         emailIconContainer = view.findViewById(R.id.forgot_password_email_icon_container);
         emailIcon = view.findViewById(R.id.forgot_password_email_icon);
         emailIconText = view.findViewById(R.id.forgot_password_email_icon_text);
@@ -159,7 +159,7 @@ public class ResetPasswordFragment extends Fragment {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setFragment(new SignupTabFragment());
+                setFragment(new LoginTabFragment());
 
             }
         });
@@ -178,5 +178,6 @@ public class ResetPasswordFragment extends Fragment {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.slide_out_left,R.anim.slide_in_right);
         fragmentTransaction.replace(parentFrameLayout.getId(),fragment);
+        fragmentTransaction.commit();
     }
 }
