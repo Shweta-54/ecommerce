@@ -3,6 +3,13 @@ package com.example.ecommerce;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.TransitionRes;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -18,13 +25,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -95,7 +98,7 @@ public class ResetPasswordFragment extends Fragment {
         registereEmail = view.findViewById(R.id.forgot_password_email);
         resetPasswordBtn = view.findViewById(R.id.reset_password_btn);
         goBack = view.findViewById(R.id.tv_forgot_password_go_back);
-        parentFrameLayout = getActivity().findViewById(R.id.login_framelayout);
+        parentFrameLayout = view.findViewById(R.id.login_framelayout);
         emailIconContainer = view.findViewById(R.id.forgot_password_email_icon_container);
         emailIcon = view.findViewById(R.id.forgot_password_email_icon);
         emailIconText = view.findViewById(R.id.forgot_password_email_icon_text);
@@ -159,7 +162,7 @@ public class ResetPasswordFragment extends Fragment {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setFragment(new LoginTabFragment());
+                setFragment(new SignupTabFragment());
 
             }
         });
@@ -174,11 +177,9 @@ public class ResetPasswordFragment extends Fragment {
             resetPasswordBtn.setTextColor(Color.rgb(255,255,255));
         }
     }
-    private void setFragment(Fragment fragment) {
+    private void setFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.slide_out_left,R.anim.slide_in_right);
         fragmentTransaction.replace(parentFrameLayout.getId(),fragment);
-        fragmentTransaction.commit();
-
     }
 }

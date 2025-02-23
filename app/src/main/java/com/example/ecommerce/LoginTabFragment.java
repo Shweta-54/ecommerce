@@ -14,15 +14,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import org.w3c.dom.Text;
+
 public class LoginTabFragment extends Fragment {
 
-
+    float v=0;
+    private TextView forgotpassword;
     public LoginTabFragment() {
         // Default empty constructor
     }
-    float v=0;
-    private TextView forgotpassword;
+
     private TextView dontHaveAnAccount;
+    private TextView forgotPassword;
     private FrameLayout parentFrameLayout;
     @Nullable
     @Override
@@ -31,9 +34,10 @@ public class LoginTabFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
+
         EditText email = view.findViewById(R.id.email);
         EditText pass = view.findViewById(R.id.pass);
-        forgotpassword = view.findViewById(R.id.forgetpass);
+        TextView forgetpass = view.findViewById(R.id.forgetpass);
         Button login = view.findViewById(R.id.btnLogin);
         dontHaveAnAccount = view.findViewById(R.id.donthaveanaccount);
         parentFrameLayout = getActivity().findViewById(R.id.login_framelayout);
@@ -43,17 +47,17 @@ public class LoginTabFragment extends Fragment {
 
         email.setTranslationY(300);
         pass.setTranslationY(300);
-        forgotpassword.setTranslationY(300);
+        forgetpass.setTranslationY(300);
         login.setTranslationY(300);
 
         email.setAlpha(v);
         pass.setAlpha(v);
-        forgotpassword.setAlpha(v);
+        forgetpass.setAlpha(v);
         login.setAlpha(v);
 
         email.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(300).start();
         pass.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(500).start();
-        forgotpassword.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(500).start();
+        forgetpass.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(500).start();
         login.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(700).start();
         return view;
     }
@@ -66,21 +70,24 @@ public class LoginTabFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setFragment(new SignupTabFragment());
+
+                
             }
         });
-
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setFragment(new ResetPasswordFragment());
 
             }
+
+            private void setFragment(ResetPasswordFragment resetPasswordFragment) {
+            }
         });
     }
 
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.slide_out_left,R.anim.slide_in_right);
         fragmentTransaction.replace(parentFrameLayout.getId(),fragment);
         fragmentTransaction.commit();
 
