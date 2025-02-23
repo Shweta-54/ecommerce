@@ -1,5 +1,5 @@
 [versions]
-agp = "8.8.1"
+agp = "8.7.3"
 androidAdvancedwebview = "v3.2.1"
 chipNavigationBarVersion = "1.4.0"
 circleindicator = "2.1.6"
@@ -13,13 +13,11 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
-kotlinStdlibVersion = "1.9.23"
+kotlinStdlibVersion = "2.0.21"
 material = "1.12.0"
 activity = "1.10.0"
 constraintlayout = "2.2.0"
 materialsearchbar = "0.8.5"
-mongodbDriverSync = "5.3.0"
-realmAndroidLibrary = "10.11.0"
 roundedimageview = "2.3.0"
 tinycart = "1.0.1"
 volley = "1.2.1"
@@ -45,8 +43,6 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 materialsearchbar = { module = "com.github.mancj:MaterialSearchBar", version.ref = "materialsearchbar" }
-mongodb-driver-sync = { module = "org.mongodb:mongodb-driver-sync", version.ref = "mongodbDriverSync" }
-realm-android-library = { module = "io.realm:realm-android-library", version.ref = "realmAndroidLibrary" }
 roundedimageview = { module = "com.makeramen:roundedimageview", version.ref = "roundedimageview" }
 tinycart = { module = "com.github.hishd:TinyCart", version.ref = "tinycart" }
 volley = { module = "com.android.volley:volley", version.ref = "volley" }
