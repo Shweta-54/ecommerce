@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class Splashscreen extends AppCompatActivity {
     //Variables
     Animation topanim,bottomanim;
@@ -19,11 +21,13 @@ public class Splashscreen extends AppCompatActivity {
     TextView logoname;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splashscreen);
+
 
         //Animation
         topanim = AnimationUtils.loadAnimation(this,R.anim.top_animation);

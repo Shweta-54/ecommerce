@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/top_background">
 
     <EditText
         android:id="@+id/email"
@@ -50,6 +51,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintWidth_percent=".8"
         app:layout_constraintVertical_bias=".7"
+        android:enabled="false"
+        android:textColor="#50ffffff"
         android:text="LOGIN"
         android:background="@drawable/button_bg"
         android:textSize="16sp"
@@ -84,6 +87,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pass" />
+
+
 
     <TextView
         android:id="@+id/donthaveanaccount"
