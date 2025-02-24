@@ -2,6 +2,7 @@ package com.example.ecommerce;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -25,6 +26,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupTabFragment extends Fragment {
 
@@ -41,6 +47,7 @@ public class SignupTabFragment extends Fragment {
     private Button signupbtn;
     private ProgressBar progressBar;
     private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firebaseFirestore;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
 
 
@@ -60,10 +67,11 @@ public class SignupTabFragment extends Fragment {
         progressBar = view.findViewById(R.id.signupprogressbar);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         return view;
     }
-    //heelo world
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -183,6 +191,10 @@ public class SignupTabFragment extends Fragment {
         }
     }
     private void checkEmailAndPassword() {
+
+        Drawable customeErrorIcon = getResources().getDrawable(R.mipmap.error_icon);
+        customeErrorIcon.setBounds(0,0,customeErrorIcon.getIntrinsicWidth(),customeErrorIcon.getIntrinsicHeight());
+
         if (email.getText().toString().matches(emailPattern)){
             if (password.getText().toString().equals(confirmPassword.getText().toString())){
 
@@ -194,9 +206,31 @@ public class SignupTabFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()){
-                                    Intent mainIntent = new Intent(getActivity(),MainActivity.class);
-                                    startActivity(mainIntent);
-                                    getActivity().finish();
+
+                                    Map< Object,String > userdata = new HashMap<>();
+                                    userdata.put("fullname",fullname.getText().toString());
+
+                                    firebaseFirestore.collection("USERS")
+                                            .add(userdata)
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                    if (task.isSuccessful()){
+                                                        Intent mainIntent = new Intent(getActivity(),MainActivity.class);
+                                                        startActivity(mainIntent);
+                                                        getActivity().finish();
+                                                    }else {
+                                                        progressBar.setVisibility(View.INVISIBLE);
+                                                        signupbtn.setEnabled(true);
+                                                        signupbtn.setTextColor(Color.rgb(255,255,255));
+                                                        String error = task.getException().getMessage();
+                                                        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+
+                                                    }
+                                                }
+                                            });
+
+
                                 }else {
                                     progressBar.setVisibility(View.INVISIBLE);
                                     signupbtn.setEnabled(true);
@@ -207,10 +241,10 @@ public class SignupTabFragment extends Fragment {
                             }
                         });
             }else {
-                confirmPassword.setError("Password doesn't matched!");
+                confirmPassword.setError("Password doesn't matched!",customeErrorIcon);
             }
         }else {
-            email.setError("Invalid Email!");
+            email.setError("Invalid Email!",customeErrorIcon);
 
         }
     }
