@@ -13,5 +13,6 @@
     <string name="welcome_to_shopique">Welcome to Shopique</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="recovery_email_sent_successfully_check_your_inbox">Recovery email sent successfully ! check your inbox</string>
 
 </resources>
