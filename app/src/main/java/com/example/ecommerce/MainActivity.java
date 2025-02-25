@@ -1,10 +1,15 @@
 package com.example.ecommerce;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
@@ -21,18 +26,24 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this,MainActivity.class);
             startActivity(intent);
         });
-        shopiquegrocery.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, Grocery.class);
-            startActivity(intent);
+        shopiquegrocery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Grocery.class);
+                MainActivity.this.startActivity(intent);
+            }
         });
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setSelectedItemId(R.id.bottom_nav_home);
 
-        bottomNavigationView.setOnItemSelectedListener(menuItem ->{
-            handleNavigation(menuItem.getItemId());
-            return true;
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                MainActivity.this.handleNavigation(menuItem.getItemId());
+                return true;
+            }
         });
     }
 
