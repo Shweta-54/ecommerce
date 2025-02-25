@@ -2,6 +2,7 @@ package com.example.ecommerce;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +55,37 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if (id == R.id.main_search_icon) {
+            //todo: search
+            return true;
+        }else if (id == R.id.main_notification_icon){
+            //todo: notification
+            return true;
+        }else if (id == R.id.main_cart_icon) {
+            //todo: cart
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+    @SuppressWarnings("StatemenWithEmptyBody")
+
+    public boolean onNavigationItemSelectes(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.nav_my_rewards) {
+        } else if (id == R.id.nav_my_rewards) {
+
+        } else if (id == R.id.nav_my_cart) {
+
+        } else if (id == R.id.nav_my_wishlist) {
+
+        } else if (id == R.id.nav_my_account) {
+
+        }
         return true;
     }
 
