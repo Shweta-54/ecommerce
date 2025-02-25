@@ -32,6 +32,7 @@ public class Login extends AppCompatActivity {
 
         if(keyCode == KeyEvent.KEYCODE_BACK){
             if (onResetPasswordFragment){
+                onResetPasswordFragment = false;
                 setFragment(new SignupTabFragment());
                 return false;
 

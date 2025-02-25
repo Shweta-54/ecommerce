@@ -50,6 +50,8 @@ public class SignupTabFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
 
+    float v=0;
+
 
 
     @Nullable
@@ -69,7 +71,31 @@ public class SignupTabFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        email.setTranslationY(300);
+        fullname.setTranslationY(300);
+        password.setTranslationY(300);
+        confirmPassword.setTranslationY(300);
+        signupbtn.setTranslationY(300);
+        alreadyHaveAnAccount.setTranslationY(300);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        email.setAlpha(v);
+        fullname.setAlpha(v);
+        password.setAlpha(v);
+        confirmPassword.setAlpha(v);
+        signupbtn.setAlpha(v);
+        alreadyHaveAnAccount.setAlpha(v);
+
+        email.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(300).start();
+        fullname.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(500).start();
+        password.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(500).start();
+        confirmPassword.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(700).start();
+        signupbtn.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(700).start();
+        alreadyHaveAnAccount.animate().translationY(0).alpha(1).setDuration(800).setStartDelay(700).start();
         return view;
+
+
     }
 
     @Override

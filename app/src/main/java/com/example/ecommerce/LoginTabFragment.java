@@ -1,5 +1,7 @@
 package com.example.ecommerce;
 
+import static com.example.ecommerce.Login.onResetPasswordFragment;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -100,6 +102,7 @@ public class LoginTabFragment extends Fragment {
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                onResetPasswordFragment = true;
                 setFragment(new ResetPasswordFragment());
 
             }
