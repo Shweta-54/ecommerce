@@ -23,6 +23,10 @@ roundedimageview = "2.3.0"
 tinycart = "1.0.1"
 volley = "1.2.1"
 whynotimagecarousel = "2.1.0"
+lifecycleLivedataKtx = "2.6.1"
+lifecycleViewmodelKtx = "2.6.1"
+navigationFragment = "2.6.0"
+navigationUi = "2.6.0"
 
 [libraries]
 android-advancedwebview = { module = "com.github.delight-im:Android-AdvancedWebView", version.ref = "androidAdvancedwebview" }
@@ -49,6 +53,10 @@ roundedimageview = { module = "com.makeramen:roundedimageview", version.ref = "r
 tinycart = { module = "com.github.hishd:TinyCart", version.ref = "tinycart" }
 volley = { module = "com.android.volley:volley", version.ref = "volley" }
 whynotimagecarousel = { module = "org.imaginativeworld.whynotimagecarousel:whynotimagecarousel", version.ref = "whynotimagecarousel" }
+lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
+navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

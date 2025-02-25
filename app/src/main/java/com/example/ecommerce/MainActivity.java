@@ -1,70 +1,65 @@
 package com.example.ecommerce;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
+import com.example.ecommerce.databinding.ActivityMainBinding;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+
+    private AppBarConfiguration mAppBarConfiguration;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-          //images click event.
-        ImageView shopiquehome = findViewById(R.id.shopique);
-        ImageView shopiquegrocery = findViewById(R.id.shopiquegrow);
-        shopiquehome.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this,MainActivity.class);
-            startActivity(intent);
-        });
-        shopiquegrocery.setOnClickListener(new View.OnClickListener() {
+        setSupportActionBar(binding.appBarMain.toolbar);
+        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Grocery.class);
-                MainActivity.this.startActivity(intent);
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null)
+                        .setAnchorView(R.id.fab).show();
             }
         });
-
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
-        bottomNavigationView.setSelectedItemId(R.id.bottom_nav_home);
-
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                MainActivity.this.handleNavigation(menuItem.getItemId());
-                return true;
-            }
-        });
+        DrawerLayout drawer = binding.drawerLayout;
+        NavigationView navigationView = binding.navView;
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                .setOpenableLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
     }
 
-    private void handleNavigation(int menuItemId) {
-        Intent intent = null;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-        if (menuItemId == R.id.bottom_nav_home) {
-            // Stay on the current shweta
-            return;
-        } else if (menuItemId == R.id.bottom_nav_categories) {
-            intent = new Intent(getApplicationContext(), Categories.class);
-        } else if (menuItemId == R.id.bottom_nav_Profile) {
-            intent = new Intent(getApplicationContext(), Profile.class);
-        } else if (menuItemId == R.id.bottom_nav_cart) {
-            intent = new Intent(getApplicationContext(), Cart.class);
-        }
-
-        if (intent != null) {
-            startActivity(intent);
-            ActivityUtils.applyTransition(MainActivity.this);
-            finish();
-        }
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
     }
 }
