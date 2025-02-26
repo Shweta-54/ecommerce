@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class SignupTabFragment extends Fragment {
         // Default empty constructor
     }
 
+    private ImageButton signupclosebtn;
     private TextView alreadyHaveAnAccount;
     private FrameLayout parentFrameLayout;
     private EditText email;
@@ -67,6 +69,7 @@ public class SignupTabFragment extends Fragment {
         confirmPassword = view.findViewById(R.id.confirmpass);
         signupbtn = view.findViewById(R.id.signupbtn);
         progressBar = view.findViewById(R.id.signupprogressbar);
+        signupclosebtn = view.findViewById(R.id.signupclosebtn);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -105,6 +108,13 @@ public class SignupTabFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setFragment(new LoginTabFragment());
+            }
+        });
+
+        signupclosebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainIntent();
             }
         });
 
@@ -242,9 +252,7 @@ public class SignupTabFragment extends Fragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentReference> task) {
                                                     if (task.isSuccessful()){
-                                                        Intent mainIntent = new Intent(getActivity(),MainActivity.class);
-                                                        startActivity(mainIntent);
-                                                        getActivity().finish();
+                                                        mainIntent();
                                                     }else {
                                                         progressBar.setVisibility(View.INVISIBLE);
                                                         signupbtn.setEnabled(true);
@@ -273,5 +281,11 @@ public class SignupTabFragment extends Fragment {
             email.setError("Invalid Email!",customeErrorIcon);
 
         }
+    }
+
+    private void mainIntent(){
+        Intent mainIntent = new Intent(getActivity(),MainActivity.class);
+        startActivity(mainIntent);
+        getActivity().finish();
     }
 }
