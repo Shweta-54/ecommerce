@@ -64,6 +64,8 @@ public class LoginTabFragment extends Fragment {
         parentFrameLayout = getActivity().findViewById(R.id.login_framelayout);
         progressBar = view.findViewById(R.id.loginpprogressbar);
 
+        loginclosebtn = view.findViewById(R.id.loginclosebtn);
+
 
 
 
