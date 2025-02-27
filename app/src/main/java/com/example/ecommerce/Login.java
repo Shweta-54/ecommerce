@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import org.checkerframework.checker.index.qual.PolyUpperBound;
-
 public class Login extends AppCompatActivity {
 
     private FrameLayout frameLayout;

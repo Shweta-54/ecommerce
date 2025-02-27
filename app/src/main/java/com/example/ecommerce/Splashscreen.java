@@ -13,12 +13,15 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Splashscreen extends AppCompatActivity {
     //Variables
     Animation topanim,bottomanim;
     ImageView logo;
     TextView logoname;
+    FirebaseAuth firebaseAuth;
+
 
 
 
@@ -28,7 +31,7 @@ public class Splashscreen extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splashscreen);
 
-
+        firebaseAuth = FirebaseAuth.getInstance();
         //Animation
         topanim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
         bottomanim = AnimationUtils.loadAnimation(this,R.anim.bottom_animation);
@@ -39,9 +42,16 @@ public class Splashscreen extends AppCompatActivity {
         logoname.setAnimation(bottomanim);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            startActivity(new Intent(Splashscreen.this, MainActivity.class));
-            ActivityUtils.applyTransition(Splashscreen.this);
+            FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+            Intent intent;
+            if (currentUser == null) {
+                intent = new Intent(Splashscreen.this, Login.class);
+            } else {
+                intent = new Intent(Splashscreen.this, MainActivity.class);
+            }
+            startActivity(intent);
             finish();
         }, 2000); // just for checking
     }
+
 }

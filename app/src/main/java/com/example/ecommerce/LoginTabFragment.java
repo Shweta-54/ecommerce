@@ -29,8 +29,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.time.Instant;
-
 public class LoginTabFragment extends Fragment {
 
 
@@ -39,6 +37,7 @@ public class LoginTabFragment extends Fragment {
     }
 
     float v=0;
+    private ImageButton loginclosebtn;
     private TextView forgotpassword;
     private TextView dontHaveAnAccount;
     private FrameLayout parentFrameLayout;
@@ -64,6 +63,8 @@ public class LoginTabFragment extends Fragment {
         dontHaveAnAccount = view.findViewById(R.id.donthaveanaccount);
         parentFrameLayout = getActivity().findViewById(R.id.login_framelayout);
         progressBar = view.findViewById(R.id.loginpprogressbar);
+
+        loginclosebtn = view.findViewById(R.id.loginclosebtn);
 
 
 
@@ -95,10 +96,15 @@ public class LoginTabFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setFragment(new SignupTabFragment());
-
-                
             }
         });
+        loginclosebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainIntent();
+            }
+        });
+
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,9 +185,7 @@ public class LoginTabFragment extends Fragment {
                                   @Override
                                   public void onComplete(@NonNull Task<AuthResult> task) {
                                       if (task.isSuccessful()) {
-                                          Intent mainIntent = new Intent(getActivity(),MainActivity.class);
-                                          startActivity(mainIntent);
-                                          getActivity().finish();
+                                          mainIntent();
                                       }else{
                                           progressBar.setVisibility(View.INVISIBLE);
                                           loginBtn.setEnabled(true);
@@ -198,5 +202,11 @@ public class LoginTabFragment extends Fragment {
         }else {
             Toast.makeText(getActivity(), "Incorrect email or password", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void mainIntent(){
+        Intent mainIntent = new Intent(getActivity(),MainActivity.class);
+        startActivity(mainIntent);
+        getActivity().finish();
     }
 }
