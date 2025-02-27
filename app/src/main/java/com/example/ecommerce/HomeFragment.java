@@ -1,12 +1,15 @@
 package com.example.ecommerce;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,8 +29,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView categoryRecyclerView;
     private CategoryAdapter categoryAdapter;
 
-    ///////// Banner Slider
 
+    ///////// Banner Slider
     private ViewPager bannerSliderViewPager;
     private List<SliderModel> sliderModelList;
     private int currentPage = 2;
@@ -35,8 +38,13 @@ public class HomeFragment extends Fragment {
 
     final private long DEALY_TIME = 3000;
     final private long PERIOD_TIME = 3000;
-
     ///////// Banner Slider
+
+    ///////// Strip Ad
+    private ImageView stripAdImage;
+    private ConstraintLayout stripAdContainer;
+    ///////// Strip Ad
+
 
 
     @Override
@@ -71,26 +79,27 @@ public class HomeFragment extends Fragment {
         bannerSliderViewPager = view.findViewById(R.id.banner_slider_view_pager);
         sliderModelList = new ArrayList<SliderModel>();
 
-        sliderModelList.add(new SliderModel(R.mipmap.profile));
-        sliderModelList.add(new SliderModel(R.mipmap.ic_launcher));
+        sliderModelList.add(new SliderModel(R.mipmap.profile,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.mipmap.ic_launcher,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.mipmap.green_email,"#077AE4"));
 
-        sliderModelList.add(new SliderModel(R.mipmap.green_email));
-        sliderModelList.add(new SliderModel(R.mipmap.error_icon));
-        sliderModelList.add(new SliderModel(R.mipmap.facebook));
-        sliderModelList.add(new SliderModel(R.mipmap.profile));
-        sliderModelList.add(new SliderModel(R.mipmap.google));
-        sliderModelList.add(new SliderModel(R.mipmap.green_email));
-        sliderModelList.add(new SliderModel(R.mipmap.profile));
-        sliderModelList.add(new SliderModel(R.mipmap.ic_launcher));
-        sliderModelList.add(new SliderModel(R.drawable.banner));
+        sliderModelList.add(new SliderModel(R.mipmap.error_icon,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.mipmap.facebook,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.mipmap.profile,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.mipmap.google,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.mipmap.green_email,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.mipmap.profile,"#077AE4"));
 
-        sliderModelList.add(new SliderModel(R.mipmap.green_email));
-        sliderModelList.add(new SliderModel(R.mipmap.error_icon));
+        sliderModelList.add(new SliderModel(R.mipmap.ic_launcher,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.mipmap.green_email,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.mipmap.error_icon,"#077AE4"));
 
         SliderAdapter sliderAdapter = new SliderAdapter(sliderModelList);
         bannerSliderViewPager.setAdapter(sliderAdapter);
         bannerSliderViewPager.setClipToPadding(false);
         bannerSliderViewPager.setPageMargin(20);
+
+        bannerSliderViewPager.setCurrentItem(currentPage);
 
         ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
             @Override
@@ -125,10 +134,20 @@ public class HomeFragment extends Fragment {
             }
         });
         ///////// Banner Slider
+
+        ///////// Strip Ad
+        stripAdImage = view.findViewById(R.id.strip_ad_image);
+        stripAdContainer = view.findViewById(R.id.strip_ad_container);
+
+        stripAdImage.setImageResource(R.drawable.stripbanner);
+        stripAdContainer.setBackgroundColor(Color.parseColor("#ffffff"));
+        ///////// Strip Ad
         return view;
     }
 
     ///////// Banner Slider
+
+
 
     private void pageLooper(){
         if (currentPage == sliderModelList.size() - 2){
