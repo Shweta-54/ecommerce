@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -176,13 +177,19 @@ public class HomeFragment extends Fragment {
         horizontalProductScrollAdapter.notifyDataSetChanged();
 
         ///////// Horizontal Product layout
+
+        /////////grid product layout
+        TextView gridLayoutTitle = view.findViewById(R.id.grid_product_layout_title);
+        TextView gridLayoutViewAllBtn = view.findViewById(R.id.grid_product_layout_viewall_btn);
+        GridView gridView = view.findViewById(R.id.grid_product_layout_gridview);
+
+        gridView.setAdapter(new GridProductLayoutAdapter(horizontalProductScrollModelList));
+        ///////// grid Product layout
+
         return view;
     }
 
     ///////// Banner Slider
-
-
-
     private void pageLooper(){
         if (currentPage == sliderModelList.size() - 2){
             currentPage = 2;
@@ -216,6 +223,5 @@ public class HomeFragment extends Fragment {
     private void stopBannerSliderShow(){
         timer.cancel();
     }
-
     ///////// Banner Slider
 }
