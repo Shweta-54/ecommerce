@@ -7,13 +7,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TableLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.ecommerce.databinding.ActivityMainBinding;
@@ -50,7 +46,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         addToWishlistBtn = findViewById(R.id.add_to_wishList_btn);
 
         List<Integer> productImages = new ArrayList<>();
-        productImages.add(R.drawable.oli1);
+        productImages.add(R.drawable.rice);
         productImages.add(R.drawable.atta);
         productImages.add(R.drawable.grocery1);
         productImages.add(R.drawable.grocery);

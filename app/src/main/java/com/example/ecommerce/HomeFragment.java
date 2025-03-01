@@ -49,8 +49,8 @@ public class HomeFragment extends Fragment {
     ///////// Strip Ad
 
     ///////// Horizontal Product layout
-    private TextView horizontallayoutTitle;
-    private Button horizontalviewAllBtn;
+    private TextView horizontalLayoutTitle;
+    private Button horizontalLayoutviewAllBtn;
     private RecyclerView horizontalRecyclerView;
     ///////// Horizontal Product layout
 
@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment {
                 pageLooper();
                 stopBannerSliderShow();
                 if (event.getAction() == MotionEvent.ACTION_UP){
-                    stopBannerSliderShow();
+                    startBannerSlideShow();
                 }
                 return false;
             }
@@ -153,8 +153,8 @@ public class HomeFragment extends Fragment {
         ///////// Strip Ad
 
         ///////// Horizontal Product layout
-        horizontallayoutTitle = view.findViewById(R.id.horizontal_scroll_layout_title);
-        horizontalviewAllBtn =  view.findViewById(R.id.horizontal_scroll_view_all_btn);
+        horizontalLayoutTitle = view.findViewById(R.id.horizontal_scroll_layout_title);
+        horizontalLayoutviewAllBtn =  view.findViewById(R.id.horizontal_scroll_view_all_btn);
         horizontalRecyclerView = view.findViewById(R.id.horizontal_scroll_layout_recyclerview);
 
         List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
@@ -179,12 +179,36 @@ public class HomeFragment extends Fragment {
         ///////// Horizontal Product layout
 
         /////////grid product layout
+
         TextView gridLayoutTitle = view.findViewById(R.id.grid_product_layout_title);
         TextView gridLayoutViewAllBtn = view.findViewById(R.id.grid_product_layout_viewall_btn);
         GridView gridView = view.findViewById(R.id.grid_product_layout_gridview);
 
         gridView.setAdapter(new GridProductLayoutAdapter(horizontalProductScrollModelList));
         ///////// grid Product layout
+
+        //////////////// testing recyclerview
+        RecyclerView testing = view.findViewById(R.id.testing);
+        LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
+        testingLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        testing.setLayoutManager(testingLayoutManager);
+
+        List<HomePageModel> homePageModelList = new ArrayList<>();
+        homePageModelList.add(new HomePageModel(0,sliderModelList));
+        homePageModelList.add(new HomePageModel(1,R.drawable.stripbanner,"#ff0000"));
+        homePageModelList.add(new HomePageModel(2,"Deals of the Day!",horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(3,"Deals of the Day!",horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(1,R.drawable.banner,"#000000"));
+        homePageModelList.add(new HomePageModel(3,"Deals of the Day!",horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(2,"Deals of the Day!",horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(1,R.drawable.stripbanner,"#ff0000"));
+        homePageModelList.add(new HomePageModel(0,sliderModelList));
+
+
+        HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
+        testing.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        //////////////// testing recyclerview
 
         return view;
     }
