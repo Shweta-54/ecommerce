@@ -5,6 +5,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -22,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle toggle;
 
     private FrameLayout frameLayout;
 
@@ -35,17 +39,19 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.appBarMain.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
+        // ✅ Initialize DrawerLayout and NavigationView
+        drawerLayout = binding.drawerLayout;
+        navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home)
-                .setOpenableLayout(drawer)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        // ✅ Setup ActionBarDrawerToggle
+        toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, binding.appBarMain.toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        // ✅ Handle navigation item selection
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);//from shweta 14
         navigationView.getMenu().getItem(0).setChecked(true);// from shweta 14
 
@@ -93,9 +99,9 @@ public class MainActivity extends AppCompatActivity {
         }else if (id == R.id.nav_sign_out){
 
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-         return true;
+        // ✅ Close the drawer after selecting an item
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     @Override

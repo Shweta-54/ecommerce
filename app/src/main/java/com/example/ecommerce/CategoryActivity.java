@@ -1,55 +1,34 @@
 package com.example.ecommerce;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.Menu;
+import android.view.MenuItem;
+import androidx.appcompat.widget.Toolbar;
 
-import androidx.fragment.app.Fragment;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class CategoryActivity extends AppCompatActivity {
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
 
     private RecyclerView categoryRecyclerView;
-    private CategoryAdapter categoryAdapter;
-    private RecyclerView testing;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_home, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_category);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        String title = getIntent().getStringExtra("CategoryName");
+        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        categoryRecyclerView = view.findViewById(R.id.category_recyclerview);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        categoryRecyclerView.setLayoutManager(layoutManager);
-
-       final List<CategoryModel> categoryModelList = new ArrayList<CategoryModel>();
-        categoryModelList.add(new CategoryModel("link","Home"));
-        categoryModelList.add(new CategoryModel("link","Electronics"));
-        categoryModelList.add(new CategoryModel("link","Appliances"));
-        categoryModelList.add(new CategoryModel("link","Furniture"));
-        categoryModelList.add(new CategoryModel("link","Sports"));
-        categoryModelList.add(new CategoryModel("link","Fitness"));
-        categoryModelList.add(new CategoryModel("link","Women Art"));
-        categoryModelList.add(new CategoryModel("link","Men Art"));
-        categoryModelList.add(new CategoryModel("link","Books"));
-        categoryModelList.add(new CategoryModel("link","Shoes"));
-        categoryModelList.add(new CategoryModel("link","Testing"));
-
-        categoryAdapter = new CategoryAdapter(categoryModelList);
-        categoryRecyclerView.setAdapter(categoryAdapter);
-        categoryAdapter.notifyDataSetChanged();
-
+        categoryRecyclerView = findViewById(R.id.category_recyclerview);
         ///////// Banner Slider
         List<SliderModel> sliderModelList = new ArrayList<SliderModel>();
 
@@ -85,10 +64,9 @@ public class HomeFragment extends Fragment {
 
 
         //////////////// testing recyclerview
-        testing = view.findViewById(R.id.home_page_recyclerview);
-        LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager testingLayoutManager = new LinearLayoutManager(this);
         testingLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        testing.setLayoutManager(testingLayoutManager);
+        categoryRecyclerView.setLayoutManager(testingLayoutManager);
 
         List<HomePageModel> homePageModelList = new ArrayList<>();
         homePageModelList.add(new HomePageModel(0,sliderModelList));
@@ -99,14 +77,28 @@ public class HomeFragment extends Fragment {
         homePageModelList.add(new HomePageModel(3,"Deals of the Day!",horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(2,"Deals of the Day!",horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(1,R.drawable.stripbanner,"#ff0000"));
-        homePageModelList.add(new HomePageModel(0,sliderModelList));
-
 
         HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
-        testing.setAdapter(adapter);
+        categoryRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        //////////////// testing recyclerview
+    }
 
-        return view;
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.search_icon, menu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if (id == R.id.main_search_icon) {
+            //todo: search
+            return true;
+        } else if (id == android.R.id.home) {
+            finish();
+            return true;
+            
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
