@@ -29,6 +29,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private TabLayout viewpagerIndicator;
     private static boolean ALREADY_ADDED_TO_WISHLIST =  false;
     private FloatingActionButton addToWishlistBtn;
+    private ViewPager productDetailsViewpager;
+    private TabLayout productDetailsTablayout;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -48,9 +50,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
         viewpagerIndicator = findViewById(R.id.viewpager_indicator);
 
         addToWishlistBtn = findViewById(R.id.add_to_wishList_btn);
+        productDetailsTablayout = findViewById(R.id.product_details_tablayout);
+        productDetailsViewpager = findViewById(R.id.product_details_viewpager);
 
         List<Integer> productImages = new ArrayList<>();
-        productImages.add(R.drawable.oli1);
+        productImages.add(R.drawable.rice);
         productImages.add(R.drawable.atta);
         productImages.add(R.drawable.grocery1);
         productImages.add(R.drawable.grocery);
@@ -72,6 +76,26 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     addToWishlistBtn.setSupportBackgroundTintList(getResources().getColorStateList(R.color.colorRed));
 
                 }
+            }
+        });
+
+        productDetailsViewpager.setAdapter(new productDetailsAdapter(getSupportFragmentManager(),productDetailsTablayout.getTabCount()));
+
+        productDetailsViewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(productDetailsTablayout));
+        productDetailsTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                productDetailsViewpager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }
