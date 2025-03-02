@@ -1,6 +1,6 @@
 package com.example.ecommerce;
 
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.TypedValue;
@@ -13,13 +13,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.api.Context;
-
 import java.util.List;
 
 public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpecificationAdapter.ViewHolder> {
+
     private List<ProductSpecificationModel> productSpecificationModelList;
-    private android.view.ViewGroup ViewGroup;
 
     public ProductSpecificationAdapter(List<ProductSpecificationModel> productSpecificationModelList) {
         this.productSpecificationModelList = productSpecificationModelList;
@@ -40,22 +38,22 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
 
     @NonNull
     @Override
-    public ProductSpecificationAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProductSpecificationAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         switch (viewType) {
             case ProductSpecificationModel.SPECIFICATION_TITLE:
-                TextView title = new TextView(ViewGroup.getContext());
+                TextView title = new TextView(viewGroup.getContext());
                 title.setTypeface(null, Typeface.BOLD);
                 title.setTextColor(Color.parseColor("#000000"));
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                layoutParams.setMargins(setDp(16, ViewGroup.getContext())
-                        , setDp(16, ViewGroup.getContext()),
-                        setDp(16, ViewGroup.getContext()),
-                        setDp(8, ViewGroup.getContext()));
+                layoutParams.setMargins(setDp(16, viewGroup.getContext())
+                        , setDp(16, viewGroup.getContext()),
+                        setDp(16, viewGroup.getContext()),
+                        setDp(8, viewGroup.getContext()));
                 title.setLayoutParams(layoutParams);
                 return new ViewHolder(title);
 
             case ProductSpecificationModel.SPECIFICATION_BODY:
-                View view = LayoutInflater.from(ViewGroup.getContext()).inflate(R.layout.product_specification_item_layout, ViewGroup, false);
+                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.product_specification_item_layout, viewGroup, false);
                 return new ViewHolder(view);
             default:
                 return null;
@@ -67,16 +65,16 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
 
 
     @Override
-    public void onBindViewHolder(@NonNull ProductSpecificationAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductSpecificationAdapter.ViewHolder viewHolder, int position) {
 
         switch (productSpecificationModelList.get(position).getType()){
             case ProductSpecificationModel.SPECIFICATION_TITLE:
-                ViewHolder.setTitle(productSpecificationModelList.get(position).getTitle());
+                viewHolder.setTitle(productSpecificationModelList.get(position).getTitle());
                 break;
             case ProductSpecificationModel.SPECIFICATION_BODY:
                 String featureTitle = productSpecificationModelList.get(position).getFeatureName();
                 String featureDetail = productSpecificationModelList.get(position).getFeatureValue();
-                ViewHolder.setFeature(featureTitle, featureDetail);
+                viewHolder.setFeature(featureTitle, featureDetail);
                 break;
         }
 
@@ -88,29 +86,38 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
         return productSpecificationModelList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private static TextView featureName;
-        private static TextView featureValue;
-        private static TextView title;
-        private static TextView itemView;
+        private  TextView featureName;
+        private  TextView featureValue;
+        private  TextView title;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            // Check if itemView is a TextView (for title case)
+            if (itemView instanceof TextView) {
+                title = (TextView) itemView;
+            } else {
+                // Otherwise, initialize featureName and featureValue
+                featureName = itemView.findViewById(R.id.feature_name);
+                featureValue = itemView.findViewById(R.id.feature_value);
+            }
         }
-        private static void setTitle(String titleText){
-            title = (TextView) itemView;
-            title.setText(titleText);
+        private  void setTitle(String titleText){
+            if (title != null) {
+                title.setText(titleText);
+            }
         }
-        private static void setFeature(String featureTitle, String featuredetail) {
-            featureName = itemView.findViewById(R.id.feature_name);
-            featureValue = itemView.findViewById(R.id.feature_value);
-            featureName.setText(featureTitle);
-            featureValue.setText(featuredetail);
+        private  void setFeature(String featureTitle, String featuredetail) {
+            if (featureName != null && featureValue != null) {
+                featureName.setText(featureTitle);
+                featureValue.setText(featuredetail);
+            }
         }
     }
 
-    private int setDp(int dp, android.content.Context context) {
+    private int setDp(int dp, Context context) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 }

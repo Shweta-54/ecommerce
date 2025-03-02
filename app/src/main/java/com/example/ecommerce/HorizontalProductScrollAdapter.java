@@ -55,7 +55,8 @@ public class HorizontalProductScrollAdapter extends RecyclerView.Adapter<Horizon
         private TextView productTitle;
         private TextView productDescription;
         private TextView productPrice;
-        public viewHolder(@NonNull View itemView) {
+
+        public viewHolder(@NonNull final View itemView) {
             super(itemView);
             productImage = itemView.findViewById(R.id.h_s_product_image);
             productTitle = itemView.findViewById(R.id.h_s_product_title);

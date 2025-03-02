@@ -10,9 +10,9 @@ import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.ecommerce.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDetailsActivity extends AppCompatActivity {
-    private ActivityMainBinding binding;
+
     private ViewPager productImagesViewpager;
     private TabLayout viewpagerIndicator;
     private static boolean ALREADY_ADDED_TO_WISHLIST =  false;
@@ -35,16 +35,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_product_details);
         //
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        setSupportActionBar(binding.appBarMain.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         //toolbar
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        productImagesViewpager = findViewById(R.id.products_images_viewpager);
+        productImagesViewpager = findViewById(R.id.product_images_viewpager);
         viewpagerIndicator = findViewById(R.id.viewpager_indicator);
-
         addToWishlistBtn = findViewById(R.id.add_to_wishList_btn);
         productDetailsTablayout = findViewById(R.id.product_details_tablayout);
         productDetailsViewpager = findViewById(R.id.product_details_viewpager);
@@ -61,23 +59,24 @@ public class ProductDetailsActivity extends AppCompatActivity {
         viewpagerIndicator.setupWithViewPager(productImagesViewpager,true);
 
         addToWishlistBtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForColorStateLists")
             @Override
             public void onClick(View view) {
                 if (ALREADY_ADDED_TO_WISHLIST){
                     ALREADY_ADDED_TO_WISHLIST = false;
-                    addToWishlistBtn.setSupportBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
+                    addToWishlistBtn.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
 
                 }else {
                     ALREADY_ADDED_TO_WISHLIST = true;
-                    addToWishlistBtn.setSupportBackgroundTintList(getResources().getColorStateList(R.color.colorRed));
+                    addToWishlistBtn.setSupportImageTintList(getResources().getColorStateList(R.color.colorRed));
 
                 }
             }
         });
 
         productDetailsViewpager.setAdapter(new productDetailsAdapter(getSupportFragmentManager(),productDetailsTablayout.getTabCount()));
-
         productDetailsViewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(productDetailsTablayout));
+
         productDetailsTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -105,7 +104,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             finish();
-
             return true;
         }else if (id == R.id.main_search_icon){
             //todo: search
