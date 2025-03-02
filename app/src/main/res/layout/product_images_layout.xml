@@ -8,10 +8,11 @@
     android:layout_height="wrap_content">
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/products_images_viewpager"
+        android:id="@+id/product_images_viewpager"
         android:layout_width="0dp"
         android:layout_height="250dp"
         android:layout_marginTop="24dp"
+        android:contentDescription="@string/grocery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +26,7 @@
         app:tabBackground="@drawable/dot_selector"
         app:tabIndicatorHeight="0dp"
         app:tabRippleColor="@null"
-        app:layout_constraintTop_toBottomOf="@+id/products_images_viewpager"/>
+        app:layout_constraintTop_toBottomOf="@+id/product_images_viewpager"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_to_wishList_btn"
@@ -58,6 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/slider_background"
         android:backgroundTint="@color/SuccessGreen"
         android:orientation="horizontal"
         android:padding="1dp"
@@ -82,7 +84,8 @@
             android:layout_gravity="center"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="2dp"
-            android:src="@drawable/baseline_home_24" />
+            android:src="@drawable/baseline_star_24"
+            app:tint="@color/white"/>
     </LinearLayout>
 
     <TextView

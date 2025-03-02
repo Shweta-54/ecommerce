@@ -11,17 +11,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.ecommerce.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -56,7 +51,10 @@ public class MainActivity extends AppCompatActivity {
         navigationView.getMenu().getItem(0).setChecked(true);// from shweta 14
 
         frameLayout = findViewById(R.id.main_framlayout);
-        setFragment(new HomeFragment());
+        // Set default fragment
+        if (savedInstanceState == null) {
+            setFragment(new HomeFragment());
+        }
     }
 
     @Override
@@ -99,16 +97,10 @@ public class MainActivity extends AppCompatActivity {
         }else if (id == R.id.nav_sign_out){
 
         }
+
         // ✅ Close the drawer after selecting an item
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
     }
 
     private void setFragment(Fragment fragment){

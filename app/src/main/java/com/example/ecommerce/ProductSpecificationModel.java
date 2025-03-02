@@ -5,8 +5,6 @@ public class ProductSpecificationModel {
     public static  final int  SPECIFICATION_TITLE =0;
     public static  final int  SPECIFICATION_BODY =1;
 
-
-
     private int type;
 
     public int getType() {

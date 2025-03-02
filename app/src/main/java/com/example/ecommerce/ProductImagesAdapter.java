@@ -9,12 +9,11 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import java.util.List;
 
-public class ProductImagesAdapter extends PagerAdapter {
+public class  ProductImagesAdapter extends PagerAdapter {
 
-    private List<Integer> productImages;
+    private final List<Integer> productImages;
 
     public ProductImagesAdapter(List<Integer> productImages) {
-
         this.productImages = productImages;
     }
 
@@ -22,9 +21,7 @@ public class ProductImagesAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         ImageView productImage = new ImageView(container.getContext());
-        // ✅ List<Integer> use karo na ki ImageView
         productImage.setImageResource(productImages.get(position));  // ✅ ERROR FIXED
-
         container.addView(productImage, 0);
         return productImage;
     }
@@ -36,7 +33,6 @@ public class ProductImagesAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-
         return productImages.size();
     }
 

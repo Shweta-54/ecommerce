@@ -63,12 +63,7 @@ public class LoginTabFragment extends Fragment {
         dontHaveAnAccount = view.findViewById(R.id.donthaveanaccount);
         parentFrameLayout = getActivity().findViewById(R.id.login_framelayout);
         progressBar = view.findViewById(R.id.loginpprogressbar);
-
         loginclosebtn = view.findViewById(R.id.loginclosebtn);
-
-
-
-
         email.setTranslationY(300);
         password.setTranslationY(300);
         forgotpassword.setTranslationY(300);
