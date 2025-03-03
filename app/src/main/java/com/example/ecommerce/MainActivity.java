@@ -1,11 +1,16 @@
 package com.example.ecommerce;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
+
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,39 +38,50 @@ public class MainActivity extends AppCompatActivity {
     private static int currentFragment = -1;
     private TextView actionbarlogo;
 
+    private static final int REWARDS_FRAGMENT = 4;
+
+    private Window window;
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // ✅ Initialize View Binding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        actionbarlogo = findViewById(R.id.actionbar_logo);
-        setSupportActionBar(binding.appBarMain.toolbar);
 
+        // ✅ Initialize toolbar
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // ✅ Initialize views
+        actionbarlogo = findViewById(R.id.actionbar_logo);
+        frameLayout = findViewById(R.id.main_framlayout);
+
+        window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         // ✅ Initialize DrawerLayout and NavigationView
         drawerLayout = binding.drawerLayout;
         navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         // ✅ Setup ActionBarDrawerToggle
         toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, binding.appBarMain.toolbar,
+                this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         // ✅ Handle navigation item selection
-        navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);//from shweta 14
-        navigationView.getMenu().getItem(0).setChecked(true);// from shweta 14
+        navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
+        navigationView.getMenu().getItem(0).setChecked(true);
 
-        frameLayout = findViewById(R.id.main_framlayout);
-        // Set default fragment
+        // ✅ Set default fragment
         if (savedInstanceState == null) {
-            setFragment(new HomeFragment(),HOME_FRAGMENT);
+            setFragment(new HomeFragment(), HOME_FRAGMENT);
         }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -114,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             gotoFragment("My Orders",new MyOrdersFragment(),ORDERS_FRAGMENT);
 
         } else if (id == R.id.nav_my_rewards) {
+            gotoFragment("My Rewards",new MyRewardsFragment(),REWARDS_FRAGMENT);
 
         } else if (id == R.id.nav_my_cart) {
             gotoFragment("My Cart",new MyCartFragment(),CART_FRAGMENT);
@@ -130,6 +147,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void setFragment(Fragment fragment,int fragmentNo){
         if (fragmentNo != currentFragment) {
+            if (fragmentNo == REWARDS_FRAGMENT){
+                window.setStatusBarColor(Color.parseColor("#5B04B1"));
+                toolbar.setBackgroundColor(Color.parseColor("#5B04B1"));
+            }else{
+                window.setStatusBarColor(getResources().getColor(R.color.lavender));
+                toolbar.setBackgroundColor(getResources().getColor(R.color.lavender));
+            }
             currentFragment = fragmentNo;
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.setCustomAnimations(R.anim.fade_in,R.anim.fade_out);
