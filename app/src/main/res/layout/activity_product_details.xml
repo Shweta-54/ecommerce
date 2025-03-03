@@ -28,7 +28,6 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
@@ -37,20 +36,64 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-            <include layout="@layout/product_images_layout"/>
+            <include layout="@layout/product_images_layout" />
 
-            <include layout="@layout/reward_whit_product_layout"/>
+            <include layout="@layout/reward_whit_product_layout" />
 
-            <include layout="@layout/product_description_layout"/>
+            <include layout="@layout/product_description_layout" />
 
-            <include layout="@layout/product_details_only_layout"/>
+            <include layout="@layout/product_details_only_layout" />
 
-            <include layout="@layout/ratings_layout"/>
+            <include layout="@layout/ratings_layout" />
 
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints">
+        <LinearLayout
+            android:id="@+id/add_to_cart_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="ADD TO CART"
+                android:drawableEnd="@drawable/baseline_shopping_cart_24"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:drawableTint="#485F70"
+                android:textColor="#485F70"/>
+
+        </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="BUY NOW"
+            android:background="@color/lavender"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:stateListAnimator="@null"/>
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
