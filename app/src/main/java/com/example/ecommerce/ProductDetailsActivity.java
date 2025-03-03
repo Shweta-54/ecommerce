@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,10 +28,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private ViewPager productDetailsViewpager;
     private TabLayout productDetailsTablayout;
 
-    //////rating layout
-    private LinearLayout rateNowCantainer;
-    //////rating layout
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +40,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
-        productImagesViewpager = findViewById(R.id.product_details_viewpager);
+        productImagesViewpager = findViewById(R.id.products_images_viewpager);
         viewpagerIndicator = findViewById(R.id.viewpager_indicator);
         addToWishlistBtn = findViewById(R.id.add_to_wishList_btn);
         productDetailsTablayout = findViewById(R.id.product_details_tablayout);
@@ -94,28 +88,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
-        //////rating layout
-        rateNowCantainer = findViewById(R.id.rate_now_container);
-        for (int x = 0;x < rateNowCantainer.getChildCount();x++){
-            final int starPosition = x;
-            rateNowCantainer.getChildAt(x).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    setReting(starPosition);
-                }
-            });
-        }
-        //////rating layout
-    }
-
-    private void setReting(int starPosition) {
-        for (int x = 0;x < rateNowCantainer.getChildCount();x++){
-            ImageView starBtn = (ImageView)rateNowCantainer.getChildAt(x);
-            starBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#bebebe")));
-            if (x <= starPosition){
-                starBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#ffbb00")));
-            }
-        }
     }
 
     @Override
