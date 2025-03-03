@@ -31,12 +31,6 @@
             android:name=".Grocery"
             android:exported="false" />
         <activity
-            android:name=".Cart"
-            android:exported="false" />
-        <activity
-            android:name=".Profile"
-            android:exported="false" />
-        <activity
             android:name=".Login"
             android:exported="false"
             android:screenOrientation="fullSensor"
@@ -52,9 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Categories"
-            android:exported="false" />
+
     </application>
 
 </manifest>
