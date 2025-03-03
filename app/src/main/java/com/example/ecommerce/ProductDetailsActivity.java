@@ -9,8 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import androidx.appcompat.widget.Toolbar;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -40,21 +40,16 @@ public class ProductDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        setSupportActionBar(binding.appBarMain.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
-        productImagesViewpager = findViewById(R.id.product_details_viewpager);
+        productImagesViewpager = findViewById(R.id.product_images_viewpager);
         viewpagerIndicator = findViewById(R.id.viewpager_indicator);
         addToWishlistBtn = findViewById(R.id.add_to_wishList_btn);
         productDetailsTablayout = findViewById(R.id.product_details_tablayout);
         productDetailsViewpager = findViewById(R.id.product_details_viewpager);
-
-        if (productImagesViewpager == null) {
-            throw new NullPointerException("productImagesViewpager is null! Check XML ID.");
-        }
 
         List<Integer> productImages = new ArrayList<>();
         productImages.add(R.drawable.rice);
