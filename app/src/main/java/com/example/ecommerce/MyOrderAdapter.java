@@ -60,7 +60,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
             productTitle = itemView.findViewById(R.id.product_title3);
             orderIndicator = itemView.findViewById(R.id.order_indicator);
             deliveryStatus = itemView.findViewById(R.id.order_delivered_date);
-            rateNowContainer = itemView.findViewById(R.id.rate_now_container);
+            rateNowContainer = itemView.findViewById(R.id.container1);
 
         }
         private  void setData(int resource,String title,String deliveryDate,int rating){

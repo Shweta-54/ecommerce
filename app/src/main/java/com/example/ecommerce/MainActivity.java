@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             invalidateOptionsMenu();
             setFragment(new HomeFragment(),HOME_FRAGMENT);
         } else if (id == R.id.nav_my_orders) {
-            gotoFragment("My Orders",new MyCartFragment(),ORDERS_FRAGMENT);
+            gotoFragment("My Orders",new MyOrdersFragment(),ORDERS_FRAGMENT);
 
         } else if (id == R.id.nav_my_rewards) {
 
