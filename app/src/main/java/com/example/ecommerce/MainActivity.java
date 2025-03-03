@@ -3,7 +3,9 @@ package com.example.ecommerce;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,17 +24,22 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
 
+    private static final int HOME_FRAGMENT = 0;
+    private static final int CART_FRAGMENT = 1;
     private FrameLayout frameLayout;
+    private static int currentFragment = -1;
+    private TextView actionbarlogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        actionbarlogo = findViewById(R.id.actionbar_logo);
         setSupportActionBar(binding.appBarMain.toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
         // ✅ Initialize DrawerLayout and NavigationView
         drawerLayout = binding.drawerLayout;
@@ -53,14 +60,17 @@ public class MainActivity extends AppCompatActivity {
         frameLayout = findViewById(R.id.main_framlayout);
         // Set default fragment
         if (savedInstanceState == null) {
-            setFragment(new HomeFragment());
+            setFragment(new HomeFragment(),HOME_FRAGMENT);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        if (currentFragment == HOME_FRAGMENT) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getMenuInflater().inflate(R.menu.main, menu);
+        }
         return true;
     }
     public boolean onOptionsItemSelected(MenuItem item){
@@ -72,24 +82,36 @@ public class MainActivity extends AppCompatActivity {
             //todo: notification
             return true;
         }else if (id == R.id.main_cart_icon) {
-            //todo: cart
+           myCart();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void myCart() {
+        actionbarlogo.setVisibility(View.GONE);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle("My Cart");
+        invalidateOptionsMenu();
+        setFragment(new MyCartFragment(),CART_FRAGMENT);
+        navigationView.getMenu().getItem(3).setChecked(true);
+    }
+
     @SuppressWarnings("StatemenWithEmptyBody")
 
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_my_mall){
-
+            actionbarlogo.setVisibility(View.VISIBLE);
+            invalidateOptionsMenu();
+            setFragment(new HomeFragment(),HOME_FRAGMENT);
         } else if (id == R.id.nav_my_orders) {
 
         } else if (id == R.id.nav_my_rewards) {
 
         } else if (id == R.id.nav_my_cart) {
-
+            myCart();
         } else if (id == R.id.nav_my_wishlist) {
 
         } else if (id == R.id.nav_my_account) {
@@ -97,16 +119,18 @@ public class MainActivity extends AppCompatActivity {
         }else if (id == R.id.nav_sign_out){
 
         }
-
-        // ✅ Close the drawer after selecting an item
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    private void setFragment(Fragment fragment){
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(frameLayout.getId(),fragment);
-        fragmentTransaction.commit();
+    private void setFragment(Fragment fragment,int fragmentNo){
+        if (fragmentNo != currentFragment) {
+            currentFragment = fragmentNo;
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.fade_in,R.anim.fade_out);
+            fragmentTransaction.replace(frameLayout.getId(), fragment);
+            fragmentTransaction.commit();
+        }
     }
 
 }
