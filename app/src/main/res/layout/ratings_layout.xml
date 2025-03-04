@@ -168,7 +168,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/happy_shopping_image"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_gravity="center"
