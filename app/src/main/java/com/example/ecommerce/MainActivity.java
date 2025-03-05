@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int HOME_FRAGMENT = 0;
     private static final int CART_FRAGMENT = 1;
     private static final int ORDERS_FRAGMENT = 2;
+    private static final int WISHLIST_FRAGMENT = 3;
+
 
 
     private FrameLayout frameLayout;
@@ -50,26 +52,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // ✅ Initialize View Binding
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // ✅ Initialize toolbar
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // ✅ Initialize views
+
         actionbarlogo = findViewById(R.id.actionbar_logo);
         frameLayout = findViewById(R.id.main_framlayout);
 
         window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-        // ✅ Initialize DrawerLayout and NavigationView
+
         drawerLayout = binding.drawerLayout;
         navigationView = binding.navView;
 
-        // ✅ Setup ActionBarDrawerToggle
+
         toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -83,6 +85,23 @@ public class MainActivity extends AppCompatActivity {
         // ✅ Set default fragment
         if (savedInstanceState == null) {
             setFragment(new HomeFragment(), HOME_FRAGMENT);
+        }
+    }
+
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+        }else {
+            if (currentFragment == HOME_FRAGMENT) {
+                super.onBackPressed();
+            }else {
+                actionbarlogo.setVisibility(View.VISIBLE);
+                invalidateOptionsMenu();
+                setFragment(new HomeFragment(),HOME_FRAGMENT);
+                navigationView.getMenu().getItem(0).setChecked(true);
+
+            }
         }
     }
     @Override
@@ -138,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.nav_my_cart) {
             gotoFragment("My Cart",new MyCartFragment(),CART_FRAGMENT);
         } else if (id == R.id.nav_my_wishlist) {
-
+                gotoFragment("My Wishlist",new MyWishlistFragment(),WISHLIST_FRAGMENT);
         } else if (id == R.id.nav_my_account) {
             gotoFragment("My Account",new MyAccountFragment(),ACCOUNT_FRAGMENT);
         }else if (id == R.id.nav_sign_out){
