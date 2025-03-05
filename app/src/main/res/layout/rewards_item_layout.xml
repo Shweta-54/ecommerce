@@ -11,7 +11,7 @@
     android:background="@drawable/border_background">
 
     <ImageView
-        android:id="@+id/coupen_icon"
+        android:id="@+id/coupen_icon6"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginStart="16dp"
@@ -30,9 +30,9 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/coupen_icon"
-        app:layout_constraintStart_toEndOf="@+id/coupen_icon"
-        app:layout_constraintTop_toTopOf="@+id/coupen_icon" />
+        app:layout_constraintBottom_toBottomOf="@+id/coupen_icon6"
+        app:layout_constraintStart_toEndOf="@+id/coupen_icon6"
+        app:layout_constraintTop_toTopOf="@+id/coupen_icon6" />
 
     <TextView
         android:id="@+id/coupen_validity"
