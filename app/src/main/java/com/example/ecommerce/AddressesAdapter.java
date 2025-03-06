@@ -49,9 +49,9 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
-            fullname = itemView.findViewById(R.id.name);
-            address = itemView.findViewById(R.id.address);
-            pincode = itemView.findViewById(R.id.pincode);
+            fullname = itemView.findViewById(R.id.name1);
+            address = itemView.findViewById(R.id.address1);
+            pincode = itemView.findViewById(R.id.pincode1);
         }
         private void setData(String username,String userAddress,String userPincode){
             fullname.setText(username);
