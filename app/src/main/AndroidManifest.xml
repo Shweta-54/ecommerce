@@ -25,6 +25,10 @@
             android:name=".AddAddressActivity"
             android:exported="false" />
         <activity
+            android:name=".MyAddressesActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".OrderDetailsActivity"
             android:exported="false" />
         <activity
@@ -38,7 +42,8 @@
             android:exported="false"
             android:label="@string/title_activity_main"
             android:screenOrientation="fullSensor"
-            android:theme="@style/Theme.Ecommerce.NoActionBar" />
+            android:theme="@style/Theme.Ecommerce.NoActionBar"
+            tools:ignore="DiscouragedApi" />
         <activity
             android:name=".Grocery"
             android:exported="false" />

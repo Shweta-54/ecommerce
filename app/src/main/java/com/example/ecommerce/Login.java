@@ -13,6 +13,8 @@ public class Login extends AppCompatActivity {
 
     private FrameLayout frameLayout;
     public static boolean onResetPasswordFragment = false;
+    public static boolean setSignupFragment = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +23,13 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
          frameLayout = findViewById(R.id.login_framelayout);
-          setDefaultFragment(new LoginTabFragment());
+
+         if (setSignupFragment){
+             setSignupFragment = false;
+             setDefaultFragment(new SignupTabFragment());
+         }else {
+             setDefaultFragment(new LoginTabFragment());
+         }
      
     }
 
