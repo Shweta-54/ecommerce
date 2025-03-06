@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import java.util.List;
 public class MyCartFragment extends Fragment {
 
 
+    private Button saveBtn;
 
     public MyCartFragment() {
         // Required empty public constructor
@@ -28,10 +30,12 @@ public class MyCartFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_cart, container, false);
 
+
         cartItemsRecyclerView = view.findViewById(R.id.cart_items_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         cartItemsRecyclerView.setLayoutManager(layoutManager);
+
 
         List<CartItemModel> cartItemModelList = new ArrayList<>();
         cartItemModelList.add(new CartItemModel(0,R.drawable.atta,"Pixcel 2",2,"Rs.49999/-","Rs.59999/-",1,0,0));
