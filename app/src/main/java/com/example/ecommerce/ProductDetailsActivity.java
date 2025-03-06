@@ -142,6 +142,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
         } else if (id == R.id.main_search_icon) {
             return true;
         } else if (id == R.id.main_cart_icon) {
+            Intent cartIntent = new Intent(ProductDetailsActivity.this, MainActivity.class);
+            boolean showCart = true;
+            startActivity(cartIntent);
             return true;
         }
         return super.onOptionsItemSelected(item);

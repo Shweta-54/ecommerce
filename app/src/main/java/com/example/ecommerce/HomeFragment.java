@@ -53,21 +53,14 @@ public class HomeFragment extends Fragment {
 
         ///////// Banner Slider
         List<SliderModel> sliderModelList = new ArrayList<SliderModel>();
-
-        sliderModelList.add(new SliderModel(R.mipmap.profile,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.ic_launcher,"#077AE4"));
         sliderModelList.add(new SliderModel(R.mipmap.green_email,"#077AE4"));
-
         sliderModelList.add(new SliderModel(R.mipmap.error_icon,"#077AE4"));
         sliderModelList.add(new SliderModel(R.mipmap.facebook,"#077AE4"));
         sliderModelList.add(new SliderModel(R.mipmap.profile,"#077AE4"));
         sliderModelList.add(new SliderModel(R.mipmap.google,"#077AE4"));
         sliderModelList.add(new SliderModel(R.mipmap.green_email,"#077AE4"));
         sliderModelList.add(new SliderModel(R.mipmap.profile,"#077AE4"));
-
         sliderModelList.add(new SliderModel(R.mipmap.ic_launcher,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.green_email,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.error_icon,"#077AE4"));
         ///////// Banner Slider
 
 

@@ -2,6 +2,7 @@ package com.example.ecommerce;
 
 import static com.example.ecommerce.Login.setSignupFragment;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -42,17 +43,19 @@ public class MainActivity extends AppCompatActivity {
 
 
     private FrameLayout frameLayout;
-    private static int currentFragment = -1;
+    private int currentFragment = -1;
     private TextView actionbarlogo;
 
     private static final int REWARDS_FRAGMENT = 4;
 
     private static final int ACCOUNT_FRAGMENT = 5;
+    public static Boolean showCart = false;
 
 
     private Window window;
     private Toolbar toolbar;
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,10 +91,17 @@ public class MainActivity extends AppCompatActivity {
         navigationView.getMenu().getItem(0).setChecked(true);
 
         // ✅ Set default fragment
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null)
+            if (showCart){
+                drawerLayout.setDrawerLockMode(1);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                 gotoFragment("My Cart",new MyCartFragment(), -2);
+            }else {
             setFragment(new HomeFragment(), HOME_FRAGMENT);
         }
+
     }
+
 
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -102,11 +112,16 @@ public class MainActivity extends AppCompatActivity {
                 currentFragment = -1;
                 super.onBackPressed();
             }else {
-                actionbarlogo.setVisibility(View.VISIBLE);
-                invalidateOptionsMenu();
-                setFragment(new HomeFragment(),HOME_FRAGMENT);
-                navigationView.getMenu().getItem(0).setChecked(true);
+                if (showCart){
+                    showCart = false;
+                    finish();
 
+                }else {
+                    actionbarlogo.setVisibility(View.VISIBLE);
+                    invalidateOptionsMenu();
+                    setFragment(new HomeFragment(), HOME_FRAGMENT);
+                    navigationView.getMenu().getItem(0).setChecked(true);
+                }
             }
         }
     }
@@ -128,6 +143,14 @@ public class MainActivity extends AppCompatActivity {
             //todo: notification
             return true;
         }else if (id == R.id.main_cart_icon) {
+            gotoFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
+            return true;
+        }else if (id == android.R.id.home){
+            if(showCart){
+                showCart = false;
+                finish();
+                return true;
+            }
 
             Dialog logInDialog = new Dialog(MainActivity.this);
             logInDialog.setContentView(R.layout.log_in_dialog);
