@@ -18,7 +18,6 @@ import java.util.List;
 public class MyCartFragment extends Fragment {
 
 
-
     public MyCartFragment() {
         // Required empty public constructor
     }
@@ -31,6 +30,7 @@ public class MyCartFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_cart, container, false);
 
+
         cartItemsRecyclerView = view.findViewById(R.id.cart_items_recyclerview);
         continueBtn = view.findViewById(R.id.cart_continue_btn);
 
@@ -38,6 +38,7 @@ public class MyCartFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         cartItemsRecyclerView.setLayoutManager(layoutManager);
+
 
         List<CartItemModel> cartItemModelList = new ArrayList<>();
         cartItemModelList.add(new CartItemModel(0,R.drawable.atta,"Pixcel 2",2,"Rs.49999/-","Rs.59999/-",1,0,0));
@@ -52,7 +53,7 @@ public class MyCartFragment extends Fragment {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent  deliverIntent = new Intent(getContext(), DeliveryActivity.class);
+                Intent  deliverIntent = new Intent(getContext(), AddAddressActivity.class);
                 getContext().startActivity(deliverIntent);
             }
         });
