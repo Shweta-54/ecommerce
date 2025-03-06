@@ -1,5 +1,6 @@
 package com.example.ecommerce;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,6 +53,13 @@ public class DeliveryActivity extends AppCompatActivity {
         cartAdapter.notifyDataSetChanged();
 
         changeORaddNewAddressbtn.setVisibility(View.VISIBLE);
+        changeORaddNewAddressbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myAddressesIntent = new Intent(DeliveryActivity.this, MyAddressesActivity.class);
+                startActivity(myAddressesIntent);
+            }
+        });
     }
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
