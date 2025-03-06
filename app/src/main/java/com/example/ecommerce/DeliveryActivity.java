@@ -34,7 +34,7 @@ public class DeliveryActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Delivery");
 
 
-        deliveryRecyclerView =findViewById(R.id.cart_items_recyclerview);
+        deliveryRecyclerView = findViewById(R.id.delivery_recyclerview);
         changeORaddNewAddressbtn = findViewById(R.id.change_or_add_address_btn);
 
 
