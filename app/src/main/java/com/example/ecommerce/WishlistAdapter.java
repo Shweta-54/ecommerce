@@ -1,5 +1,6 @@
 package com.example.ecommerce;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +111,13 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(itemView.getContext(), "delete", Toast.LENGTH_SHORT).show();
+                }
+            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent productDetailsIntent = new Intent(itemView.getContext(),ProductDetailsActivity.class);
+                    itemView.getContext().startActivity(productDetailsIntent);
                 }
             });
 
