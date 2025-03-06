@@ -18,8 +18,6 @@ import java.util.List;
 public class MyCartFragment extends Fragment {
 
 
-    private Button saveBtn;
-
     public MyCartFragment() {
         // Required empty public constructor
     }
@@ -55,7 +53,7 @@ public class MyCartFragment extends Fragment {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent  deliverIntent = new Intent(getContext(), DeliveryActivity.class);
+                Intent  deliverIntent = new Intent(getContext(), AddAddressActivity.class);
                 getContext().startActivity(deliverIntent);
             }
         });

@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".add_address">
+    tools:context=".AddAddressActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout5"
@@ -29,6 +29,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:nestedScrollingEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,6 +69,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:ems="10"
+                android:isScrollContainer="true"
                 android:gravity="start"
                 android:hint="Locality,area or stree*"
                 android:inputType="textMultiLine"
@@ -80,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:gravity="start"
+                android:isScrollContainer="true"
                 android:lines="3"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
