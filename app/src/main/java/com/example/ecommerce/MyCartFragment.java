@@ -1,5 +1,6 @@
 package com.example.ecommerce;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ public class MyCartFragment extends Fragment {
         // Required empty public constructor
     }
     private RecyclerView cartItemsRecyclerView;
+    private Button continueBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,6 +34,9 @@ public class MyCartFragment extends Fragment {
 
 
         cartItemsRecyclerView = view.findViewById(R.id.cart_items_recyclerview);
+        continueBtn = view.findViewById(R.id.cart_continue_btn);
+
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         cartItemsRecyclerView.setLayoutManager(layoutManager);
@@ -46,6 +51,14 @@ public class MyCartFragment extends Fragment {
         CartAdapter cartAdapter = new CartAdapter(cartItemModelList);
         cartItemsRecyclerView.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
+
+        continueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent  deliverIntent = new Intent(getContext(), DeliveryActivity.class);
+                getContext().startActivity(deliverIntent);
+            }
+        });
         return view;
     }
 }
