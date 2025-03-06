@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,7 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
 
     private List<AddressesModel> addressesModelList;
     private int MODE;
-    private int preSelectedPosition;
+    private int preSelectedPosition = -1;
 
     public AddressesAdapter(List<AddressesModel> addressesModelList,int MODE) {
         this.addressesModelList = addressesModelList;
@@ -39,6 +40,7 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
         String  address = addressesModelList.get(position).getAddress();
         String pincode = addressesModelList.get(position).getPincode();
         Boolean selected = addressesModelList.get(position).getSelected();
+
         viewholder.setData(name,address,pincode,selected,position);
 
     }
@@ -54,6 +56,7 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
         private TextView address;
         private TextView pincode;
         private ImageView icon;
+        private LinearLayout optionContainer;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +65,7 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
             address = itemView.findViewById(R.id.address1);
             pincode = itemView.findViewById(R.id.pincode1);
             icon = itemView.findViewById(R.id.icon_view);
+            optionContainer = itemView.findViewById(R.id.option_container);
         }
         private void setData(String username,String userAddress,String userPincode,Boolean selected,int position){
             fullname.setText(username);
@@ -89,8 +93,23 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
                 });
 
             } else if (MODE == MANAGE_ADDRESS) {
-
-
+                optionContainer.setVisibility(View.GONE);
+                icon.setImageResource(R.drawable.baseline_more_vert_24);
+                icon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        optionContainer.setVisibility(View.VISIBLE);
+                        refreshItem(preSelectedPosition,preSelectedPosition);
+                        preSelectedPosition = position;
+                    }
+                });
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        refreshItem(preSelectedPosition,preSelectedPosition);
+                        preSelectedPosition = -1;
+                    }
+                });
             }
 
         }
