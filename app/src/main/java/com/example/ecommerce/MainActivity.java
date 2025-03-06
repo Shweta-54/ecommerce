@@ -1,19 +1,24 @@
 package com.example.ecommerce;
 
+import static com.example.ecommerce.Login.setSignupFragment;
+
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import androidx.appcompat.widget.Toolbar;
-
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -122,7 +127,41 @@ public class MainActivity extends AppCompatActivity {
             //todo: notification
             return true;
         }else if (id == R.id.main_cart_icon) {
-           gotoFragment("My Cart",new MyCartFragment(),CART_FRAGMENT);
+
+            Dialog logInDialog = new Dialog(MainActivity.this);
+            logInDialog.setContentView(R.layout.log_in_dialog);
+            logInDialog.setCancelable(true);
+            logInDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            Button dialogLogInBtn = logInDialog.findViewById(R.id.login_btn);
+            Button dialogSignupBtn = logInDialog.findViewById(R.id.signup_btn);
+
+            // todo : loginintent = registeractivity
+            Intent loginIntent = new Intent(MainActivity.this,Login.class);
+
+
+
+            dialogLogInBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    logInDialog.dismiss();
+                    setSignupFragment = false;
+                    startActivity(loginIntent);
+                }
+            });
+
+
+            dialogSignupBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    logInDialog.dismiss();
+                    setSignupFragment = true;
+                    startActivity(loginIntent);
+                }
+            });
+
+            logInDialog.show();
+           //gotoFragment("My Cart",new MyCartFragment(),CART_FRAGMENT);
             return true;
         }
 
