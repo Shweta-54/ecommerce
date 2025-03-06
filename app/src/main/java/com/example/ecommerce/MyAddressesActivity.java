@@ -8,9 +8,16 @@ import androidx.appcompat.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MyAddressesActivity extends AppCompatActivity {
+
+    private RecyclerView myAddressesRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +30,24 @@ public class MyAddressesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("My Addresses");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        myAddressesRecyclerView = findViewById(R.id.addresses_recyclerview);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        myAddressesRecyclerView.setLayoutManager(layoutManager);
+
+        List<AddressesModel> addressesModelList = new ArrayList<>();
+        addressesModelList.add(new AddressesModel("Usha ","Parvat patiya","395010"));
+        addressesModelList.add(new AddressesModel("Eshika ","Parvat patiya","395010"));
+        addressesModelList.add(new AddressesModel("Shweta ","Parvat patiya","395010"));
+        addressesModelList.add(new AddressesModel("Dev ","Parvat patiya","395010"));
+        addressesModelList.add(new AddressesModel("Divya ","Parvat patiya","395010"));
+        addressesModelList.add(new AddressesModel("Shiv ","Parvat patiya","395010"));
+        addressesModelList.add(new AddressesModel("Mahakal ","Parvat patiya","395010"));
+
+        AddressesAdapter addressesAdapter = new AddressesAdapter(addressesModelList);
+        myAddressesRecyclerView.setAdapter(addressesAdapter);
+        addressesAdapter.notifyDataSetChanged();
     }
 
     @Override
