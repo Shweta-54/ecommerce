@@ -73,15 +73,15 @@ public class MyRewardsFragment extends Fragment {
         rewardsRecyclerView.setLayoutManager(layoutManager);
 
         List<RewardModel> rewardModelList = new ArrayList<>();
-        rewardModelList.add(new RewardModel("CashBack","till 2nd,June 2016","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
-        rewardModelList.add(new RewardModel("Discount","till 2nd,June 2016","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
-        rewardModelList.add(new RewardModel("Buy 1 Get 1 Free","till 2nd,June 2016","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
-        rewardModelList.add(new RewardModel("CashBack","till 2nd,June 2016","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
-        rewardModelList.add(new RewardModel("Discount","till 2nd,June 2016","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
-        rewardModelList.add(new RewardModel("Buy 1 Get 1 Free","till 2nd,June 2016","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
-        rewardModelList.add(new RewardModel("CashBack","till 2nd,June 2016","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
-        rewardModelList.add(new RewardModel("Discount","till 2nd,June 2016","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
-        rewardModelList.add(new RewardModel("Buy 1 Get 1 Free","till 2nd,June 2016","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
+        rewardModelList.add(new RewardModel("CashBack","till 2nd,June 2024","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
+        rewardModelList.add(new RewardModel("Discount","till 2nd,June 2024","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
+        rewardModelList.add(new RewardModel("Buy 1 Get 1 Free","till 2nd,June 2024","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
+        rewardModelList.add(new RewardModel("CashBack","till 2nd,June 2024","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
+        rewardModelList.add(new RewardModel("Discount","till 2nd,June 2024","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
+        rewardModelList.add(new RewardModel("Buy 1 Get 1 Free","till 2nd,June 2024","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
+        rewardModelList.add(new RewardModel("CashBack","till 2nd,June 2024","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
+        rewardModelList.add(new RewardModel("Discount","till 2nd,June 2024","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
+        rewardModelList.add(new RewardModel("Buy 1 Get 1 Free","till 2nd,June 2024","GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
 
         MyRewardsAdapter myRewardsAdapter = new MyRewardsAdapter(rewardModelList);
         rewardsRecyclerView.setAdapter(myRewardsAdapter);
