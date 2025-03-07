@@ -47,8 +47,8 @@ public class HomeFragment extends Fragment {
         categoryModelList.add(new CategoryModel("link","Testing"));
 
 
-        categoryRecyclerView.setAdapter(categoryAdapter);
         categoryAdapter = new CategoryAdapter(categoryModelList);
+        categoryRecyclerView.setAdapter(categoryAdapter);
         categoryAdapter.notifyDataSetChanged();
 
         ///////// Banner Slider

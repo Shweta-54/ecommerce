@@ -228,7 +228,7 @@ public class SignupTabFragment extends Fragment {
     }
     private void checkEmailAndPassword() {
 
-        Drawable customeErrorIcon = getResources().getDrawable(R.drawable.error_icon_foreground);
+        Drawable customeErrorIcon = getResources().getDrawable(R.drawable.alerticon);
         customeErrorIcon.setBounds(0,0,customeErrorIcon.getIntrinsicWidth(),customeErrorIcon.getIntrinsicHeight());
 
         if (email.getText().toString().matches(emailPattern)){
