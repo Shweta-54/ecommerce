@@ -35,10 +35,10 @@ public class MyOrdersFragment extends Fragment {
         myordersRecyclerView.setLayoutManager(layoutManager);
 
         List<MyOrderItemModel> myOrderItemModelList =  new ArrayList<>();
-        myOrderItemModelList.add(new MyOrderItemModel(R.drawable.baseline_phone_android_24,2,"Pixcel 2 (Black)","Deliverd on Mon,15th JAN 2013"));
-        myOrderItemModelList.add(new MyOrderItemModel(R.drawable.rice,1,"Pixcel 2 (Black)","Deliverd on Mon,15th JAN 2013"));
-        myOrderItemModelList.add(new MyOrderItemModel(R.drawable.baseline_phone_android_24,0,"Pixcel 2 (Black)","Cancelled"));
-        myOrderItemModelList.add(new MyOrderItemModel(R.drawable.rice,4,"Pixcel 2 (Black)","Deliverd on Mon,15th JAN 2013"));
+        myOrderItemModelList.add(new MyOrderItemModel(R.drawable.sh14,2,"Pixcel 2 (Black)","Deliverd on Mon,15th JAN 2013"));
+        myOrderItemModelList.add(new MyOrderItemModel(R.drawable.sh15,1,"Pixcel 2 (Black)","Deliverd on Mon,15th JAN 2013"));
+        myOrderItemModelList.add(new MyOrderItemModel(R.drawable.sh16,0,"Pixcel 2 (Black)","Cancelled"));
+        myOrderItemModelList.add(new MyOrderItemModel(R.drawable.sh17,4,"Pixcel 2 (Black)","Deliverd on Mon,15th JAN 2013"));
 
         MyOrderAdapter myOrderAdapter = new MyOrderAdapter(myOrderItemModelList);
         myordersRecyclerView.setAdapter(myOrderAdapter);
