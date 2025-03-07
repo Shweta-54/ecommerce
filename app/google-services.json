@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "67847153747",
-    "project_id": "shopique-2f865",
-    "storage_bucket": "shopique-2f865.firebasestorage.app"
+    "project_number": "347196716207",
+    "firebase_url": "https://sweatifyfitness-c0bd7-default-rtdb.firebaseio.com",
+    "project_id": "sweatifyfitness-c0bd7",
+    "storage_bucket": "sweatifyfitness-c0bd7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:67847153747:android:d1367ad6d56f79c5ab7ea6",
+        "mobilesdk_app_id": "1:347196716207:android:1cbbe50140b66f7fa4d05a",
         "android_client_info": {
           "package_name": "com.example.ecommerce"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAcd8UgjJ9rplOX3c0-OplDJ2IceF9M4Zs"
+          "current_key": "AIzaSyALDoeeGcok6rXJzr-z-wBdsqg_-E4_yec"
         }
       ],
       "services": {

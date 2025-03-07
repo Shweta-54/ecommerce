@@ -2,6 +2,7 @@
 agp = "8.7.3"
 androidAdvancedwebview = "v3.2.1"
 chipNavigationBarVersion = "1.4.0"
+circleimageview = "3.1.0"
 circleindicator = "2.1.6"
 compiler = "4.16.0"
 drawerlayout = "1.2.0"
@@ -28,9 +29,11 @@ lifecycleViewmodelKtx = "2.8.7"
 navigationFragment = "2.8.7"
 navigationUi = "2.8.7"
 gridlayout = "1.0.0"
+firebaseStorage = "21.0.1"
 
 [libraries]
 android-advancedwebview = { module = "com.github.delight-im:Android-AdvancedWebView", version.ref = "androidAdvancedwebview" }
+circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 circleindicator = { module = "me.relex:circleindicator", version.ref = "circleindicator" }
 drawerlayout = { module = "androidx.drawerlayout:drawerlayout", version.ref = "drawerlayout" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
@@ -59,6 +62,7 @@ lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-view
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
