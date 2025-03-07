@@ -53,36 +53,36 @@ public class HomeFragment extends Fragment {
 
         ///////// Banner Slider
         List<SliderModel> sliderModelList = new ArrayList<SliderModel>();
-        sliderModelList.add(new SliderModel(R.mipmap.green_email,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.error_icon,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.facebook,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.profile,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.google,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.green_email,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.profile,"#077AE4"));
-        sliderModelList.add(new SliderModel(R.mipmap.ic_launcher,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.drawable.sh,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.drawable.sh1,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.drawable.sh2,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.drawable.sh3,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.drawable.sh4,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.drawable.sh5,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.drawable.sh6,"#077AE4"));
+        sliderModelList.add(new SliderModel(R.drawable.sh7,"#077AE4"));
         ///////// Banner Slider
 
 
         ///////// Horizontal Product layout
 
         List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_phone_android_24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.ic_menu_camera,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_home_24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_email_24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_notifications_24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_star_24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_video_call_24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_phone_android_24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_phone_android_24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.ic_menu_camera,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_home_24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_email_24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_notifications_24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_star_24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_video_call_24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_phone_android_24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh14,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh15,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh16,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh17,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh18,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh19,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh20,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh21,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh22,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh23,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh24,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh25,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh26,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh27,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh28,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh28,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
 
         ///////// Horizontal Product layout
 
@@ -95,7 +95,7 @@ public class HomeFragment extends Fragment {
 
         List<HomePageModel> homePageModelList = new ArrayList<>();
         homePageModelList.add(new HomePageModel(0,sliderModelList));
-        homePageModelList.add(new HomePageModel(1,R.drawable.stripbanner,"#ff0000"));
+        homePageModelList.add(new HomePageModel(1,R.drawable.stripbanner,"#ffffff"));
         homePageModelList.add(new HomePageModel(2,"Deals of the Day!",horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(3,"Deals of the Day!",horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(1,R.drawable.banner,"#000000"));
