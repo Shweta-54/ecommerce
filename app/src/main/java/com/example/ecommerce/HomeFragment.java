@@ -98,10 +98,10 @@ public class HomeFragment extends Fragment {
         homePageModelList.add(new HomePageModel(1,R.drawable.stripbanner,"#ffffff"));
         homePageModelList.add(new HomePageModel(2,"Deals of the Day!",horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(3,"Deals of the Day!",horizontalProductScrollModelList));
-        homePageModelList.add(new HomePageModel(1,R.drawable.banner,"#000000"));
+        homePageModelList.add(new HomePageModel(1,R.drawable.banner,"#ffffff"));
         homePageModelList.add(new HomePageModel(3,"Deals of the Day!",horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(2,"Deals of the Day!",horizontalProductScrollModelList));
-        homePageModelList.add(new HomePageModel(1,R.drawable.stripbanner,"#ff0000"));
+        homePageModelList.add(new HomePageModel(1,R.drawable.stripbanner,"#ffffff"));
         homePageModelList.add(new HomePageModel(0,sliderModelList));
 
 
