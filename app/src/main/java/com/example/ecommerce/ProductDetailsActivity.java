@@ -58,10 +58,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
         BuyNowBtn = findViewById(R.id.buy_now_btn);
 
         List<Integer> productImages = new ArrayList<>();
-        productImages.add(R.drawable.rice);
-        productImages.add(R.drawable.atta);
-        productImages.add(R.drawable.grocery1);
-        productImages.add(R.drawable.grocery);
+        productImages.add(R.drawable.sh14);
+        productImages.add(R.drawable.sh15);
+        productImages.add(R.drawable.sh16);
+        productImages.add(R.drawable.sh17);
 
         ProductImagesAdapter productImagesAdapter = new ProductImagesAdapter(productImages);
         productImagesViewpager.setAdapter(productImagesAdapter);
