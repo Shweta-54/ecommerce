@@ -20,7 +20,7 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView categoryRecyclerView;
     private CategoryAdapter categoryAdapter;
-    private RecyclerView testing;
+    private RecyclerView homePageRecyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         categoryRecyclerView.setLayoutManager(layoutManager);
 
-       final List<CategoryModel> categoryModelList = new ArrayList<CategoryModel>();
+        final List<CategoryModel> categoryModelList = new ArrayList<CategoryModel>(); 
         categoryModelList.add(new CategoryModel("link","Home"));
         categoryModelList.add(new CategoryModel("link","Electronics"));
         categoryModelList.add(new CategoryModel("link","Appliances"));
@@ -52,9 +52,7 @@ public class HomeFragment extends Fragment {
         categoryAdapter.notifyDataSetChanged();
 
 
-
-
-  //      ///////// Horizontal Product layout
+        //      ///////// Horizontal Product layout
 //        List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
 //        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh14,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
 //        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh15,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
@@ -76,17 +74,16 @@ public class HomeFragment extends Fragment {
 
 
         //////////////// testing recyclerview
-        testing = view.findViewById(R.id.home_page_recyclerview);
+       homePageRecyclerView = view.findViewById(R.id.home_page_recyclerview);
         LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
         testingLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        testing.setLayoutManager(testingLayoutManager);
-
-        List<HomePageModel> homePageModelList = new ArrayList<>();
-
-
-
+        homePageRecyclerView.setLayoutManager(testingLayoutManager);
+       List<HomePageModel> homePageModelList = new ArrayList<>();
         HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
-        testing.setAdapter(adapter);
+        homePageRecyclerView.setAdapter(adapter);
+
+
+
         adapter.notifyDataSetChanged();
         //////////////// testing recyclerview
 
