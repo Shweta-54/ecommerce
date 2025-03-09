@@ -55,11 +55,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.viewHo
             categoryName = itemView.findViewById(R.id.category_name);
         }
 
-        private  void setCategoryIcon(String iconUrl){
-            if (!iconUrl.equals("null"))
-            Glide.with(itemView.getContext()).load(iconUrl).apply(new RequestOptions().placeholder(R.drawable.baseline_home_24)).into(categoryIcon);
+        private  void setCategoryIcon(String iconUrl) {
+            if (!iconUrl.equals("null")) {
+                Glide.with(itemView.getContext()).load(iconUrl).apply(new RequestOptions().placeholder(R.drawable.baseline_home_24)).into(categoryIcon);
+            }
         }
-
         private void setCategory(final String name, final int position){
             categoryName.setText(name);
             itemView.setOnClickListener(new View.OnClickListener() {
