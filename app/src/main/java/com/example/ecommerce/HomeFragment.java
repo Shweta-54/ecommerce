@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
         categoryAdapter.notifyDataSetChanged();
 
 
-        //      ///////// Horizontal Product layout sjdaskjhdakjskhdhask
+        //      ///////// Horizontal Product layout
 //        List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
 //        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh14,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
 //        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh15,"Redmi 5A","SD 625 Processor","Rs.5999/-"));
