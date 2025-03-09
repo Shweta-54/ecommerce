@@ -4,10 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +29,10 @@ public class HomeFragment extends Fragment {
     private RecyclerView categoryRecyclerView;
     private CategoryAdapter categoryAdapter;
     private RecyclerView testing;
+    private List<CategoryModel> categoryModelList;
+    private FirebaseFirestore firebaseFirestore;
 
-    @Override
+ @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -33,23 +43,31 @@ public class HomeFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         categoryRecyclerView.setLayoutManager(layoutManager);
 
-       final List<CategoryModel> categoryModelList = new ArrayList<CategoryModel>();
-        categoryModelList.add(new CategoryModel("link","Home"));
-        categoryModelList.add(new CategoryModel("link","Electronics"));
-        categoryModelList.add(new CategoryModel("link","Appliances"));
-        categoryModelList.add(new CategoryModel("link","Furniture"));
-        categoryModelList.add(new CategoryModel("link","Sports"));
-        categoryModelList.add(new CategoryModel("link","Fitness"));
-        categoryModelList.add(new CategoryModel("link","Women Art"));
-        categoryModelList.add(new CategoryModel("link","Men Art"));
-        categoryModelList.add(new CategoryModel("link","Books"));
-        categoryModelList.add(new CategoryModel("link","Shoes"));
-        categoryModelList.add(new CategoryModel("link","Testing"));
+        categoryModelList = new ArrayList<CategoryModel>();
+            categoryRecyclerView.setAdapter(categoryAdapter);
+            categoryAdapter = new CategoryAdapter(categoryModelList);
 
 
-        categoryRecyclerView.setAdapter(categoryAdapter);
-        categoryAdapter = new CategoryAdapter(categoryModelList);
-        categoryAdapter.notifyDataSetChanged();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore.collection("CATEGORIES").orderBy("index").get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                         @Override
+                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                               if (task.isSuccessful()){
+                                   for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                                      categoryModelList.add(new CategoryModel(documentSnapshot.get("icon").toString(),documentSnapshot.get("categoryName").toString()));
+                                   }
+                                categoryAdapter.notifyDataSetChanged();
+
+                               }else{
+                                String error = task.getException().getMessage();
+                                Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+                               }
+                         }
+                        });
+
+
+
 
         ///////// Banner Slider
         List<SliderModel> sliderModelList = new ArrayList<SliderModel>();
