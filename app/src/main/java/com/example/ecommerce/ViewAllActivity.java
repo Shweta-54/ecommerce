@@ -44,16 +44,16 @@ public class ViewAllActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(layoutManager);
 
             List<WishlistModel> wishlistModelList = new ArrayList<>();
-            wishlistModelList.add(new WishlistModel(R.drawable.baseline_phone_android_24, "Pixel 2", 1, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.baseline_phone_android_24, "Pixel 2", 0, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.baseline_phone_android_24, "Pixel 2", 2, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.baseline_phone_android_24, "Pixel 2", 4, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.baseline_phone_android_24, "Pixel 2", 1, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.baseline_phone_android_24, "Pixel 2", 1, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.baseline_phone_android_24, "Pixel 2", 0, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.baseline_phone_android_24, "Pixel 2", 2, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.baseline_phone_android_24, "Pixel 2", 4, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.baseline_phone_android_24, "Pixel 2", 1, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.sh14, "Pixel 2", 1, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.sh15, "Pixel 2", 0, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.sh16, "Pixel 2", 2, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.sh17, "Pixel 2", 4, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.sh18, "Pixel 2", 1, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.sh19, "Pixel 2", 1, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.sh20, "Pixel 2", 0, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.sh21, "Pixel 2", 2, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.sh22, "Pixel 2", 4, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.sh23, "Pixel 2", 1, "3", 145, "Rs.49999/-", "59999/-", "Cash on delivery"));
 
 
             WishlistAdapter adapter = new WishlistAdapter(wishlistModelList, false);
@@ -65,22 +65,22 @@ public class ViewAllActivity extends AppCompatActivity {
             gridView.setVisibility(View.VISIBLE);
 
             List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_phone_android_24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.ic_menu_camera, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_home_24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_email_24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_notifications_24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_star_24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_video_call_24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_phone_android_24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_phone_android_24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.ic_menu_camera, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_home_24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_email_24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_notifications_24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_star_24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_video_call_24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.baseline_phone_android_24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh14, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh15, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh16, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh17, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh18, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh19, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh20, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh21, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh22, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh23, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh24, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh16, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh18, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh21, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh15, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
+            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.sh14, "Redmi 5A", "SD 625 Processor", "Rs.5999/-"));
 
 
             GridProductLayoutAdapter gridProductLayoutAdapter = new GridProductLayoutAdapter(horizontalProductScrollModelList);
