@@ -20,6 +20,8 @@ material = "1.12.0"
 activity = "1.10.0"
 constraintlayout = "2.2.0"
 materialsearchbar = "0.8.5"
+playServicesAuth = "21.3.0"
+playServicesBase = "18.5.0"
 roundedimageview = "2.3.0"
 tinycart = "1.0.1"
 volley = "1.2.1"
@@ -53,6 +55,8 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 materialsearchbar = { module = "com.github.mancj:MaterialSearchBar", version.ref = "materialsearchbar" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
+play-services-base = { module = "com.google.android.gms:play-services-base", version.ref = "playServicesBase" }
 roundedimageview = { module = "com.makeramen:roundedimageview", version.ref = "roundedimageview" }
 tinycart = { module = "com.github.hishd:TinyCart", version.ref = "tinycart" }
 volley = { module = "com.android.volley:volley", version.ref = "volley" }
