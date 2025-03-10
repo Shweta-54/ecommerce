@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_home, container, false);
+        View view =  inflater.inflate(R.    layout.fragment_home, container, false);
 
         categoryRecyclerView = view.findViewById(R.id.category_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -45,8 +45,8 @@ public class HomeFragment extends Fragment {
         categoryRecyclerView.setLayoutManager(layoutManager);
 
         categoryModelList = new ArrayList<CategoryModel>();
-            categoryRecyclerView.setAdapter(categoryAdapter);
-            categoryAdapter = new CategoryAdapter(categoryModelList);
+        categoryAdapter = new CategoryAdapter(categoryModelList);
+        categoryRecyclerView.setAdapter(categoryAdapter);
 
 
         firebaseFirestore = FirebaseFirestore.getInstance();
