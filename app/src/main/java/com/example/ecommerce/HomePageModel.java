@@ -39,6 +39,7 @@ public class HomePageModel {
     public HomePageModel(int type, String  resource, String backgroundColor) {
         this.type = type;
         this.resource = resource;
+        this.backgroundColor = backgroundColor; //yaha error thi.
 
     }
 

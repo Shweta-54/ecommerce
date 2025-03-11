@@ -249,6 +249,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         private TextView horizontalLayoutTitle;
         private Button horizontalLayoutviewAllBtn;
         private RecyclerView horizontalRecyclerView;
+
         public HorizontalProductViewholder(@NonNull View itemView) {
             super(itemView);
             container = itemView.findViewById(R.id.container);

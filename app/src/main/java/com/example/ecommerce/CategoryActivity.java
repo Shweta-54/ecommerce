@@ -16,7 +16,6 @@ public class CategoryActivity extends AppCompatActivity {
 
 
     private RecyclerView categoryRecyclerView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
