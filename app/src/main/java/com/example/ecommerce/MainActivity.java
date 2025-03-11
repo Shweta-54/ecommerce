@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     private FrameLayout frameLayout;
     private int currentFragment = -1;
     private TextView actionbarlogo;
@@ -63,23 +64,19 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         actionbarlogo = findViewById(R.id.actionbar_logo);
         frameLayout = findViewById(R.id.main_framlayout);
 
+
+
+
         window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-
         drawerLayout = binding.drawerLayout;
         navigationView = binding.navView;
-
-
         toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -90,15 +87,17 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
         navigationView.getMenu().getItem(0).setChecked(true);
 
-        // ✅ Set default fragment
+
         if (savedInstanceState == null)
-            if (showCart){
+            if (showCart) {
                 drawerLayout.setDrawerLockMode(1);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                 gotoFragment("My Cart",new MyCartFragment(), -2);
-            }else {
-            setFragment(new HomeFragment(), HOME_FRAGMENT);
-        }
+                gotoFragment("My Cart", new MyCartFragment(), -2);
+            } else {
+                setFragment(new HomeFragment(), HOME_FRAGMENT);
+            }
+
+
 
     }
 
