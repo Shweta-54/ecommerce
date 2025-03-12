@@ -20,13 +20,15 @@
 
     <TextView
         android:id="@+id/product_title1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="Pixel 2"
-        android:textSize="16sp"
         android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/product_image1"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -125,9 +127,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:gravity="center"
         android:text="Cash on delivery available"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/cutted_pricess"
+        app:layout_constraintEnd_toEndOf="@+id/cutted_pricess"
+        app:layout_constraintStart_toStartOf="@+id/product_price1"
         app:layout_constraintTop_toBottomOf="@+id/cutted_pricess" />
 
     <ImageButton

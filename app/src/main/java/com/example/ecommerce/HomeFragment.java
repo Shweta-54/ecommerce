@@ -1,9 +1,10 @@
 package com.example.ecommerce;
 
 import static com.example.ecommerce.DBqueries.categoryModelList;
-import static com.example.ecommerce.DBqueries.homePageModelList;
+import static com.example.ecommerce.DBqueries.lists;
 import static com.example.ecommerce.DBqueries.loadCategories;
 import static com.example.ecommerce.DBqueries.loadFragmentData;
+import static com.example.ecommerce.DBqueries.loadedCategoriesNames;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -19,6 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
@@ -92,14 +95,20 @@ public class HomeFragment extends Fragment {
          LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
          testingLayoutManager.setOrientation(RecyclerView.VERTICAL);
          homePageRecyclerView.setLayoutManager(testingLayoutManager);
-         adapter = new HomePageAdapter(homePageModelList);
-         homePageRecyclerView.setAdapter(adapter);
 
-         if (homePageModelList.size() ==  0){
-             loadFragmentData(adapter,getContext());
+
+         if (lists.size() ==  0){
+             loadedCategoriesNames.add("Home");
+             lists.add(new ArrayList<HomePageModel>());
+             adapter = new HomePageAdapter(lists.get(0));
+             loadFragmentData(adapter,getContext(),0,"Home");
+
          }else {
-             categoryAdapter.notifyDataSetChanged();
+             adapter = new HomePageAdapter(lists.get(0));
+             adapter.notifyDataSetChanged();
          }
+
+         homePageRecyclerView.setAdapter(adapter);
      }else {
          Glide.with(this).load(R.drawable.nointernetconnection).into(noInternetConnection);
          noInternetConnection.setVisibility(View.VISIBLE);
