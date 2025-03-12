@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,6 +16,8 @@ public class ProductSpecificationFragment extends Fragment {
 
 
     private RecyclerView productspecificationrecyclerview;
+    public List<ProductSpecificationModel> productSpecificationModelList;
+
 
     public ProductSpecificationFragment() {
         // Required empty public constructor
@@ -34,33 +35,33 @@ public class ProductSpecificationFragment extends Fragment {
 
         productspecificationrecyclerview.setLayoutManager(linearLayoutManager);
 
-        List<ProductSpecificationModel> productSpecificationModelList = new ArrayList<>();
-        productSpecificationModelList.add(new ProductSpecificationModel(0,"General"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(0,"Display"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(0,"General"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(0,"Display"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+
+//        productSpecificationModelList.add(new ProductSpecificationModel(0,"General"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(0,"Display"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(0,"General"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(0,"Display"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"RAM","4GB"));
 
 
 
