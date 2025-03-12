@@ -1,5 +1,9 @@
 package com.example.ecommerce;
 
+import static com.example.ecommerce.DBqueries.lists;
+import static com.example.ecommerce.DBqueries.loadFragmentData;
+import static com.example.ecommerce.DBqueries.loadedCategoriesNames;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +20,7 @@ public class CategoryActivity extends AppCompatActivity {
 
 
     private RecyclerView categoryRecyclerView;
+    private HomePageAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +38,23 @@ public class CategoryActivity extends AppCompatActivity {
         LinearLayoutManager testingLayoutManager = new LinearLayoutManager(this);
         testingLayoutManager.setOrientation(RecyclerView.VERTICAL);
         categoryRecyclerView.setLayoutManager(testingLayoutManager);
+        HomePageAdapter adapter;
+        int listPosition = 0;
+        for (int x = 0; x < loadedCategoriesNames.size();x++){
+            if (loadedCategoriesNames.get(x).equals(title.toUpperCase())){
+                listPosition = x;
+            }
+        }
+        if (listPosition == 0){
+            loadedCategoriesNames.add(title.toUpperCase());
+            lists.add(new ArrayList<HomePageModel>());
+            adapter = new HomePageAdapter(lists.get(loadedCategoriesNames.size() -1));
+            loadFragmentData(adapter,this,loadedCategoriesNames.size() -1,title);
+        }else {
+            adapter = new HomePageAdapter(lists.get(listPosition));
+        }
 
-        List<HomePageModel> homePageModelList = new ArrayList<>();
 
-
-        HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
         categoryRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
