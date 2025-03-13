@@ -1,5 +1,6 @@
 package com.example.ecommerce;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,9 +22,8 @@ public class MyCartFragment extends Fragment {
     public MyCartFragment() {
         // Required empty public constructor
     }
-    private RecyclerView cartItemsRecyclerView;
-    private Button continueBtn;
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -31,8 +31,8 @@ public class MyCartFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_cart, container, false);
 
 
-        cartItemsRecyclerView = view.findViewById(R.id.cart_items_recyclerview);
-        continueBtn = view.findViewById(R.id.cart_continue_btn);
+        RecyclerView cartItemsRecyclerView = view.findViewById(R.id.cart_items_recyclerview);
+        Button continueBtn = view.findViewById(R.id.cart_continue_btn);
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -50,12 +50,9 @@ public class MyCartFragment extends Fragment {
         cartItemsRecyclerView.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
 
-        continueBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent  deliverIntent = new Intent(getContext(), AddAddressActivity.class);
-                getContext().startActivity(deliverIntent);
-            }
+        continueBtn.setOnClickListener(v -> {
+            Intent  deliverIntent = new Intent(getContext(), AddAddressActivity.class);
+            requireContext().startActivity(deliverIntent);
         });
         return view;
     }

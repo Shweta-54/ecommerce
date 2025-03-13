@@ -36,7 +36,7 @@ public class productDetailsAdapter extends FragmentPagerAdapter {
                     return productSpecificationFragment;
             case 2:
                 ProductDescriptionFragment productDescriptionFragmentnt2 = new ProductDescriptionFragment();
-                productDescriptionFragmentnt2.body = productDescription;
+                productDescriptionFragmentnt2.body = productOtherDetails; //yaha error thi
                 return productDescriptionFragmentnt2;
             default:
                 return null;

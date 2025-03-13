@@ -24,10 +24,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
 
 public class LoginTabFragment extends Fragment {
 
@@ -45,7 +44,6 @@ public class LoginTabFragment extends Fragment {
     private EditText password;
     private Button  loginBtn;
     private ProgressBar progressBar;
-    private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
 
     private FirebaseAuth firebaseAuth;
     @Nullable
@@ -61,7 +59,7 @@ public class LoginTabFragment extends Fragment {
         forgotpassword = view.findViewById(R.id.forgetpass);
         loginBtn = view.findViewById(R.id.btnLogin);
         dontHaveAnAccount = view.findViewById(R.id.donthaveanaccount);
-        parentFrameLayout = getActivity().findViewById(R.id.login_framelayout);
+        parentFrameLayout = requireActivity().findViewById(R.id.login_framelayout);
         progressBar = view.findViewById(R.id.loginpprogressbar);
         loginclosebtn = view.findViewById(R.id.loginclosebtn);
         email.setTranslationY(300);
@@ -87,26 +85,13 @@ public class LoginTabFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        dontHaveAnAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setFragment(new SignupTabFragment());
-            }
-        });
-        loginclosebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainIntent();
-            }
-        });
+        dontHaveAnAccount.setOnClickListener(v -> setFragment(new SignupTabFragment()));
+        loginclosebtn.setOnClickListener(v -> mainIntent());
 
-        forgotpassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onResetPasswordFragment = true;
-                setFragment(new ResetPasswordFragment());
+        forgotpassword.setOnClickListener(view1 -> {
+            onResetPasswordFragment = true;
+            setFragment(new ResetPasswordFragment());
 
-            }
         });
         email.addTextChangedListener(new TextWatcher() {
             @Override
@@ -140,16 +125,11 @@ public class LoginTabFragment extends Fragment {
 
             }
         });
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkEmailAndPassword();
-            }
-        });
+        loginBtn.setOnClickListener(view2 -> checkEmailAndPassword());
     }
 
     private void setFragment(Fragment fragment){
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.slide_from_right,R.anim.slideout_from_left);
         fragmentTransaction.replace(parentFrameLayout.getId(),fragment);
         fragmentTransaction.commit();
@@ -170,26 +150,24 @@ public class LoginTabFragment extends Fragment {
     }
 
     private void checkEmailAndPassword(){
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
         if (email.getText().toString().matches(emailPattern)){
                  if (password.length() >=8) {
                      progressBar.setVisibility(View.VISIBLE);
                      loginBtn.setEnabled(true);
                      loginBtn.setTextColor(Color.argb(50,255,255,255));
                       firebaseAuth.signInWithEmailAndPassword(email.getText().toString(),password.getText().toString())
-                              .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                  @Override
-                                  public void onComplete(@NonNull Task<AuthResult> task) {
-                                      if (task.isSuccessful()) {
-                                          mainIntent();
-                                      }else{
-                                          progressBar.setVisibility(View.INVISIBLE);
-                                          loginBtn.setEnabled(true);
-                                          loginBtn.setTextColor(Color.rgb(255,255,255));
-                                          String error = task.getException().getMessage();
-                                          Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
-                                      }
-
+                              .addOnCompleteListener(task -> {
+                                  if (task.isSuccessful()) {
+                                      mainIntent();
+                                  }else{
+                                      progressBar.setVisibility(View.INVISIBLE);
+                                      loginBtn.setEnabled(true);
+                                      loginBtn.setTextColor(Color.rgb(255,255,255));
+                                      String error = Objects.requireNonNull(task.getException()).getMessage();
+                                      Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
                                   }
+
                               });
                  }else {
                      Toast.makeText(getActivity(), "Incorrect email or password", Toast.LENGTH_SHORT).show();
@@ -202,6 +180,6 @@ public class LoginTabFragment extends Fragment {
     private void mainIntent(){
         Intent mainIntent = new Intent(getActivity(),MainActivity.class);
         startActivity(mainIntent);
-        getActivity().finish();
+        requireActivity().finish();
     }
 }

@@ -16,7 +16,6 @@ public class MyAccountFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private Button viewAllAddressBtn;
     public static final int MANAGE_ADDRESS = 1;
 
     @Override
@@ -25,14 +24,11 @@ public class MyAccountFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_my_account, container, false);
 
-        viewAllAddressBtn = view.findViewById(R.id.view_all_addresses_btn);
-        viewAllAddressBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myAddressesIntent = new Intent(getContext(), MyAddressesActivity.class);
-                myAddressesIntent.putExtra("MODE",MANAGE_ADDRESS);
-                startActivity(myAddressesIntent);
-            }
+        Button viewAllAddressBtn = view.findViewById(R.id.view_all_addresses_btn);
+        viewAllAddressBtn.setOnClickListener(v -> {
+            Intent myAddressesIntent = new Intent(getContext(), MyAddressesActivity.class);
+            myAddressesIntent.putExtra("MODE",MANAGE_ADDRESS);
+            startActivity(myAddressesIntent);
         });
 
         return view;

@@ -18,8 +18,8 @@ import java.util.List;
 
 public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.Viewholder> {
 
-    private List<AddressesModel> addressesModelList;
-    private int MODE;
+    private final List<AddressesModel> addressesModelList;
+    private final int MODE;
     private int preSelectedPosition = -1;
 
     public AddressesAdapter(List<AddressesModel> addressesModelList,int MODE) {
@@ -52,11 +52,11 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
 
     public class Viewholder extends RecyclerView.ViewHolder{
 
-        private TextView fullname;
-        private TextView address;
-        private TextView pincode;
-        private ImageView icon;
-        private LinearLayout optionContainer;
+        private final TextView fullname;
+        private final TextView address;
+        private final TextView pincode;
+        private final ImageView icon;
+        private final LinearLayout optionContainer;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -80,35 +80,26 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
                 }else {
                     icon.setVisibility(View.GONE);
                 }
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (preSelectedPosition != position) {
-                            addressesModelList.get(position).setSelected(true);
-                            addressesModelList.get(preSelectedPosition).setSelected(false);
-                            refreshItem(preSelectedPosition, position);
-                            preSelectedPosition = position;
-                        }
+                itemView.setOnClickListener(v -> {
+                    if (preSelectedPosition != position) {
+                        addressesModelList.get(position).setSelected(true);
+                        addressesModelList.get(preSelectedPosition).setSelected(false);
+                        refreshItem(preSelectedPosition, position);
+                        preSelectedPosition = position;
                     }
                 });
 
             } else if (MODE == MANAGE_ADDRESS) {
                 optionContainer.setVisibility(View.GONE);
                 icon.setImageResource(R.drawable.baseline_more_vert_24);
-                icon.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        optionContainer.setVisibility(View.VISIBLE);
-                        refreshItem(preSelectedPosition,preSelectedPosition);
-                        preSelectedPosition = position;
-                    }
+                icon.setOnClickListener(v -> {
+                    optionContainer.setVisibility(View.VISIBLE);
+                    refreshItem(preSelectedPosition,preSelectedPosition);
+                    preSelectedPosition = position;
                 });
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        refreshItem(preSelectedPosition,preSelectedPosition);
-                        preSelectedPosition = -1;
-                    }
+                itemView.setOnClickListener(v -> {
+                    refreshItem(preSelectedPosition,preSelectedPosition);
+                    preSelectedPosition = -1;
                 });
             }
 

@@ -15,9 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/** @noinspection ALL*/
 public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewholder>{
 
-    private List<MyOrderItemModel> myOrderItemModelList;
+    private final List<MyOrderItemModel> myOrderItemModelList;
 
     public MyOrderAdapter(List<MyOrderItemModel> myOrderItemModelList) {
         this.myOrderItemModelList = myOrderItemModelList;

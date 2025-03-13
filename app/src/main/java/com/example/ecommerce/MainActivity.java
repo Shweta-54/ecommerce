@@ -28,12 +28,13 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.ecommerce.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Objects;
+
+/** @noinspection ALL*/
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private ActionBarDrawerToggle toggle;
 
     private static final int HOME_FRAGMENT = 0;
     private static final int CART_FRAGMENT = 1;
@@ -62,11 +63,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        com.example.ecommerce.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         actionbarlogo = findViewById(R.id.actionbar_logo);
         frameLayout = findViewById(R.id.main_framlayout);
 
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         drawerLayout = binding.drawerLayout;
         navigationView = binding.navView;
-        toggle = new ActionBarDrawerToggle(
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);

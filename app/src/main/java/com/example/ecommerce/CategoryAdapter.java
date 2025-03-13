@@ -18,7 +18,7 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.viewHolder> {
 
-    private List<CategoryModel> categoryModelList;
+    private final List<CategoryModel> categoryModelList;
 
     public CategoryAdapter(List<CategoryModel> categoryModelList) {
         this.categoryModelList = categoryModelList;
@@ -44,10 +44,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.viewHo
     public int getItemCount() {
         return categoryModelList.size();
     }
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public static class viewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView categoryIcon;
-        private TextView categoryName;
+        private final ImageView categoryIcon;
+        private final TextView categoryName;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,14 +63,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.viewHo
 
         private void setCategory(final String name, final int position){
             categoryName.setText(name);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (position != 0) {
-                        Intent categoryIntent = new Intent(itemView.getContext(), CategoryActivity.class);
-                        categoryIntent.putExtra("CategoryName", name);
-                        itemView.getContext().startActivity(categoryIntent);
-                    }
+            itemView.setOnClickListener(v -> {
+                if (position != 0) {
+                    Intent categoryIntent = new Intent(itemView.getContext(), CategoryActivity.class);
+                    categoryIntent.putExtra("CategoryName", name);
+                    itemView.getContext().startActivity(categoryIntent);
                 }
             });
         }

@@ -1,5 +1,6 @@
 package com.example.ecommerce;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,16 +21,15 @@ public class MyOrdersFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private RecyclerView myordersRecyclerView;
 
-
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_orders, container, false);
 
-        myordersRecyclerView = view.findViewById(R.id.my_orders_recyclerview);
+        RecyclerView myordersRecyclerView = view.findViewById(R.id.my_orders_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         myordersRecyclerView.setLayoutManager(layoutManager);

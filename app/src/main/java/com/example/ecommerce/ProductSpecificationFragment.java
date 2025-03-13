@@ -1,5 +1,6 @@
 package com.example.ecommerce;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,20 +16,20 @@ import java.util.List;
 public class ProductSpecificationFragment extends Fragment {
 
 
-    private RecyclerView productspecificationrecyclerview;
-    public List<ProductSpecificationModel> productSpecificationModelList;
+    public List<ProductSpecificationModel> productSpecificationModelList; // yaha doubt = new ArrayList<>() aisa hona chahiye may be
 
 
     public ProductSpecificationFragment() {
         // Required empty public constructor
     }
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_product_specification, container, false);
 
-        productspecificationrecyclerview = view.findViewById(R.id.product_specification_recyclerview);
+        RecyclerView productspecificationrecyclerview = view.findViewById(R.id.product_specification_recyclerview);
 
         LinearLayoutManager linearLayoutManager =  new LinearLayoutManager(view.getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

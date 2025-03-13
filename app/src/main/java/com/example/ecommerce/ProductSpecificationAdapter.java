@@ -15,9 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/** @noinspection ALL*/
 public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpecificationAdapter.ViewHolder> {
 
-    private List<ProductSpecificationModel> productSpecificationModelList;
+    private final List<ProductSpecificationModel> productSpecificationModelList;
 
     public ProductSpecificationAdapter(List<ProductSpecificationModel> productSpecificationModelList) {
         this.productSpecificationModelList = productSpecificationModelList;
@@ -25,15 +26,11 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
 
     @Override
     public int getItemViewType(int position) {
-        switch (productSpecificationModelList.get(position).getType()) {
-            case 0:
-                return ProductSpecificationModel.SPECIFICATION_TITLE;
-            case 1:
-                return ProductSpecificationModel.SPECIFICATION_BODY;
-            default:
-                return -1;
-
-        }
+        return switch (productSpecificationModelList.get(position).getType()) {
+            case 0 -> ProductSpecificationModel.SPECIFICATION_TITLE;
+            case 1 -> ProductSpecificationModel.SPECIFICATION_BODY;
+            default -> -1;
+        };
     }
 
     @NonNull

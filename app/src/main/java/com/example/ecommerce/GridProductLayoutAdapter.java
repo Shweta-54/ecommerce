@@ -1,6 +1,7 @@
 
 package com.example.ecommerce;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ public class GridProductLayoutAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint({"InflateParams", "SetTextI18n"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view;
@@ -46,12 +48,9 @@ public class GridProductLayoutAdapter extends BaseAdapter {
             view.setElevation(0);
             view.setBackgroundColor(Color.parseColor("#ffffff"));
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent productDetailsIntent = new Intent(parent.getContext(),ProductDetailsActivity.class);
-                    parent.getContext().startActivity(productDetailsIntent);
-                }
+            view.setOnClickListener(view1 -> {
+                Intent productDetailsIntent = new Intent(parent.getContext(),ProductDetailsActivity.class);
+                parent.getContext().startActivity(productDetailsIntent);
             });
 
 

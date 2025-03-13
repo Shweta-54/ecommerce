@@ -4,23 +4,25 @@ import static com.example.ecommerce.DBqueries.lists;
 import static com.example.ecommerce.DBqueries.loadFragmentData;
 import static com.example.ecommerce.DBqueries.loadedCategoriesNames;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import androidx.appcompat.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 public class CategoryActivity extends AppCompatActivity {
 
 
-    private RecyclerView categoryRecyclerView;
     private HomePageAdapter adapter;
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +32,10 @@ public class CategoryActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         String title = getIntent().getStringExtra("CategoryName");
-        getSupportActionBar().setTitle(title);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        categoryRecyclerView = findViewById(R.id.category_recyclerview);
+        RecyclerView categoryRecyclerView = findViewById(R.id.category_recyclerview);
         //////////////// testing recyclerview
         LinearLayoutManager testingLayoutManager = new LinearLayoutManager(this);
         testingLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -41,13 +43,13 @@ public class CategoryActivity extends AppCompatActivity {
         HomePageAdapter adapter;
         int listPosition = 0;
         for (int x = 0; x < loadedCategoriesNames.size();x++){
-            if (loadedCategoriesNames.get(x).equals(title.toUpperCase())){
+            if (loadedCategoriesNames.get(x).equals(Objects.requireNonNull(title).toUpperCase())){
                 listPosition = x;
             }
         }
         if (listPosition == 0){
-            loadedCategoriesNames.add(title.toUpperCase());
-            lists.add(new ArrayList<HomePageModel>());
+            loadedCategoriesNames.add(Objects.requireNonNull(title).toUpperCase());
+            lists.add(new ArrayList<>());
             adapter = new HomePageAdapter(lists.get(loadedCategoriesNames.size() -1));
             loadFragmentData(adapter,this,loadedCategoriesNames.size() -1,title);
         }else {

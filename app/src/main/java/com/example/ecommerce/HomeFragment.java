@@ -6,6 +6,7 @@ import static com.example.ecommerce.DBqueries.loadCategories;
 import static com.example.ecommerce.DBqueries.loadFragmentData;
 import static com.example.ecommerce.DBqueries.loadedCategoriesNames;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -23,41 +24,37 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+/** @noinspection ALL*/
 public class HomeFragment extends Fragment {
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
-    private RecyclerView categoryRecyclerView;
-    private CategoryAdapter categoryAdapter;
-    private RecyclerView homePageRecyclerView ;
-    private HomePageAdapter adapter;
-    private ImageView noInternetConnection;
 
-
- @Override
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
-        noInternetConnection = view.findViewById(R.id.no_internet_connection);
+        ImageView noInternetConnection = view.findViewById(R.id.no_internet_connection);
 
-     ConnectivityManager connectivityManager = (ConnectivityManager)  getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+     ConnectivityManager connectivityManager = (ConnectivityManager)  requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
      NetworkInfo networkInfo =  connectivityManager.getActiveNetworkInfo();
-     if (networkInfo != null && networkInfo.isConnected() == true) {
+     if (networkInfo != null && networkInfo.isConnected()) {
          noInternetConnection.setVisibility(View.GONE);
 
-         categoryRecyclerView = view.findViewById(R.id.category_recyclerview);
+         RecyclerView categoryRecyclerView = view.findViewById(R.id.category_recyclerview);
          LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
          layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
          categoryRecyclerView.setLayoutManager(layoutManager);
 
 
-         categoryAdapter = new CategoryAdapter(categoryModelList);
+         CategoryAdapter categoryAdapter = new CategoryAdapter(categoryModelList);
          categoryRecyclerView.setAdapter(categoryAdapter);
 
-         if (categoryModelList.size() ==  0){
+         if (categoryModelList.isEmpty()){
              loadCategories(categoryAdapter,getContext());
          }else {
              categoryAdapter.notifyDataSetChanged();
@@ -91,15 +88,16 @@ public class HomeFragment extends Fragment {
 
 
          //////////////// testing recyclerview
-         homePageRecyclerView = view.findViewById(R.id.home_page_recyclerview);
+         RecyclerView homePageRecyclerView = view.findViewById(R.id.home_page_recyclerview);
          LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
          testingLayoutManager.setOrientation(RecyclerView.VERTICAL);
          homePageRecyclerView.setLayoutManager(testingLayoutManager);
 
 
-         if (lists.size() ==  0){
+         HomePageAdapter adapter;
+         if (lists.isEmpty()){
              loadedCategoriesNames.add("Home");
-             lists.add(new ArrayList<HomePageModel>());
+             lists.add(new ArrayList<>());
              adapter = new HomePageAdapter(lists.get(0));
              loadFragmentData(adapter,getContext(),0,"Home");
 

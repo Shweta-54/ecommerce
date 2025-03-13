@@ -35,7 +35,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+/** @noinspection ALL*/
 public class ProductDetailsActivity extends AppCompatActivity {
 
     private ViewPager productImagesViewpager;
@@ -99,7 +101,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         productImagesViewpager = findViewById(R.id.product_images_viewpager);
@@ -131,7 +133,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
 
         firebaseFirestore = FirebaseFirestore.getInstance();
-        final List<String> productImages = new ArrayList<>();
+       List<String> productImages = new ArrayList<>();
 
         firebaseFirestore.collection("PRODUCTS").document("Z1okH8voPkFtiTNAsjWz")
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -140,8 +142,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
                         if (task.isSuccessful()){
                             DocumentSnapshot documentSnapshot = task.getResult();
-
-                            for (long x = 1;x < (long)documentSnapshot.get("no_of_product_images") + 1;x++){
+                             for (long x = 1;x < (long)documentSnapshot.get("no_of_product_images") + 1;x++){
                                 productImages.add(documentSnapshot.get("product_image_"+x).toString());
                             }
                             ProductImagesAdapter productImagesAdapter = new ProductImagesAdapter(productImages);
@@ -170,7 +171,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
                                 productOtherDetails = documentSnapshot.get("product_other_details").toString();
 
-                                for (long x = 1;x < (long) documentSnapshot.get("total_spec_titles")+1; x++){
+                                for (long x = 1;x < (long) documentSnapshot.get("total_spec_titles")+1;x++){
                                    productSpecificationModelList.add(new ProductSpecificationModel(0,documentSnapshot.get("spec_title_"+x).toString()));
                                     for (long y = 1; y < (long) documentSnapshot.get("spec_title_"+x+"_total_fields")+1;y++){
                                         productSpecificationModelList.add(new ProductSpecificationModel(1,documentSnapshot.get("spec_title_"+x+ "_field_"+y+"_name").toString(),documentSnapshot.get("spec_title_"+x+ "_field_"+y+"_value").toString()));
@@ -186,21 +187,18 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
                             totalRatings.setText((long)documentSnapshot.get("total_ratings")+"ratings");
 
-                            for (int x = 0; x < 5; x++){
+                            for (int x = 0; x < 5;x++){
                                 TextView rating = (TextView) ratingsNoContainer.getChildAt(x);
-                                rating.setText(String.valueOf((long) documentSnapshot.get((5-x) +"_star")));
+                                rating.setText(String.valueOf((long) documentSnapshot.get(5-x+"_star")));
 
                                 ProgressBar progressBar = (ProgressBar) ratingsProgressBarContainer.getChildAt(x);
                                   int maxProgress = Integer.parseInt(String.valueOf((long)documentSnapshot.get("total_ratings")));
                                 progressBar.setMax(maxProgress);
-                                progressBar.setProgress(Integer.parseInt(String.valueOf((long) documentSnapshot.get((5  -x) +"_star"))));
+                                progressBar.setProgress(Integer.parseInt(String.valueOf((long) documentSnapshot.get((5-x) +"_star"))));
                             }
-
-
                             totalRatingsFigure.setText(String.valueOf((long)documentSnapshot.get("total_ratings")));
                             averageRating.setText(documentSnapshot.get("average_rating").toString());
                             productDetailsViewpager.setAdapter(new productDetailsAdapter(getSupportFragmentManager(), productDetailsTablayout.getTabCount(),productDescription,productOtherDetails,productSpecificationModelList));
-
 
                         }else {
                             String error = task.getException().getMessage();

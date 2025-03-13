@@ -14,7 +14,7 @@ import java.util.List;
 
 public class  ProductImagesAdapter extends PagerAdapter {
 
-    private List<String> productImages;
+    private final List<String> productImages;
 
     public ProductImagesAdapter(List<String> productImages) {
         this.productImages = productImages;
