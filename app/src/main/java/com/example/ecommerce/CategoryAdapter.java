@@ -47,7 +47,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.viewHo
         }
 
     }
-
+//usha
     @Override
     public int getItemCount() {
         return categoryModelList.size();
