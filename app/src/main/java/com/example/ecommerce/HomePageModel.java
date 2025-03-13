@@ -73,7 +73,6 @@ public class HomePageModel {
         this.title = title;
         this.backgroundColor = backgroundColor;
         this.horizontalProductScrollModelList = horizontalProductScrollModelList;
-        this.viewAllProductList = viewAllProductList;
     }
 
     public List<WishlistModel> getViewAllProductList() {
@@ -92,7 +91,6 @@ public class HomePageModel {
         this.title = title;
         this.backgroundColor = backgroundColor;
         this.horizontalProductScrollModelList = horizontalProductScrollModelList;
-
     }
     ///////// Gird Product layout
 
