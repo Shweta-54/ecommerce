@@ -16,6 +16,7 @@ public class ProductDescriptionFragment extends Fragment {
         // Required empty public constructor
     }
 
+    private TextView descriptionBody;
     public String body;
 
     @Override
@@ -23,8 +24,8 @@ public class ProductDescriptionFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_product_description, container, false);
-        TextView descriptionBody = view.findViewById(R.id.tv_product_description);
-        descriptionBody.setText(body);
+        descriptionBody = view.findViewById(R.id.tv_product_description);
+       descriptionBody.setText(body);
         return  view;
     }
 }

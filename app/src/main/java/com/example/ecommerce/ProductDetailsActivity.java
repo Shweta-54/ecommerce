@@ -52,7 +52,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private Button coupenRedeemBtn;
     private static boolean ALREADY_ADDED_TO_WISHLIST = false;
     private FloatingActionButton addToWishlistBtn;
-
     private static RecyclerView coupensRecyclerView;
      private static LinearLayout selectedCoupen;
 
@@ -129,17 +128,13 @@ public class ProductDetailsActivity extends AppCompatActivity {
         ratingsProgressBarContainer = findViewById(R.id.rating_progressbar_container);
         averageRating = findViewById(R.id.average_rating);
 
-
-
-
-        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance(); //
        List<String> productImages = new ArrayList<>();
 
         firebaseFirestore.collection("PRODUCTS").document("Z1okH8voPkFtiTNAsjWz")
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
                         if (task.isSuccessful()){
                             DocumentSnapshot documentSnapshot = task.getResult();
                              for (long x = 1;x < (long)documentSnapshot.get("no_of_product_images") + 1;x++){
