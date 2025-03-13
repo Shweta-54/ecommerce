@@ -73,6 +73,7 @@ public class HomePageModel {
         this.title = title;
         this.backgroundColor = backgroundColor;
         this.horizontalProductScrollModelList = horizontalProductScrollModelList;
+        this.viewAllProductList = viewAllProductList;
     }
 
     public List<WishlistModel> getViewAllProductList() {

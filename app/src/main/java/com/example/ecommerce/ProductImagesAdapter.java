@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
-
+//ye check kr liya part 1 mai
 public class  ProductImagesAdapter extends PagerAdapter {
 
     private final List<String> productImages;
