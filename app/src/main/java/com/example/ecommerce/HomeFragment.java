@@ -6,6 +6,7 @@ import static com.example.ecommerce.DBqueries.loadCategories;
 import static com.example.ecommerce.DBqueries.loadFragmentData;
 import static com.example.ecommerce.DBqueries.loadedCategoriesNames;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -43,6 +44,7 @@ public class HomeFragment extends Fragment {
     private ImageView noInternetConnection;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

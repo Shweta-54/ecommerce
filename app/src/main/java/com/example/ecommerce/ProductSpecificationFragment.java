@@ -16,8 +16,8 @@ import java.util.List;
 public class ProductSpecificationFragment extends Fragment {
 
 
-    public List<ProductSpecificationModel> productSpecificationModelList; // yaha doubt = new ArrayList<>() aisa hona chahiye may be
-
+    public List<ProductSpecificationModel> productSpecificationModelList; // yaha pr part 2 mai isko static create kiay gaya h list ko
+//ek bar isko hataya bhi h
 
     public ProductSpecificationFragment() {
         // Required empty public constructor
