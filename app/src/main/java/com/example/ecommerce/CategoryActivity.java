@@ -49,7 +49,7 @@ public class CategoryActivity extends AppCompatActivity {
             loadedCategoriesNames.add(title.toUpperCase());
             lists.add(new ArrayList<HomePageModel>());
             adapter = new HomePageAdapter(lists.get(loadedCategoriesNames.size() -1));
-            loadFragmentData(adapter,this,loadedCategoriesNames.size() -1,title);
+            loadFragmentData(categoryRecyclerView,this,loadedCategoriesNames.size() -1,title);
         }else {
             adapter = new HomePageAdapter(lists.get(listPosition));
         }
@@ -72,7 +72,7 @@ public class CategoryActivity extends AppCompatActivity {
         } else if (id == android.R.id.home) {
             finish();
             return true;
-            
+
         }
 
         return super.onOptionsItemSelected(item);
