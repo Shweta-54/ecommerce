@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+/** @noinspection ALL*/
 public class LoginAdapter extends FragmentPagerAdapter {
 
     private Context context;

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class MyRewardsAdapter extends RecyclerView.Adapter<MyRewardsAdapter.Viewholder> {
-    private List<RewardModel> rewardModelList;
+    private final List<RewardModel> rewardModelList;
     private  Boolean useMiniLayout = false;
 
     public MyRewardsAdapter(List<RewardModel> rewardModelList,Boolean useMiniLayout) {
@@ -49,9 +49,9 @@ public class MyRewardsAdapter extends RecyclerView.Adapter<MyRewardsAdapter.View
 
     public class Viewholder extends RecyclerView.ViewHolder{
 
-        private TextView coupenTitle;
-        private TextView coupenExpriryDate;
-        private TextView coupenBody;
+        private final TextView coupenTitle;
+        private final TextView coupenExpriryDate;
+        private final TextView coupenBody;
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             coupenTitle = itemView.findViewById(R.id.coupen_title);
@@ -65,15 +65,12 @@ public class MyRewardsAdapter extends RecyclerView.Adapter<MyRewardsAdapter.View
 
 
             if (useMiniLayout){
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                itemView.setOnClickListener(v -> {
 
-                        ProductDetailsActivity.coupentitle.setText(title);
-                        ProductDetailsActivity.coupenExpiryDate.setText(date);
-                        ProductDetailsActivity.coupenBody.setText(body);
-                        ProductDetailsActivity.showDialogRecyclerView();
-                    }
+                    ProductDetailsActivity.coupentitle.setText(title);
+                    ProductDetailsActivity.coupenExpiryDate.setText(date);
+                    ProductDetailsActivity.coupenBody.setText(body);
+                    ProductDetailsActivity.showDialogRecyclerView();
                 });
             }
         }

@@ -1,5 +1,6 @@
 package com.example.ecommerce;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,8 @@ import java.util.List;
 
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHolder> {
 
-    private  List<WishlistModel> wishlistModelList;
-    private Boolean wishlist;
+    private final List<WishlistModel> wishlistModelList;
+    private final Boolean wishlist;
 
     public WishlistAdapter(List<WishlistModel> wishlistModelList,Boolean wishlist) {
         this.wishlistModelList = wishlistModelList;
@@ -54,17 +55,16 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView productImage;
-        private TextView productTitle;
-        private TextView freecoupens;
-        private ImageView coupenIcon;
-        private TextView rating;
-        private TextView totalRatings;
-        private View priceCut;
-        private TextView productPrice;
-        private TextView cuttedPrice;
-        private TextView paymentMethod;
-        private ImageButton deleteBtn;
+        private final ImageView productImage;
+        private final TextView productTitle;
+        private final TextView freecoupens;
+        private final ImageView coupenIcon;
+        private final TextView rating;
+        private final TextView totalRatings;
+        private final TextView productPrice;
+        private final TextView cuttedPrice;
+        private final TextView paymentMethod;
+        private final ImageButton deleteBtn;
 
 
 
@@ -77,14 +77,15 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             coupenIcon = itemView.findViewById(R.id.coupen_icons);
             rating = itemView.findViewById(R.id.tv_product_rating_miniview1);
             totalRatings = itemView.findViewById(R.id.total_ratings1);
-            priceCut = itemView.findViewById(R.id.price_cut);
+            View priceCut = itemView.findViewById(R.id.price_cut);
             productPrice = itemView.findViewById(R.id.product_price1);
             cuttedPrice = itemView.findViewById(R.id.cutted_pricess);
             paymentMethod = itemView.findViewById(R.id.payment_method);
             deleteBtn = itemView.findViewById(R.id.delete_btn);
         }
 
-        private void  setData(String resource, String title, long freecoupensNo, String averageRate, long totalRatingsNo, String price,String cuttedPriceValue,boolean COD){
+        @SuppressLint("SetTextI18n")
+        private void  setData(String resource, String title, long freecoupensNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, boolean COD){
             Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.baseline_home_24)).into(productImage);
             productTitle.setText(title);
             if (freecoupensNo != 0) {
@@ -115,18 +116,10 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                 deleteBtn.setVisibility(View.GONE);
             }
 
-            deleteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "delete", Toast.LENGTH_SHORT).show();
-                }
-            });
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent productDetailsIntent = new Intent(itemView.getContext(),ProductDetailsActivity.class);
-                    itemView.getContext().startActivity(productDetailsIntent);
-                }
+            deleteBtn.setOnClickListener(v -> Toast.makeText(itemView.getContext(), "delete", Toast.LENGTH_SHORT).show());
+            itemView.setOnClickListener(view -> {
+                Intent productDetailsIntent = new Intent(itemView.getContext(),ProductDetailsActivity.class);
+                itemView.getContext().startActivity(productDetailsIntent);
             });
         }
     }

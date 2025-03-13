@@ -10,23 +10,23 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.ecommerce.databinding.ActivityMainBinding;
 
+import java.util.Objects;
+
 public class OrderDetailsActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
-    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_order_details);
         // ✅ Initialize View Binding
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        com.example.ecommerce.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // ✅ Initialize toolbar
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("Order Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

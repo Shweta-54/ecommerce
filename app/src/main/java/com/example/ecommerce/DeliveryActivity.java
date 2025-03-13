@@ -1,5 +1,6 @@
 package com.example.ecommerce;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,14 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class DeliveryActivity extends AppCompatActivity {
 
-    private RecyclerView deliveryRecyclerView;
-    private Button changeORaddNewAddressbtn;
     public static final int SELECT_ADDRESS = 0;
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,13 +31,13 @@ public class DeliveryActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("Delivery");
 
 
-        deliveryRecyclerView = findViewById(R.id.delivery_recyclerview);
-        changeORaddNewAddressbtn = findViewById(R.id.change_or_add_address_btn);
+        RecyclerView deliveryRecyclerView = findViewById(R.id.delivery_recyclerview);
+        Button changeORaddNewAddressbtn = findViewById(R.id.change_or_add_address_btn);
 
 
 
@@ -55,13 +56,10 @@ public class DeliveryActivity extends AppCompatActivity {
         cartAdapter.notifyDataSetChanged();
 
         changeORaddNewAddressbtn.setVisibility(View.VISIBLE);
-        changeORaddNewAddressbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myAddressesIntent = new Intent(DeliveryActivity.this, MyAddressesActivity.class);
-                myAddressesIntent.putExtra("MODE",SELECT_ADDRESS);
-                startActivity(myAddressesIntent);
-            }
+        changeORaddNewAddressbtn.setOnClickListener(v -> {
+            Intent myAddressesIntent = new Intent(DeliveryActivity.this, MyAddressesActivity.class);
+            myAddressesIntent.putExtra("MODE",SELECT_ADDRESS);
+            startActivity(myAddressesIntent);
         });
     }
     public boolean onOptionsItemSelected(MenuItem item){

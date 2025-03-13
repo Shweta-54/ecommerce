@@ -2,6 +2,7 @@ package com.example.ecommerce;
 
 import static com.example.ecommerce.DeliveryActivity.SELECT_ADDRESS;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,14 +19,14 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class MyAddressesActivity extends AppCompatActivity {
 
-    private RecyclerView myAddressesRecyclerView;
-    private Button deliverHereBtn;
     private static AddressesAdapter addressesAdapter;
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +35,12 @@ public class MyAddressesActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("My Addresses");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        myAddressesRecyclerView = findViewById(R.id.addresses_recyclerview);
-        deliverHereBtn = findViewById(R.id.deliver_here_btn);
+        RecyclerView myAddressesRecyclerView = findViewById(R.id.addresses_recyclerview);
+        Button deliverHereBtn = findViewById(R.id.deliver_here_btn);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -63,7 +64,7 @@ public class MyAddressesActivity extends AppCompatActivity {
 
          addressesAdapter = new AddressesAdapter(addressesModelList,mode);
         myAddressesRecyclerView.setAdapter(addressesAdapter);
-        ((SimpleItemAnimator)myAddressesRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) Objects.requireNonNull(myAddressesRecyclerView.getItemAnimator())).setSupportsChangeAnimations(false);
         addressesAdapter.notifyDataSetChanged();
     }
 

@@ -21,7 +21,6 @@ public class CategoryActivity extends AppCompatActivity {
 
     private RecyclerView categoryRecyclerView;
     private HomePageAdapter adapter;
-    private List<HomePageModel> homePageModelFackList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,37 +33,12 @@ public class CategoryActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //// home face list
-        List<SliderModel> sliderModelFackList = new ArrayList<>();
-        sliderModelFackList.add(new SliderModel("null","#ffffff"));
-        sliderModelFackList.add(new SliderModel("null","#ffffff"));
-        sliderModelFackList.add(new SliderModel("null","#ffffff"));
-        sliderModelFackList.add(new SliderModel("null","#ffffff"));
-        sliderModelFackList.add(new SliderModel("null","#ffffff"));
-
-        List<HorizontalProductScrollModel> horizontalProductScrollModelFackList = new ArrayList<>();
-        horizontalProductScrollModelFackList.add(new HorizontalProductScrollModel("","","","",""));
-        horizontalProductScrollModelFackList.add(new HorizontalProductScrollModel("","","","",""));
-        horizontalProductScrollModelFackList.add(new HorizontalProductScrollModel("","","","",""));
-        horizontalProductScrollModelFackList.add(new HorizontalProductScrollModel("","","","",""));
-        horizontalProductScrollModelFackList.add(new HorizontalProductScrollModel("","","","",""));
-        horizontalProductScrollModelFackList.add(new HorizontalProductScrollModel("","","","",""));
-        horizontalProductScrollModelFackList.add(new HorizontalProductScrollModel("","","","",""));
-
-        homePageModelFackList.add(new HomePageModel(0,sliderModelFackList));
-        homePageModelFackList.add(new HomePageModel(1,"","#ffffff"));
-        homePageModelFackList.add(new HomePageModel(2,"","#ffffff",horizontalProductScrollModelFackList,new ArrayList<WishlistModel>()));
-        homePageModelFackList.add(new HomePageModel(3,"","#ffffff",horizontalProductScrollModelFackList));
-        //// home face list
-
         categoryRecyclerView = findViewById(R.id.category_recyclerview);
         //////////////// testing recyclerview
         LinearLayoutManager testingLayoutManager = new LinearLayoutManager(this);
         testingLayoutManager.setOrientation(RecyclerView.VERTICAL);
         categoryRecyclerView.setLayoutManager(testingLayoutManager);
-        adapter = new HomePageAdapter(homePageModelFackList);
-
-       // HomePageAdapter adapter;
+        HomePageAdapter adapter;
         int listPosition = 0;
         for (int x = 0; x < loadedCategoriesNames.size();x++){
             if (loadedCategoriesNames.get(x).equals(title.toUpperCase())){
@@ -74,10 +48,12 @@ public class CategoryActivity extends AppCompatActivity {
         if (listPosition == 0){
             loadedCategoriesNames.add(title.toUpperCase());
             lists.add(new ArrayList<HomePageModel>());
-            loadFragmentData(categoryRecyclerView,this,loadedCategoriesNames.size() -1,title);
+            adapter = new HomePageAdapter(lists.get(loadedCategoriesNames.size() -1));
+            loadFragmentData(adapter,this,loadedCategoriesNames.size() -1,title);
         }else {
             adapter = new HomePageAdapter(lists.get(listPosition));
         }
+
 
         categoryRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();

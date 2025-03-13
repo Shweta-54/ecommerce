@@ -3,7 +3,6 @@ package com.example.ecommerce;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -11,8 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.Objects;
+
 public class AddAddressActivity extends AppCompatActivity {
-    private Button saveBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,18 +21,15 @@ public class AddAddressActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_address);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("Add a new address");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        saveBtn = findViewById(R.id.save_btn);
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent deliverIntent = new Intent(AddAddressActivity.this,DeliveryActivity.class);
-                startActivity(deliverIntent);
-                finish();
-            }
+        Button saveBtn = findViewById(R.id.save_btn);
+        saveBtn.setOnClickListener(view -> {
+            Intent deliverIntent = new Intent(AddAddressActivity.this,DeliveryActivity.class);
+            startActivity(deliverIntent);
+            finish();
         });
     }
 

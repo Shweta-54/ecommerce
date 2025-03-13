@@ -66,6 +66,7 @@ public class HomePageModel {
     private List<HorizontalProductScrollModel> horizontalProductScrollModelList;
 
     ///////// Horizontal Product layout
+
     private List<WishlistModel> viewAllProductList;
     public HomePageModel(int type, String title,String backgroundColor ,List<HorizontalProductScrollModel> horizontalProductScrollModelList,List<WishlistModel> viewAllProductList) {
         this.type = type;

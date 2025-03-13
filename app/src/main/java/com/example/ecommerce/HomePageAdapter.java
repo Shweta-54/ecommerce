@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/** @noinspection ALL*/
 public class HomePageAdapter extends RecyclerView.Adapter {
 
 

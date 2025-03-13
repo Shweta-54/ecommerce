@@ -1,5 +1,6 @@
 package com.example.ecommerce;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +19,15 @@ public class MyRewardsFragment extends Fragment {
     public MyRewardsFragment() {
         // Required empty public constructor
     }
-    private RecyclerView rewardsRecyclerView;
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_rewards, container, false);
 
-        rewardsRecyclerView = view.findViewById(R.id.my_rewards_recyclerview);
+        RecyclerView rewardsRecyclerView = view.findViewById(R.id.my_rewards_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rewardsRecyclerView.setLayoutManager(layoutManager);

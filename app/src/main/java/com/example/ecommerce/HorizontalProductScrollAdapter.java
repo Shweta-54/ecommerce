@@ -1,5 +1,6 @@
 package com.example.ecommerce;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class HorizontalProductScrollAdapter extends RecyclerView.Adapter<HorizontalProductScrollAdapter.viewHolder> {
 
-    private List<HorizontalProductScrollModel> horizontalProductScrollModelList;
+    private final List<HorizontalProductScrollModel> horizontalProductScrollModelList;
 
     public HorizontalProductScrollAdapter(List<HorizontalProductScrollModel> horizontalProductScrollModelList) {
         this.horizontalProductScrollModelList = horizontalProductScrollModelList;
@@ -45,19 +46,15 @@ public class HorizontalProductScrollAdapter extends RecyclerView.Adapter<Horizon
 
     @Override
     public int getItemCount() {
-        if(horizontalProductScrollModelList.size() > 8){
-            return 8;
-        }else {
-           return horizontalProductScrollModelList.size();
-        }
+        return Math.min(horizontalProductScrollModelList.size(), 8);
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView productImage;
-        private TextView productTitle;
-        private TextView productDescription;
-        private TextView productPrice;
+        private final ImageView productImage;
+        private final TextView productTitle;
+        private final TextView productDescription;
+        private final TextView productPrice;
 
         public viewHolder(@NonNull final View itemView) {
             super(itemView);
@@ -66,12 +63,9 @@ public class HorizontalProductScrollAdapter extends RecyclerView.Adapter<Horizon
             productDescription = itemView.findViewById(R.id.h_s_product_describtion);
             productPrice = itemView.findViewById(R.id.h_s_product_price);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent productDetailIntent = new Intent(itemView.getContext(),ProductDetailsActivity.class);
-                    itemView.getContext().startActivity(productDetailIntent);
-                }
+            itemView.setOnClickListener(view -> {
+                Intent productDetailIntent = new Intent(itemView.getContext(),ProductDetailsActivity.class);
+                itemView.getContext().startActivity(productDetailIntent);
             });
         }
 
@@ -85,6 +79,7 @@ public class HorizontalProductScrollAdapter extends RecyclerView.Adapter<Horizon
         private void setProductDescription(String description){
             productDescription.setText(description);
         }
+        @SuppressLint("SetTextI18n")
         private void setProductPrice(String price){
             productPrice.setText("Rs."+price+"/-");
         }
