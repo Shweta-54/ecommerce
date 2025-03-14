@@ -1,4 +1,3 @@
-
 package com.example.ecommerce;
 
 import android.annotation.SuppressLint;
@@ -53,21 +52,22 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private static boolean ALREADY_ADDED_TO_WISHLIST = false;
     private FloatingActionButton addToWishlistBtn;
     private static RecyclerView coupensRecyclerView;
-     private static LinearLayout selectedCoupen;
+    private static LinearLayout selectedCoupen;
 
-     private TextView rewardTitle;
-     private TextView rewardBody;
+    private TextView rewardTitle;
+    private TextView rewardBody;
 
 
 
-/////Product Description
+    /////Product Description
     private ConstraintLayout productDetailsOnlycontainer;
     private ConstraintLayout productDetailsTabscontainer;
     private ViewPager productDetailsViewpager;
     private TabLayout productDetailsTablayout;
-    public List<ProductSpecificationModel> productSpecificationModelList = new ArrayList<>();
+    private List<ProductSpecificationModel> productSpecificationModelList = new ArrayList<>();
     private String productDescription;
     private String productOtherDetails;
+
     private TextView productOnlyDescriptionBody;
     /////Product Description
     /////coupen dialog
@@ -128,15 +128,15 @@ public class ProductDetailsActivity extends AppCompatActivity {
         averageRating = findViewById(R.id.average_rating);
 
         firebaseFirestore = FirebaseFirestore.getInstance(); //
-       List<String> productImages = new ArrayList<>();
+        List<String> productImages = new ArrayList<>();
 
-        firebaseFirestore.collection("PRODUCTS").document("XMDckLqWeUdDu0WQ1yii")
+        firebaseFirestore.collection("PRODUCTS").document("Z1okH8voPkFtiTNAsjWz")
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()){
                             DocumentSnapshot documentSnapshot = task.getResult();
-                             for (long x = 1;x < (long)documentSnapshot.get("no_of_product_images") + 1;x++){
+                            for (long x = 1;x < (long)documentSnapshot.get("no_of_images") + 1;x++){
                                 productImages.add(documentSnapshot.get("product_image_"+x).toString());
                             }
                             ProductImagesAdapter productImagesAdapter = new ProductImagesAdapter(productImages);
@@ -161,16 +161,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             if ((boolean)documentSnapshot.get("use_tab_layout")){
                                 productDetailsTabscontainer.setVisibility(View.VISIBLE);
                                 productDetailsOnlycontainer.setVisibility(View.GONE);
-                                productDescription = documentSnapshot.get("product_description").toString();//productDescriptionFragment ki jagah pr ab jo string create kiya gaya h usko set kiya h ab
-                                ////productSpecificationFragment.productspecificationModellist part 2 56 part 1 55
+                                productDescription = documentSnapshot.get("product_description").toString();
 
                                 productOtherDetails = documentSnapshot.get("product_other_details").toString();
 
-                                for (long x = 1;x < (long) documentSnapshot.get("total_spec_titles") + 1;x++){
-                                    //productSpecificationFragment.productspecificationModellist.add()-----
-                                            productSpecificationModelList.add(new ProductSpecificationModel(0,documentSnapshot.get("spec_title_"+x).toString()));
+                                for (long x = 1;x < (long) documentSnapshot.get("total_spec_titles")+1;x++){
+                                    productSpecificationModelList.add(new ProductSpecificationModel(0,documentSnapshot.get("spec_title_"+x).toString()));
                                     for (long y = 1; y < (long) documentSnapshot.get("spec_title_"+x+"_total_fields")+1;y++){
-                                        productSpecificationModelList.add(new ProductSpecificationModel(1,documentSnapshot.get("spec_title_"+x+"_field_"+y+"_name").toString(),documentSnapshot.get("spec_title_"+x+"_field_"+y+"_value").toString()));
+                                        productSpecificationModelList.add(new ProductSpecificationModel(1,documentSnapshot.get("spec_title_"+x+ "_field_"+y+"_name").toString(),documentSnapshot.get("spec_title_"+x+ "_field_"+y+"_value").toString()));
 
                                     }
                                 }
@@ -178,7 +176,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             }else {
                                 productDetailsTabscontainer.setVisibility(View.GONE);
                                 productDetailsOnlycontainer.setVisibility(View.VISIBLE);
-                                productOnlyDescriptionBody.setText(documentSnapshot.get("product_description").toString());//do jagah product description
+                                productOnlyDescriptionBody.setText(documentSnapshot.get("product_description").toString());
                             }
 
                             totalRatings.setText((long)documentSnapshot.get("total_ratings")+"ratings");
@@ -188,14 +186,13 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                 rating.setText(String.valueOf((long) documentSnapshot.get(5-x+"_star")));
 
                                 ProgressBar progressBar = (ProgressBar) ratingsProgressBarContainer.getChildAt(x);
-                                  int maxProgress = Integer.parseInt(String.valueOf((long)documentSnapshot.get("total_ratings")));
+                                int maxProgress = Integer.parseInt(String.valueOf((long)documentSnapshot.get("total_ratings")));
                                 progressBar.setMax(maxProgress);
                                 progressBar.setProgress(Integer.parseInt(String.valueOf((long) documentSnapshot.get((5-x) +"_star"))));
                             }
                             totalRatingsFigure.setText(String.valueOf((long)documentSnapshot.get("total_ratings")));
-                            productDetailsViewpager.setAdapter(new productDetailsAdapter(getSupportFragmentManager(), productDetailsTablayout.getTabCount(),productDescription,productOtherDetails,productSpecificationModelList));
                             averageRating.setText(documentSnapshot.get("average_rating").toString());
-
+                            productDetailsViewpager.setAdapter(new productDetailsAdapter(getSupportFragmentManager(), productDetailsTablayout.getTabCount(),productDescription,productOtherDetails,productSpecificationModelList));
 
                         }else {
                             String error = task.getException().getMessage();
@@ -224,7 +221,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productDetailsTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                // tabposition = tab.getposition(); static variable bhi create kiya h uper uske baad description fragmnet mai if wagera set kiya gaya h
                 productDetailsViewpager.setCurrentItem(tab.getPosition());
             }
 
@@ -313,7 +309,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     }
 
-      public static  void  showDialogRecyclerView(){
+    public static  void  showDialogRecyclerView(){
         if (coupensRecyclerView.getVisibility() == View.GONE){
             coupensRecyclerView.setVisibility(View.VISIBLE);
             selectedCoupen.setVisibility(View.GONE);
