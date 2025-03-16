@@ -37,6 +37,10 @@ public class Login extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if(keyCode == KeyEvent.KEYCODE_BACK){
+            LoginTabFragment.disableCloseBtn = false;
+            SignupTabFragment.disableCloseBtn = false;
+
+
             if (onResetPasswordFragment){
                 onResetPasswordFragment = false;
                 setFragment(new SignupTabFragment());

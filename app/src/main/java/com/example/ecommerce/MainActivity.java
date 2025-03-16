@@ -1,5 +1,6 @@
 package com.example.ecommerce;
 
+
 import static com.example.ecommerce.Login.setSignupFragment;
 
 import android.annotation.SuppressLint;
@@ -27,6 +28,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.ecommerce.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
@@ -56,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Window window;
     private Toolbar toolbar;
+    private Dialog logInDialog;
+    private FirebaseUser currentUser;
+    public static DrawerLayout drawer;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -99,12 +105,58 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
+        logInDialog = new Dialog(MainActivity.this);
+        logInDialog.setContentView(R.layout.log_in_dialog);
+        logInDialog.setCancelable(true);
+        logInDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        Button dialogLogInBtn = logInDialog.findViewById(R.id.login_btn);
+        Button dialogSignupBtn = logInDialog.findViewById(R.id.signup_btn);
+
+        // todo : loginintent = registeractivity
+        Intent loginIntent = new Intent(MainActivity.this,Login.class);
+
+
+
+        dialogLogInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginTabFragment.disableCloseBtn = true;
+                SignupTabFragment.disableCloseBtn = true;
+                logInDialog.dismiss();
+                setSignupFragment = false;
+                startActivity(loginIntent);
+            }
+        });
+
+
+        dialogSignupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginTabFragment.disableCloseBtn = true;
+                SignupTabFragment.disableCloseBtn = true;
+                logInDialog.dismiss();
+                setSignupFragment = true;
+                startActivity(loginIntent);
+            }
+        });
+
 
     }
 
+    @Override
+    protected void onStart() {
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        super.onStart();
+        if (currentUser == null){
+            navigationView.getMenu().getItem(navigationView.getMenu().size() -1).setEnabled(false);
+        }else{
+            navigationView.getMenu().getItem(navigationView.getMenu().size() -1).setEnabled(true);
+        }
+    }
 
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)){
             drawer.closeDrawer(GravityCompat.START);
         }else {
@@ -143,7 +195,11 @@ public class MainActivity extends AppCompatActivity {
             //todo: notification
             return true;
         }else if (id == R.id.main_cart_icon) {
-            gotoFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
+            if(currentUser == null){
+                logInDialog.show();
+            }else {
+            gotoFragment("My Cart",new MyCartFragment(),CART_FRAGMENT);
+            }
             return true;
         }else if (id == android.R.id.home){
             if(showCart){
@@ -152,41 +208,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
 
-            Dialog logInDialog = new Dialog(MainActivity.this);
-            logInDialog.setContentView(R.layout.log_in_dialog);
-            logInDialog.setCancelable(true);
-            logInDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            Button dialogLogInBtn = logInDialog.findViewById(R.id.login_btn);
-            Button dialogSignupBtn = logInDialog.findViewById(R.id.signup_btn);
-
-            // todo : loginintent = registeractivity
-            Intent loginIntent = new Intent(MainActivity.this,Login.class);
-
-
-
-            dialogLogInBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    logInDialog.dismiss();
-                    setSignupFragment = false;
-                    startActivity(loginIntent);
-                }
-            });
-
-
-            dialogSignupBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    logInDialog.dismiss();
-                    setSignupFragment = true;
-                    startActivity(loginIntent);
-                }
-            });
-
-            logInDialog.show();
-           //gotoFragment("My Cart",new MyCartFragment(),CART_FRAGMENT);
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -206,28 +227,40 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings("StatemenWithEmptyBody")
 
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.nav_my_mall){
-            actionbarlogo.setVisibility(View.VISIBLE);
-            invalidateOptionsMenu();
-            setFragment(new HomeFragment(),HOME_FRAGMENT);
-        } else if (id == R.id.nav_my_orders) {
-            gotoFragment("My Orders",new MyOrdersFragment(),ORDERS_FRAGMENT);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (currentUser !=null) {
+            int id = item.getItemId();
+            if (id == R.id.nav_my_mall) {
+                actionbarlogo.setVisibility(View.VISIBLE);
+                invalidateOptionsMenu();
+                setFragment(new HomeFragment(), HOME_FRAGMENT);
+            } else if (id == R.id.nav_my_orders) {
+                gotoFragment("My Orders", new MyOrdersFragment(), ORDERS_FRAGMENT);
 
-        } else if (id == R.id.nav_my_rewards) {
-            gotoFragment("My Rewards",new MyRewardsFragment(),REWARDS_FRAGMENT);
+            } else if (id == R.id.nav_my_rewards) {
+                gotoFragment("My Rewards", new MyRewardsFragment(), REWARDS_FRAGMENT);
 
-        } else if (id == R.id.nav_my_cart) {
-            gotoFragment("My Cart",new MyCartFragment(),CART_FRAGMENT);
-        } else if (id == R.id.nav_my_wishlist) {
-                gotoFragment("My Wishlist",new MyWishlistFragment(),WISHLIST_FRAGMENT);
-        } else if (id == R.id.nav_my_account) {
-            gotoFragment("My Account",new MyAccountFragment(),ACCOUNT_FRAGMENT);
-        }else if (id == R.id.nav_sign_out){
-
+            } else if (id == R.id.nav_my_cart) {
+                gotoFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
+            } else if (id == R.id.nav_my_wishlist) {
+                gotoFragment("My Wishlist", new MyWishlistFragment(), WISHLIST_FRAGMENT);
+            } else if (id == R.id.nav_my_account) {
+                gotoFragment("My Account", new MyAccountFragment(), ACCOUNT_FRAGMENT);
+            } else if (id == R.id.nav_sign_out) {
+                   FirebaseAuth.getInstance().signOut();
+                   Intent registerIntent = new Intent(MainActivity.this,Login.class);
+                   startActivity(registerIntent);
+                   finish();
+            }
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        }else {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            logInDialog.show();
+            return false;
         }
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
+
+
     }
 
     private void setFragment(Fragment fragment,int fragmentNo){
