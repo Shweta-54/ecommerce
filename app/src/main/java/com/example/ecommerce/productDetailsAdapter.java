@@ -12,9 +12,9 @@ public class productDetailsAdapter extends FragmentPagerAdapter {
     private int totalTabs;
     private String productDescription;
     private String productOtherDetails;
-    private List<ProductSpecificationModel> productSpecificationModelList;
+    public List<ProductSpecificationModel> productSpecificationModelList;
 
-    public productDetailsAdapter(@NonNull FragmentManager fm,int totalTabs, String productDescription, String productOtherDetails, List<ProductSpecificationModel> productSpecificationModelList) {
+    public productDetailsAdapter(@NonNull FragmentManager fm, int totalTabs,String productDescription, String productOtherDetails, List<ProductSpecificationModel> productSpecificationModelList) {
         super(fm);
         this.productDescription = productDescription;
         this.productOtherDetails = productOtherDetails;
@@ -36,7 +36,7 @@ public class productDetailsAdapter extends FragmentPagerAdapter {
                     return productSpecificationFragment;
             case 2:
                 ProductDescriptionFragment productDescriptionFragmentnt2 = new ProductDescriptionFragment();
-                productDescriptionFragmentnt2.body = productOtherDetails;
+                productDescriptionFragmentnt2.body = productOtherDetails; //yaha error thi
                 return productDescriptionFragmentnt2;
             default:
                 return null;

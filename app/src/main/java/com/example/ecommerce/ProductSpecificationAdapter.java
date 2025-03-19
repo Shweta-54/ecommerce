@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/** @noinspection ALL*/
 public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpecificationAdapter.ViewHolder> {
 
     private final List<ProductSpecificationModel> productSpecificationModelList;
@@ -40,11 +41,9 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
                 TextView title = new TextView(viewGroup.getContext());
                 title.setTypeface(null, Typeface.BOLD);
                 title.setTextColor(Color.parseColor("#000000"));
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT);
-                layoutParams.setMargins(setDp(16, viewGroup.getContext()),
-                        setDp(16, viewGroup.getContext()),
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                layoutParams.setMargins(setDp(16, viewGroup.getContext())
+                        , setDp(16, viewGroup.getContext()),
                         setDp(16, viewGroup.getContext()),
                         setDp(8, viewGroup.getContext()));
                 title.setLayoutParams(layoutParams);
@@ -55,11 +54,16 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
                 return new ViewHolder(view);
             default:
                 return null;
+
         }
+
     }
+
+
 
     @Override
     public void onBindViewHolder(@NonNull ProductSpecificationAdapter.ViewHolder viewHolder, int position) {
+
         switch (productSpecificationModelList.get(position).getType()){
             case ProductSpecificationModel.SPECIFICATION_TITLE:
                 viewHolder.setTitle(productSpecificationModelList.get(position).getTitle());
@@ -70,6 +74,8 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
                 viewHolder.setFeature(featureTitle, featureDetail);
                 break;
         }
+
+
     }
 
     @Override
@@ -78,30 +84,32 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView featureName;
-        private TextView featureValue;
-        private TextView title;
+
+        private  TextView featureName;
+        private  TextView featureValue;
+        private  TextView title;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            // Check if itemView is a TextView (for title case)
             if (itemView instanceof TextView) {
                 title = (TextView) itemView;
             } else {
+                // Otherwise, initialize featureName and featureValue
                 featureName = itemView.findViewById(R.id.feature_name);
                 featureValue = itemView.findViewById(R.id.feature_value);
             }
         }
-
-        private void setTitle(String titleText) {
+        private  void setTitle(String titleText){
             if (title != null) {
                 title.setText(titleText);
             }
         }
-
-        private void setFeature(String featureTitle, String featureDetail) {
+        private  void setFeature(String featureTitle, String featuredetail) {
             if (featureName != null && featureValue != null) {
                 featureName.setText(featureTitle);
-                featureValue.setText(featureDetail);
+                featureValue.setText(featuredetail);
             }
         }
     }
