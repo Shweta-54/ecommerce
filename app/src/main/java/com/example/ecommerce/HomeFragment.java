@@ -146,7 +146,7 @@ public class HomeFragment extends Fragment {
             }
             homePageRecyclerView.setAdapter(adapter);
         } else {
-            MainActivity.drawer.setDrawerLockMode(1);
+           // MainActivity.drawer.setDrawerLockMode(1);
             categoryRecyclerView.setVisibility(View.GONE);
             homePageRecyclerView.setVisibility(View.GONE);
             Glide.with(this).load(R.drawable.nointernetconnection).into(noInternetConnection);
@@ -183,7 +183,7 @@ public class HomeFragment extends Fragment {
         loadedCategoriesNames.clear();
 
         if (networkInfo != null && networkInfo.isConnected() == true) {
-           // MainActivity.drawer.setDrawerLockMode(0);
+            //MainActivity.drawer.setDrawerLockMode(0);
             noInternetConnection.setVisibility(View.GONE);
             retryBtn.setVisibility(View.GONE);
             categoryRecyclerView.setVisibility(View.VISIBLE);
@@ -199,7 +199,7 @@ public class HomeFragment extends Fragment {
             adapter = new HomePageAdapter(lists.get(0));
             loadFragmentData(homePageRecyclerView, getContext(), 0, "Home");
         } else {
-           // MainActivity.drawer.setDrawerLockMode(1);
+            //MainActivity.drawer.setDrawerLockMode(1);
             Toast.makeText(getContext(), "No internet Connection!", Toast.LENGTH_SHORT).show();
             categoryRecyclerView.setVisibility(View.GONE);
             homePageRecyclerView.setVisibility(View.GONE);

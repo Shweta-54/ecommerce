@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +22,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
     private final List<WishlistModel> wishlistModelList;
     private final Boolean wishlist;
-    private int lastPosition = -1;
 
     public WishlistAdapter(List<WishlistModel> wishlistModelList,Boolean wishlist) {
         this.wishlistModelList = wishlistModelList;
@@ -39,7 +36,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WishlistAdapter.ViewHolder viewHolder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull WishlistAdapter.ViewHolder viewHolder, int position) {
         String resource = wishlistModelList.get(position).getProductImage();
         String title = wishlistModelList.get(position).getProductTitle();
         long freeCoupens = wishlistModelList.get(position).getFreeCoupens();
@@ -48,13 +45,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         String productPrice = wishlistModelList.get(position).getProductPrice();
         String cuttedPrice = wishlistModelList.get(position).getCuttedPrice();
         boolean paymentMethod = wishlistModelList.get(position).isCOD();
-        viewHolder.setData(resource,title,freeCoupens,rating,totalRatings,productPrice,cuttedPrice,paymentMethod,position);
-
-        if (lastPosition < position) {
-            Animation animation = AnimationUtils.loadAnimation(viewHolder.itemView.getContext(), R.anim.fade_in);
-            viewHolder.itemView.setAnimation(animation);
-            lastPosition = position;
-        }
+        viewHolder.setData(resource,title,freeCoupens,rating,totalRatings,productPrice,cuttedPrice,paymentMethod);
     }
 
     @Override
@@ -94,8 +85,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         }
 
         @SuppressLint("SetTextI18n")
-        private void  setData(String resource, String title, long freecoupensNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, boolean COD,int index){
-            Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.paceholder)).into(productImage);
+        private void  setData(String resource, String title, long freecoupensNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, boolean COD){
+            Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.baseline_home_24)).into(productImage);
             productTitle.setText(title);
             if (freecoupensNo != 0) {
                 coupenIcon.setVisibility(View.VISIBLE);
@@ -125,10 +116,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                 deleteBtn.setVisibility(View.GONE);
             }
 
-            deleteBtn.setOnClickListener(v -> {
-                deleteBtn.setEnabled(false);
-                DBqueries.removeFromWishlist(index, itemView.getContext());
-            });
+            deleteBtn.setOnClickListener(v -> Toast.makeText(itemView.getContext(), "delete", Toast.LENGTH_SHORT).show());
             itemView.setOnClickListener(view -> {
                 Intent productDetailsIntent = new Intent(itemView.getContext(),ProductDetailsActivity.class);
                 itemView.getContext().startActivity(productDetailsIntent);
