@@ -62,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        com.example.ecommerce.databinding.
-      ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+
+        com.example.ecommerce.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -143,6 +143,15 @@ public class MainActivity extends AppCompatActivity {
             //todo: notification
             return true;
         }else if (id == R.id.main_cart_icon) {
+            gotoFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
+            return true;
+        }else if (id == android.R.id.home){
+            if(showCart){
+                showCart = false;
+                finish();
+                return true;
+            }
+
             Dialog logInDialog = new Dialog(MainActivity.this);
             logInDialog.setContentView(R.layout.log_in_dialog);
             logInDialog.setCancelable(true);
@@ -176,17 +185,8 @@ public class MainActivity extends AppCompatActivity {
             });
 
             logInDialog.show();
-            //gotoFragment("My Cart",new MyCartFragment(),CART_FRAGMENT);
-            gotoFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
+           //gotoFragment("My Cart",new MyCartFragment(),CART_FRAGMENT);
             return true;
-        }else if (id == android.R.id.home){
-            if(showCart){
-                showCart = false;
-                finish();
-                return true;
-            }
-
-
         }
 
         return super.onOptionsItemSelected(item);

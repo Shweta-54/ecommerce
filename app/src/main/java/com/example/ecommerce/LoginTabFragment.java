@@ -46,6 +46,8 @@ public class LoginTabFragment extends Fragment {
     private ProgressBar progressBar;
 
     private FirebaseAuth firebaseAuth;
+    public static boolean disableCloseBtn = false;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,6 +70,12 @@ public class LoginTabFragment extends Fragment {
         loginBtn.setTranslationY(300);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        if (disableCloseBtn){
+            loginclosebtn.setVisibility(View.GONE);
+        }else{
+            loginclosebtn.setVisibility(View.VISIBLE);
+        }
 
         email.setAlpha(v);
         password.setAlpha(v);
@@ -178,8 +186,12 @@ public class LoginTabFragment extends Fragment {
     }
 
     private void mainIntent(){
-        Intent mainIntent = new Intent(getActivity(),MainActivity.class);
-        startActivity(mainIntent);
+        if (disableCloseBtn){
+            disableCloseBtn = false;
+        }else {
+            Intent mainIntent = new Intent(getActivity(), MainActivity.class);
+            startActivity(mainIntent);
+        }
         requireActivity().finish();
     }
 }
