@@ -11,8 +11,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
-//ye check kr liya part 1 mai
-public class  ProductImagesAdapter extends PagerAdapter {
+
+public class ProductImagesAdapter extends PagerAdapter {
 
     private final List<String> productImages;
 
@@ -24,14 +24,17 @@ public class  ProductImagesAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         ImageView productImage = new ImageView(container.getContext());
-        Glide.with(container.getContext()).load(productImages.get(position)).apply(new RequestOptions().placeholder(R.drawable.baseline_home_24)).into(productImage);
-        container.addView(productImage, 0);
+        Glide.with(container.getContext())
+                .load(productImages.get(position))
+                .apply(new RequestOptions().placeholder(R.drawable.baseline_home_24))
+                .into(productImage);
+        container.addView(productImage);
         return productImage;
     }
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((ImageView)object);
+        container.removeView((ImageView) object);
     }
 
     @Override

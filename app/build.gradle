@@ -66,8 +66,8 @@ dependencies {
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
     /* For Loading images from internet - Start */
-    implementation libs.glide
-    annotationProcessor libs.glide.compiler
+//    implementation libs.glide
+//    annotationProcessor libs.glide.compiler
     /* For Slider - End */
 
     /* For Rounded Image View */
@@ -100,7 +100,9 @@ dependencies {
     implementation platform(libs.firebase.bom)
     implementation libs.play.services.auth
     implementation libs.play.services.base
-
+    implementation libs.firebase.ui.storage
+    implementation libs.glide
+    annotationProcessor libs.glide.compiler
 
 
 
