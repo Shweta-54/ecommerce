@@ -20,7 +20,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_order_details);
         // ✅ Initialize View Binding
-        com.example.ecommerce.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+//        com.example.ecommerce.databinding.
+       ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // ✅ Initialize toolbar

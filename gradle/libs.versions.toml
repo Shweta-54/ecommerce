@@ -10,6 +10,7 @@ firebaseBom = "33.10.0"
 firebaseCore = "21.1.1"
 firebaseFirestore = "25.1.2"
 firebaseUiAuth = "7.2.0"
+firebaseUiStorage = "7.2.0"
 glide = "4.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -21,15 +22,15 @@ activity = "1.10.1"
 constraintlayout = "2.2.1"
 materialsearchbar = "0.8.5"
 playServicesAuth = "21.3.0"
-playServicesBase = "18.5.0"
+playServicesBase = "18.6.0"
 roundedimageview = "2.3.0"
 tinycart = "1.0.1"
 volley = "1.2.1"
 whynotimagecarousel = "2.1.0"
 lifecycleLivedataKtx = "2.8.7"
 lifecycleViewmodelKtx = "2.8.7"
-navigationFragment = "2.8.8"
-navigationUi = "2.8.8"
+navigationFragment = "2.8.9"
+navigationUi = "2.8.9"
 gridlayout = "1.0.0"
 firebaseStorage = "21.0.1"
 
@@ -43,6 +44,7 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-core = { module = "com.google.firebase:firebase-core", version.ref = "firebaseCore" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebaseFirestore" }
 firebase-ui-auth = { module = "com.firebaseui:firebase-ui-auth", version.ref = "firebaseUiAuth" }
+firebase-ui-storage = { module = "com.firebaseui:firebase-ui-storage", version.ref = "firebaseUiStorage" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
 ismaeldivita-chip-navigation-bar = { module = "com.github.ismaeldivita:chip-navigation-bar", version.ref = "chipNavigationBarVersion" }
