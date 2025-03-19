@@ -40,7 +40,7 @@ public class MyWishlistFragment extends Fragment {
         loadingDialog.show();
         ////loading dialog
 
-
+//hshjs
         wishlistRecyclerView = view.findViewById(R.id.my_wishlist_recyclerview);
 
         LinearLayoutManager  linearLayoutManager = new LinearLayoutManager(getContext());
