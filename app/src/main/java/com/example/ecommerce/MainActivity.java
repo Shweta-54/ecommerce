@@ -36,7 +36,7 @@ import java.util.Objects;
 /** @noinspection ALL*/
 public class MainActivity extends AppCompatActivity {
 
-    private DrawerLayout drawerLayout;
+    public static DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
     private static final int HOME_FRAGMENT = 0;
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Dialog logInDialog;
     private FirebaseUser currentUser;
-    public static DrawerLayout drawer;
+   // public static DrawerLayout drawer;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -76,9 +76,6 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         actionbarlogo = findViewById(R.id.actionbar_logo);
         frameLayout = findViewById(R.id.main_framlayout);
-
-
-
 
         window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -115,9 +112,6 @@ public class MainActivity extends AppCompatActivity {
 
         // todo : loginintent = registeractivity
         Intent loginIntent = new Intent(MainActivity.this,Login.class);
-
-
-
         dialogLogInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         dialogSignupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(loginIntent);
             }
         });
+        
 
 
     }
@@ -156,9 +150,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)){
-            drawer.closeDrawer(GravityCompat.START);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
         }else {
             if (currentFragment == HOME_FRAGMENT) {
                 currentFragment = -1;
@@ -195,7 +189,10 @@ public class MainActivity extends AppCompatActivity {
             //todo: notification
             return true;
         }else if (id == R.id.main_cart_icon) {
-            if(currentUser == null){
+
+          Dialog signInDialog = new Dialog(MainActivity.this);
+          signInDialog.setContentView(R.layout.log_in_dialog);
+          if(currentUser == null){
                 logInDialog.show();
             }else {
             gotoFragment("My Cart",new MyCartFragment(),CART_FRAGMENT);
@@ -248,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
                 gotoFragment("My Account", new MyAccountFragment(), ACCOUNT_FRAGMENT);
             } else if (id == R.id.nav_sign_out) {
                    FirebaseAuth.getInstance().signOut();
+                   DBqueries.clearData();
                    Intent registerIntent = new Intent(MainActivity.this,Login.class);
                    startActivity(registerIntent);
                    finish();
