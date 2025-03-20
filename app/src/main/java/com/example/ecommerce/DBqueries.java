@@ -85,7 +85,7 @@ public class DBqueries {
                                                 , documentSnapshot.get("product_title_" + x).toString()
                                                 , documentSnapshot.get("product_subtitle_" + x).toString()
                                                 , documentSnapshot.get("product_price_" + x).toString()));
-
+////shweta
                                         viewAllProductList.add(new WishlistModel(documentSnapshot.get("product_image_" + x).toString()
                                                 , documentSnapshot.get("product_full_title_" + x).toString()
                                                 , (long) documentSnapshot.get("free_coupens_" + x)
