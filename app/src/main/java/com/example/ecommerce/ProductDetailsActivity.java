@@ -80,7 +80,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     // Rating layout views
     private TextView totalRatings;
-    private LinearLayout ratingsNoContainer, rateNowCantainer;
+    public static LinearLayout ratingsNoContainer, rateNowCantainer;
     private TextView totalRatingsFigure;
     private LinearLayout ratingsProgressBarContainer;
     private TextView averageRating;
@@ -290,12 +290,17 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                 if (currentUser != null) {
                                 if (DBqueries.wishList.size() == 0) {
                                     DBqueries.loadWishList(ProductDetailsActivity.this,loadingDialog,false); //half h isliye
+
                                 }else {
                                     loadingDialog.dismiss();
                                     }
+                                if (DBqueries.myRating.size() == 0){
+                                    DBqueries.loadRatingList(ProductDetailsActivity.this);
+                                }
                                 }else{
                                     loadingDialog.dismiss();
                                 }
+
                                 if (DBqueries.wishList.contains(productID)){
                                     ALREADY_ADDED_TO_WISHLIST = true;
                                     addToWishlistBtn.setSupportImageTintList(getResources().getColorStateList(R.color.colorRed));
@@ -549,9 +554,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
         if (currentUser != null) {
             if (DBqueries.wishList.size() == 0) {
                 DBqueries.loadWishList(ProductDetailsActivity.this,loadingDialog,false); //half h isliye
+
             }else {
                 loadingDialog.dismiss();
             }
+
+        if (DBqueries.myRating.size() == 0) {
+            DBqueries.loadRatingList(ProductDetailsActivity.this);
+        }
         }else{
             loadingDialog.dismiss();
         }
@@ -577,7 +587,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void setReting(int starPosition) {
+    public static void setReting(int starPosition) {
         for (int x = 0; x < rateNowCantainer.getChildCount(); x++) {
             ImageView starBtn = (ImageView) rateNowCantainer.getChildAt(x);
             starBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#bebebe")));
