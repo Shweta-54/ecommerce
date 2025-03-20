@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -258,8 +259,8 @@ public class SignupTabFragment extends Fragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
 
-                                                    Map<String,Object> listSize = new HashMap<>();
-                                                    listSize.put("list_size",(long) 0);
+                                                    Map< String,Object > listSize = new HashMap<>();
+                                                    listSize.put("list_size", 0);
                                                     if (task.isSuccessful()){
                                                         firebaseFirestore.collection("USERS").document(firebaseAuth.getUid()).collection("USER_DATA").document("MY_WISHLIST")
                                                                         .set(listSize).addOnCompleteListener(new OnCompleteListener<Void>() {
