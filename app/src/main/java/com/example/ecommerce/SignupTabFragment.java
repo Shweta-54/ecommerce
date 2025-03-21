@@ -265,8 +265,12 @@ public class SignupTabFragment extends Fragment {
                                                         CollectionReference userDataReference = firebaseFirestore.collection("USERS").document(firebaseAuth.getUid()).collection("USER_DATA");
 
                                                         List<String> documnetNames = new ArrayList<>();
+
+
                                                         Map<String,Object> listSize = new HashMap<>();
                                                         listSize.put("list_size",(long) 0);
+
+
                                                         firebaseFirestore.collection("USERS").document(firebaseAuth.getUid()).collection("USER_DATA").document("MY_WISHLIST")
                                                                         .set(listSize).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                     @Override
