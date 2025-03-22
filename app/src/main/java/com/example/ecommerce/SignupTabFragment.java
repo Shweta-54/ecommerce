@@ -195,7 +195,7 @@ public class SignupTabFragment extends Fragment {
         signupbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               checkEmailAndPassword();
+                checkEmailAndPassword();
             }
         });
     }
@@ -215,8 +215,8 @@ public class SignupTabFragment extends Fragment {
             if (!TextUtils.isEmpty(fullname.getText())){
                 if (!TextUtils.isEmpty(password.getText()) && password.length() >= 8){
                     if (!TextUtils.isEmpty(confirmPassword.getText())){
-                             signupbtn.setEnabled(true);
-                             signupbtn.setTextColor(Color.rgb(255,255,255));
+                        signupbtn.setEnabled(true);
+                        signupbtn.setTextColor(Color.rgb(255,255,255));
                     }else {
                         signupbtn.setEnabled(false);
                         signupbtn.setTextColor(Color.argb(50,255,255,255));

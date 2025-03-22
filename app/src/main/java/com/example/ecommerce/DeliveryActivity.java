@@ -76,10 +76,10 @@ public class DeliveryActivity extends AppCompatActivity {
     }
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
-          if (id == android.R.id.home){
-              finish();
-              return true;
-          }
+        if (id == android.R.id.home){
+            finish();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }
