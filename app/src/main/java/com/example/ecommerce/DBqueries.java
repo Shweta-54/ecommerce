@@ -242,8 +242,7 @@ public class DBqueries {
                                 myRating.add((long)task.getResult().get("rating_"+x));
 
                                 if (task.getResult().get("product_ID_"+x).toString().equals(ProductDetailsActivity.productID) && ProductDetailsActivity.rateNowCantainer !=null ){
-                                    ProductDetailsActivity.initialRating = Integer.parseInt(String.valueOf((long)task.getResult().get("rating_"+x)))-1;
-                                    ProductDetailsActivity.setReting(ProductDetailsActivity.initialRating);
+                                    ProductDetailsActivity.setReting(Integer.parseInt(String.valueOf((long)task.getResult().get("rating_"+x)))-1);
                                 }
                             }
 
