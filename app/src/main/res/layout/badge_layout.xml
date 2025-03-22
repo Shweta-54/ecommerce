@@ -31,6 +31,6 @@
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@+id/badge_icon"
         app:layout_constraintStart_toStartOf="@+id/badge_icon" />
-
+    <!--hiii-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
