@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +24,11 @@ import java.util.Objects;
 public class DeliveryActivity extends AppCompatActivity {
 
     public static final int SELECT_ADDRESS = 0;
+    private Button continuetBtn;
+    private ConstraintLayout orderConfirmationLayout;
+    private ImageButton continueShoppingBtn;
+    private TextView orderId;
+
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -38,6 +46,10 @@ public class DeliveryActivity extends AppCompatActivity {
 
         RecyclerView deliveryRecyclerView = findViewById(R.id.delivery_recyclerview);
         Button changeORaddNewAddressbtn = findViewById(R.id.change_or_add_address_btn);
+        continuetBtn = findViewById(R.id.cart_continue_btn);
+        orderConfirmationLayout = findViewById(R.id.order_confirmation_layout);
+        continueShoppingBtn = findViewById(R.id.continue_shopping_btn);
+        orderId = findViewById(R.id.order_id);
 
 
 
@@ -46,9 +58,6 @@ public class DeliveryActivity extends AppCompatActivity {
         deliveryRecyclerView.setLayoutManager(layoutManager);
 
         List<CartItemModel> cartItemModelList = new ArrayList<>();
-        cartItemModelList.add(new CartItemModel(0,R.drawable.sh14,"Pixcel 2",2,"Rs.49999/-","Rs.59999/-",1,0,0));
-        cartItemModelList.add(new CartItemModel(0,R.drawable.sh15,"Pixcel 2",0,"Rs.49999/-","Rs.59999/-",1,1,0));
-        cartItemModelList.add(new CartItemModel(0,R.drawable.sh16,"Pixcel 2",2,"Rs.49999/-","Rs.59999/-",1,2,0));
         cartItemModelList.add(new CartItemModel(1,"Price (3 items)","Rs.169999/-","Free","Rs.169999/-","Rs.5999/-"));
 
         CartAdapter cartAdapter = new CartAdapter(cartItemModelList);
@@ -61,6 +70,9 @@ public class DeliveryActivity extends AppCompatActivity {
             myAddressesIntent.putExtra("MODE",SELECT_ADDRESS);
             startActivity(myAddressesIntent);
         });
+
+
+
     }
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
