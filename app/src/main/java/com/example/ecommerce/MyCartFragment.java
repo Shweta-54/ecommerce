@@ -47,15 +47,15 @@ public class MyCartFragment extends Fragment {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         cartItemsRecyclerView.setLayoutManager(layoutManager);
 
-        if (DBqueries.cartItemModelList.size() == 0){
-            DBqueries.cartList.clear();
-            DBqueries.loadCartList(getContext(),loadingDialog,true);
-        }else {
-            loadingDialog.dismiss();
-        }
-        cartAdapter = new CartAdapter(DBqueries.cartItemModelList);
-        cartItemsRecyclerView.setAdapter(cartAdapter);
-        cartAdapter.notifyDataSetChanged();
+//        if (DBqueries.cartItemModelList.size() == 0){
+//            DBqueries.cartList.clear();
+//            DBqueries.loadCartList(getContext(),loadingDialog,true);
+//        }else {
+//            loadingDialog.dismiss();
+//        }
+//        cartAdapter = new CartAdapter(DBqueries.cartItemModelList);
+//        cartItemsRecyclerView.setAdapter(cartAdapter);
+//        cartAdapter.notifyDataSetChanged();
 
 
         continueBtn.setOnClickListener(v -> {
