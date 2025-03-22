@@ -269,15 +269,20 @@ public class SignupTabFragment extends Fragment {
 
                                                         Map<String,Object> ratingsMap = new HashMap<>();
                                                         ratingsMap.put("list_size",(long) 0);
+
+                                                        Map<String,Object> cartMap = new HashMap<>();
+                                                        cartMap.put("list_size",(long) 0);
                                                         ////MAPS
 
                                                         List<String> documnetNames = new ArrayList<>();
                                                         documnetNames.add("MY_WISHLIST");
                                                         documnetNames.add("MY_RATINGS");
+                                                        documnetNames.add("MY_CART");
 
                                                         List<Map<String,Object>> documentFields = new ArrayList<>();
                                                         documentFields.add(wishlistMap);
                                                         documentFields.add(ratingsMap);
+                                                        documentFields.add(cartMap);
 
                                                         for (int x = 0;x < documnetNames.size();x++){
 
