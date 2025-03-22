@@ -4,9 +4,12 @@ import android.app.Dialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,12 +24,14 @@ import java.util.List;
 public class CartAdapter extends RecyclerView.Adapter {
 
     private List<CartItemModel> cartItemModelList;
+    private int lastPosition = -1;
 
     public CartAdapter(List<CartItemModel> cartItemModelList) {
         this.cartItemModelList = cartItemModelList;
     }
 
-    @Override
+    @Override//usha
+
     public int getItemViewType(int position) {
         switch (cartItemModelList.get(position).getType()){
             case 0:
@@ -65,7 +70,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                 String productPrice = cartItemModelList.get(position).getProductPrice();
                 String cuttedPrice = cartItemModelList.get(position).getCuttedPrice();
                 Long offersApplied = cartItemModelList.get(position).getOffersApplied();
-                ((CartItemViewholder)viewHolder).setItemDetails(productID,resource,title,freeCoupens,productPrice,cuttedPrice,offersApplied);
+                ((CartItemViewholder)viewHolder).setItemDetails(productID,resource,title,freeCoupens,productPrice,cuttedPrice,offersApplied,position);
                 break;
             case CartItemModel.TOTAL_AMOUNT:
                 String totalItems = cartItemModelList.get(position).getTotalItems();
@@ -77,6 +82,11 @@ public class CartAdapter extends RecyclerView.Adapter {
                 break;
             default:
                 return;
+        }
+        if (lastPosition < position) {
+            Animation animation = AnimationUtils.loadAnimation(viewHolder.itemView.getContext(), R.anim.fade_in);
+            viewHolder.itemView.setAnimation(animation);
+            lastPosition = position;
         }
 
     }
@@ -98,6 +108,8 @@ public class CartAdapter extends RecyclerView.Adapter {
         private TextView coupensApplied;
         private TextView productQuantity;
 
+        private LinearLayout deleteBtn;
+
          public CartItemViewholder(@NonNull View itemView) {
             super(itemView);
             productImage = itemView.findViewById(R.id.product_image5);
@@ -109,9 +121,11 @@ public class CartAdapter extends RecyclerView.Adapter {
             offersApplied = itemView.findViewById(R.id.offers_applied);
             coupensApplied = itemView.findViewById(R.id.coupens_applied);
             productQuantity = itemView.findViewById(R.id.product_quantity);
+
+            deleteBtn = itemView.findViewById(R.id.remove_item_btn);
          }
 
-         private void setItemDetails( String productId, String resource,String title,Long freecoupensNo,String productPriceText,String cuttedPriceText,Long offersAppliedNo){
+         private void setItemDetails( String productId, String resource,String title,Long freecoupensNo,String productPriceText,String cuttedPriceText,Long offersAppliedNo,int position){
 //             productImage.setImageResource(resource);
              Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.placeholder)).into(productImage);
              productTitle.setText(title);
@@ -163,6 +177,16 @@ public class CartAdapter extends RecyclerView.Adapter {
                          }
                      });
                      quantityDialog.show();
+                 }
+             });
+             deleteBtn.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     if (!ProductDetailsActivity.running_cart_query){
+                         ProductDetailsActivity.running_cart_query = true;
+
+                         DBqueries.removeFromCart(position,itemView.getContext());
+                     }
                  }
              });
 

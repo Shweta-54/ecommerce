@@ -191,7 +191,7 @@ public class DBqueries {
     }
 
     public static void removeFromWishlist(int index, Context context) {
-
+        String removedProductId = wishList.get(index);
         wishList.remove(index);
         Map<String, Object> updateWishlist = new HashMap<>();
 
@@ -216,6 +216,7 @@ public class DBqueries {
                             if (ProductDetailsActivity.addToWishlistBtn != null) {
                                 ProductDetailsActivity.addToWishlistBtn.setSupportImageTintList(context.getResources().getColorStateList(R.color.colorRed));
                             }
+                            wishList.add(index,removedProductId);
                             String error = task.getException().getMessage();
                             Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
                         }
@@ -309,6 +310,39 @@ public class DBqueries {
                     }
                 });
     }
+    public static void removeFromCart(int index, Context context) {
+        String removedProductId = cartList.get(index);
+        cartList.remove(index);
+        Map<String, Object> updateCartList = new HashMap<>();
+
+        for (int x = 0; x < cartList.size(); x++) {
+            updateCartList.put("product_ID_" + x, cartList.get(x));
+        }
+        updateCartList.put("list_size", (long) cartList.size());
+
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_CART")
+                .set(updateCartList).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            if (cartItemModelList.size() != 0){
+                                cartItemModelList.remove(index);
+                                MyCartFragment.cartAdapter.notifyDataSetChanged();
+                            }
+                            Toast.makeText(context, "Removed successfully!", Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            cartList.add(index,removedProductId);
+                            String error = task.getException().getMessage();
+                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                        }
+
+                        ProductDetailsActivity.running_cart_query = false;
+//                        ProductDetailsActivity.addToWishlistBtn.setEnabled(true);
+
+                    }
+                });
+    }
 
     public static void clearData () {
         categoryModelList.clear();
@@ -317,4 +351,5 @@ public class DBqueries {
         wishList.clear();
         wishlistModelList.clear();
     }
+
 }
