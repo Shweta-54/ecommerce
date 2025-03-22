@@ -5,6 +5,5 @@
         <solid android:color="@color/lavender"/>
         <stroke android:color="@color/white" android:width="1dp"/>
     </shape>
-    <!--hiii-->
 </item>
 </layer-list>
