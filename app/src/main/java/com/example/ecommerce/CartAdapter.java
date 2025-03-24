@@ -25,9 +25,13 @@ public class CartAdapter extends RecyclerView.Adapter {
 
     private List<CartItemModel> cartItemModelList;
     private int lastPosition = -1;
+    private TextView cartTotalAmount,cartTotalItemPrice,cartDeliveryPrice,cartSavedAmount;
+    private boolean showDeleteBtn;
 
-    public CartAdapter(List<CartItemModel> cartItemModelList) {
+    public CartAdapter(List<CartItemModel> cartItemModelList,TextView cartTotalAmount,boolean showDeleteBtn) {
         this.cartItemModelList = cartItemModelList;
+        this.cartTotalAmount = cartTotalAmount;
+        this.showDeleteBtn = showDeleteBtn;
     }
 
     @Override//usha
@@ -198,6 +202,12 @@ public class CartAdapter extends RecyclerView.Adapter {
                      quantityDialog.show();
                  }
              });
+
+             if (showDeleteBtn){
+                 deleteBtn.setVisibility(View.VISIBLE);
+             }else {
+                 deleteBtn.setVisibility(View.GONE);
+             }
              deleteBtn.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
@@ -237,6 +247,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                 deliveryPrice.setText("Rs."+deliveryPriceText+"/-");
             }
             totalAmount.setText("Rs."+totalAmountText+"/-");
+            cartTotalAmount.setText("Rs."+totalAmountText+"/-");
             savedAmount.setText("You saved Rs."+savedAmountText+"/- on this order");
         }
     }

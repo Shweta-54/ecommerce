@@ -16,8 +16,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 
@@ -28,6 +26,10 @@ public class DeliveryActivity extends AppCompatActivity {
     private ConstraintLayout orderConfirmationLayout;
     private ImageButton continueShoppingBtn;
     private TextView orderId;
+    private TextView totalAmount;
+    private TextView fullName;
+    private TextView fullAddress;
+    private TextView pincode;
 
 
     @SuppressLint("NotifyDataSetChanged")
@@ -50,6 +52,11 @@ public class DeliveryActivity extends AppCompatActivity {
         orderConfirmationLayout = findViewById(R.id.order_confirmation_layout);
         continueShoppingBtn = findViewById(R.id.continue_shopping_btn);
         orderId = findViewById(R.id.order_id);
+        totalAmount = findViewById(R.id.total_cart_amount);
+        fullName = findViewById(R.id.fullname_shipping_D);
+        fullAddress = findViewById(R.id.address);
+        pincode = findViewById(R.id.pincode);
+
 
 
 
@@ -57,9 +64,9 @@ public class DeliveryActivity extends AppCompatActivity {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         deliveryRecyclerView.setLayoutManager(layoutManager);
 
-        List<CartItemModel> cartItemModelList = new ArrayList<>();
 
-        CartAdapter cartAdapter = new CartAdapter(cartItemModelList);
+
+        CartAdapter cartAdapter = new CartAdapter(DBqueries.cartItemModelList,totalAmount,false);
         deliveryRecyclerView.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
 
@@ -70,6 +77,10 @@ public class DeliveryActivity extends AppCompatActivity {
             startActivity(myAddressesIntent);
         });
 
+
+       fullName.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFullname());
+       fullAddress.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAddress());
+       pincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
 
 
     }

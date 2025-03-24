@@ -2,7 +2,6 @@ package com.example.ecommerce;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +18,11 @@ public class MyCartFragment extends Fragment {
 
     private Dialog loadingDialog;
     public static CartAdapter  cartAdapter;
+    private TextView totalAmount;
 
     public MyCartFragment() {
         // Required empty public constructor
     }
-
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +41,7 @@ public class MyCartFragment extends Fragment {
 
         RecyclerView cartItemsRecyclerView = view.findViewById(R.id.cart_items_recyclerview);
         Button continueBtn = view.findViewById(R.id.cart_continue_btn);
+         totalAmount = view.findViewById(R.id.total_cart_amount);
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -54,14 +54,14 @@ public class MyCartFragment extends Fragment {
         }else {
             loadingDialog.dismiss();
         }
-        cartAdapter = new CartAdapter(DBqueries.cartItemModelList);
+        cartAdapter = new CartAdapter(DBqueries.cartItemModelList,totalAmount,true);
         cartItemsRecyclerView.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
 
 
         continueBtn.setOnClickListener(v -> {
-            Intent  deliverIntent = new Intent(getContext(), AddAddressActivity.class);
-            requireContext().startActivity(deliverIntent);
+            loadingDialog.show();
+            DBqueries.loadAddresses(getContext(),loadingDialog);
         });
         return view;
     }

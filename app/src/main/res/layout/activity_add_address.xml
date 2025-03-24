@@ -50,7 +50,7 @@
                 app:srcCompat="@drawable/address" />
 
             <EditText
-                android:id="@+id/flat_no"
+                android:id="@+id/city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -108,15 +108,15 @@
                     android:textColor="@color/lavender"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/state_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
-                    android:hint="State*"
-                    android:inputType="textPersonName"
-                    android:textColor="@color/lavender"
+                    android:background="@drawable/border_background"
+                    android:backgroundTint="@color/RecyclerViewBackground"
                     tools:ignore="TouchTargetSizeCheck" />
             </LinearLayout>
 
@@ -159,11 +159,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
                 android:layout_weight="1"
                 android:hint="Moblie no.*"
                 android:inputType="number"
+                android:minHeight="48dp"
                 android:textColor="@color/lavender" />
 
             <EditText
@@ -171,11 +172,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
                 android:layout_weight="1"
                 android:hint="Alternate moblie no.(optional)"
                 android:inputType="number"
+                android:minHeight="48dp"
                 android:textColor="@color/lavender" />
 
             <Button
