@@ -128,11 +128,14 @@ public class AddAddressActivity extends AppCompatActivity {
                                                         }else {
                                                             DBqueries.addressesModelList.add(new AddressesModel(name.getText().toString() + "-" + mobileNo.getText().toString() + " / " + alternateMobileNo.getText().toString(),fullAddress,pinCode.getText().toString(),true));
                                                         }
-                                                        DBqueries.selectedAddress = DBqueries.addressesModelList.size() - 1;
+
                                                         if (getIntent().getStringExtra("INTENT").equals("deliverIntent")) {
                                                             Intent deliverIntent = new Intent(AddAddressActivity.this, DeliveryActivity.class);
                                                             startActivity(deliverIntent);
+                                                        }else {
+                                                            MyAddressesActivity.refreshItem(DBqueries.selectedAddress, DBqueries.addressesModelList.size() - 1);
                                                         }
+                                                        DBqueries.selectedAddress = DBqueries.addressesModelList.size() - 1;
                                                             finish();
                                                 }else {
                                                     String error = task.getException().getMessage();

@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.ecommerce.databinding.ActivityMainBinding;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -63,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Dialog logInDialog;
     private FirebaseUser currentUser;
-   // public static DrawerLayout drawer;
+    private int scrollFlags;
+    private AppBarLayout.LayoutParams params;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -81,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
 
         window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        scrollFlags = params.getScrollFlags();
+
         drawerLayout = binding.drawerLayout;
         navigationView = binding.navView;
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -275,6 +281,9 @@ public class MainActivity extends AppCompatActivity {
         setFragment(fragment,fragmentNo);
         if (fragmentNo == CART_FRAGMENT) {
             navigationView.getMenu().getItem(3).setChecked(true);
+            params.setScrollFlags(0);
+        }else {
+            params.setScrollFlags(scrollFlags);
         }
     }
 
