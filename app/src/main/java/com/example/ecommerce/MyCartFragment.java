@@ -50,8 +50,8 @@ public class MyCartFragment extends Fragment {
 
         if (DBqueries.cartItemModelList.size() == 0){
             DBqueries.cartList.clear();
-            DBqueries.loadCartList(getContext(),loadingDialog,true,new TextView(getContext()));
-        }else {
+//            DBqueries.loadCartList(getContext(),loadingDialog,true,new TextView(getContext()));
+       }else {
             loadingDialog.dismiss();
         }
         cartAdapter = new CartAdapter(DBqueries.cartItemModelList);
