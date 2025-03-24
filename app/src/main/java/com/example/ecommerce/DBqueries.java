@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -236,34 +234,42 @@ public class DBqueries {
     }
 
     public static void loadRatingList(Context context){
-        myRatedIds.clear();
-        myRating.clear();
-        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_RATINGS")
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()){
+        if (!ProductDetailsActivity.running_rating_query) {
+            ProductDetailsActivity.running_rating_query = true;
+            myRatedIds.clear();
+            myRating.clear();
+            firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_RATINGS")
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
 
-                            for (long x = 0;x < (long)task.getResult().get("list_size");x++){
-                                myRatedIds.add(task.getResult().get("product_ID_"+x).toString());
-                                myRating.add((long)task.getResult().get("rating_"+x));
+                                for (long x = 0; x < (long) task.getResult().get("list_size"); x++) {
+                                    myRatedIds.add(task.getResult().get("product_ID_" + x).toString());
+                                    myRating.add((long) task.getResult().get("rating_" + x));
 
-                                if (task.getResult().get("product_ID_"+x).toString().equals(ProductDetailsActivity.productID) && ProductDetailsActivity.rateNowCantainer !=null ){
-                                    ProductDetailsActivity.initialRating = Integer.parseInt(String.valueOf((long)task.getResult().get("rating_"+x)))-1;
-                                    ProductDetailsActivity.setReting(ProductDetailsActivity.initialRating);
+                                    if (task.getResult().get("product_ID_" + x).toString().equals(ProductDetailsActivity.productID)) {
+
+                                        ProductDetailsActivity.initialRating = Integer.parseInt(String.valueOf((long) task.getResult().get("rating_" + x))) - 1;
+                                        if (ProductDetailsActivity.rateNowCantainer != null) {
+                                            ProductDetailsActivity.setReting(ProductDetailsActivity.initialRating);
+                                        }
+                                    }
+
                                 }
+
+                            } else {
+                                String error = task.getException().getMessage();
+                                Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+
                             }
-
-                        }else {
-                            String error = task.getException().getMessage();
-                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
-
+                            ProductDetailsActivity.running_rating_query = false;
                         }
-                    }
-                });
+                    });
+        }
     }
 
-    public static void loadCartList(final Context context, final Dialog dialog, final boolean loadProductData, final TextView badgeCount){
+    public static void loadCartList(final Context context, final Dialog dialog,final boolean loadProductData){
         cartList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_CART")
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -272,6 +278,7 @@ public class DBqueries {
                         if (task.isSuccessful()){
                             for (long x = 0; x < (long) task.getResult().get("list_size"); x++){
                                 cartList.add(task.getResult().get("product_ID_"+x).toString());
+
                                 if (DBqueries.cartList.contains(ProductDetailsActivity.productID)){
                                     ProductDetailsActivity. ALREADY_ADDED_TO_CART = true;
                                 }else {
@@ -286,12 +293,8 @@ public class DBqueries {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                     if (task.isSuccessful()) {
-                                                        int index = 0;
-                                                        if (cartList.size() >= 2) {
-                                                            index = cartList.size() - 2;
-                                                        }
 
-                                                        cartItemModelList.add(index,new CartItemModel(CartItemModel.CART_ITEM,productID
+                                                        cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM,productID
                                                                 ,task.getResult().get("product_image_1").toString()
                                                                 , task.getResult().get("product_title").toString()
                                                                 , (long) task.getResult().get("free_coupens")
@@ -301,12 +304,6 @@ public class DBqueries {
                                                                 ,(long) 0
                                                                 ,(long) 0 ));
 
-                                                        if (cartList.size() == 1){
-                                                            cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
-                                                        }
-                                                        if (cartList.size() == 0){
-                                                            cartItemModelList.clear();
-                                                        }
 
                                                         MyCartFragment.cartAdapter.notifyDataSetChanged();
 
@@ -319,17 +316,6 @@ public class DBqueries {
                                             });
                                 }
                             }
-                            if (cartList.size() == 0){
-                                badgeCount.setVisibility(View.VISIBLE);
-                            }else {
-                                badgeCount.setVisibility(View.INVISIBLE);
-                            }
-                            if (DBqueries.cartList.size() < 99) {
-                                badgeCount.setText(String.valueOf(DBqueries.cartList.size()));
-                            }else{
-                                badgeCount.setText("99");
-                            }
-
                         }else{
                             String error = task.getException().getMessage();
                             Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
@@ -357,10 +343,8 @@ public class DBqueries {
                                 cartItemModelList.remove(index);
                                 MyCartFragment.cartAdapter.notifyDataSetChanged();
                             }
-                            if (cartList.size() == 0){
-                                cartItemModelList.clear();
-                            }
                             Toast.makeText(context, "Removed successfully!", Toast.LENGTH_SHORT).show();
+
                         }else{
                             cartList.add(index,removedProductId);
                             String error = task.getException().getMessage();
@@ -413,8 +397,6 @@ public class DBqueries {
         loadedCategoriesNames.clear();
         wishList.clear();
         wishlistModelList.clear();
-        cartList.clear();
-        cartItemModelList.clear();
     }
 
 }
