@@ -18,7 +18,7 @@ import java.util.List;
 /** @noinspection ALL*/
 public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpecificationAdapter.ViewHolder> {
 
-    private final List<ProductSpecificationModel> productSpecificationModelList;
+    private List<ProductSpecificationModel> productSpecificationModelList;
 
     public ProductSpecificationAdapter(List<ProductSpecificationModel> productSpecificationModelList) {
         this.productSpecificationModelList = productSpecificationModelList;

@@ -270,6 +270,9 @@ public class SignupTabFragment extends Fragment {
                                                         Map<String,Object> ratingsMap = new HashMap<>();
                                                         ratingsMap.put("list_size",(long) 0);
 
+                                                        Map<String,Object> myAddressestMap = new HashMap<>();
+                                                        myAddressestMap.put("list_size",(long) 0);
+
                                                         Map<String,Object> cartMap = new HashMap<>();
                                                         cartMap.put("list_size",(long) 0);
                                                         ////MAPS
@@ -278,11 +281,13 @@ public class SignupTabFragment extends Fragment {
                                                         documnetNames.add("MY_WISHLIST");
                                                         documnetNames.add("MY_RATINGS");
                                                         documnetNames.add("MY_CART");
+                                                        documnetNames.add("MY_ADDRESSES");
 
                                                         List<Map<String,Object>> documentFields = new ArrayList<>();
                                                         documentFields.add(wishlistMap);
                                                         documentFields.add(ratingsMap);
                                                         documentFields.add(cartMap);
+                                                        documentFields.add(myAddressestMap);
 
                                                         for (int x = 0;x < documnetNames.size();x++){
 
