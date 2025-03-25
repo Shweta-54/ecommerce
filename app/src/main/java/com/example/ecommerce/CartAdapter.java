@@ -1,7 +1,6 @@
 package com.example.ecommerce;
 
 import android.app.Dialog;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,8 +74,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                 String productPrice = cartItemModelList.get(position).getProductPrice();
                 String cuttedPrice = cartItemModelList.get(position).getCuttedPrice();
                 Long offersApplied = cartItemModelList.get(position).getOffersApplied();
-                boolean inStock = cartItemModelList.get(position).isInStock();
-                ((CartItemViewholder)viewHolder).setItemDetails(productID,resource,title,freeCoupens,productPrice,cuttedPrice,offersApplied,position,inStock);
+                ((CartItemViewholder)viewHolder).setItemDetails(productID,resource,title,freeCoupens,productPrice,cuttedPrice,offersApplied,position);
                 break;
             case CartItemModel.TOTAL_AMOUNT:
 
@@ -150,7 +148,7 @@ public class CartAdapter extends RecyclerView.Adapter {
             deleteBtn = itemView.findViewById(R.id.remove_item_btn);
          }
 
-         private void setItemDetails( String productId, String resource,String title,Long freecoupensNo,String productPriceText,String cuttedPriceText,Long offersAppliedNo,int position,boolean inStock){
+         private void setItemDetails( String productId, String resource,String title,Long freecoupensNo,String productPriceText,String cuttedPriceText,Long offersAppliedNo,int position){
 //             productImage.setImageResource(resource);
              Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.placeholder)).into(productImage);
              productTitle.setText(title);
@@ -166,16 +164,8 @@ public class CartAdapter extends RecyclerView.Adapter {
                  freeCoupensIcon.setVisibility(View.INVISIBLE);
                  freecoupens.setVisibility(View.INVISIBLE);
              }
-
-             if (inStock) {
-                 productPrice.setText(productPriceText);
-                 productPrice.setText(Color.parseColor("#000000"));
-                 cuttedPrice.setText(cuttedPriceText);
-             }else{
-                 productPrice.setText("Out of Stock");
-                 productPrice.setTextColor(itemView.getContext().getResources().getColor(R.color.lavender));
-                 cuttedPrice.setText("");
-             }
+             productPrice.setText(productPriceText);
+             cuttedPrice.setText(cuttedPriceText);
              if (offersAppliedNo > 0){
                  offersApplied.setVisibility(View.VISIBLE);
                  offersApplied.setText(offersAppliedNo + " offers applied");
