@@ -78,12 +78,17 @@ public class DeliveryActivity extends AppCompatActivity {
         });
 
 
-       fullName.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFullname());
-       fullAddress.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAddress());
-       pincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
+           }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        fullName.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFullname());
+        fullAddress.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAddress());
+        pincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
 
     }
+
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
         if (id == android.R.id.home){
