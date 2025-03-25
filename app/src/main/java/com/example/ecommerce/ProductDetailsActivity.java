@@ -304,7 +304,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                         loadingDialog.dismiss();
                                     }
                                     if (DBqueries.cartList.size() == 0) {
-                                        DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false, badgeCount);
+                                        DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false, badgeCount);////gfhg
                                     }
                                     if (DBqueries.myRating.size() == 0) {
                                         DBqueries.loadRatingList(ProductDetailsActivity.this);
