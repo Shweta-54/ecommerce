@@ -48,7 +48,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     public static boolean running_widhlist_query = false;
     public static boolean running_rating_query = false;
     public static boolean running_cart_query = false;
-
+//hiii
     public static String productID;
     public static MenuItem cartItem;
     private ViewPager productImagesViewpager;
