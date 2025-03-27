@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -271,7 +272,7 @@ public class DBqueries {
         }
     }
 
-    public static void loadCartList(final Context context, final Dialog dialog, final boolean loadProductData, final TextView badgeCount){
+    public static void loadCartList(final Context context, final Dialog dialog, final boolean loadProductData, final TextView badgeCount,final TextView cartTotalAmount){
         cartList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_CART")
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -295,8 +296,12 @@ public class DBqueries {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                     if (task.isSuccessful()) {
+                                                        int index = 0 ;
+                                                        if (cartList.size() >= 2){
+                                                            index = cartList.size() - 2;
+                                                        }
 
-                                                        cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM,productID
+                                                        cartItemModelList.add(index,new CartItemModel(CartItemModel.CART_ITEM,productID
                                                                 ,task.getResult().get("product_image_1").toString()
                                                                 , task.getResult().get("product_title").toString()
                                                                 , (long) task.getResult().get("free_coupens")
@@ -307,7 +312,14 @@ public class DBqueries {
                                                                 ,(long) 0
                                                                 ,(boolean)task.getResult().get("in_stock")));
 
-
+                                                        if (cartList.size() == 1) {
+                                                            cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
+                                                            LinearLayout parent = (LinearLayout) cartTotalAmount.getParent().getParent();
+                                                            parent.setVisibility(View.VISIBLE);
+                                                        }
+                                                        if (cartList.size() == 0) {
+                                                            cartItemModelList.clear();
+                                                        }
                                                         MyCartFragment.cartAdapter.notifyDataSetChanged();
 
                                                     } else {
@@ -339,7 +351,7 @@ public class DBqueries {
                     }
                 });
     }
-    public static void removeFromCart(int index, Context context) {
+    public static void removeFromCart(int index, Context context,TextView cartTotalAmount) {
         String removedProductId = cartList.get(index);
         cartList.remove(index);
         Map<String, Object> updateCartList = new HashMap<>();
@@ -358,8 +370,10 @@ public class DBqueries {
                                 cartItemModelList.remove(index);
                                 MyCartFragment.cartAdapter.notifyDataSetChanged();
                             }
-                            if (ProductDetailsActivity.cartItem != null) {
-                                ProductDetailsActivity.cartItem.setActionView(null);
+                            if (cartList.size() == 0) {
+                                LinearLayout parent = (LinearLayout) cartTotalAmount.getParent().getParent();
+                                parent.setVisibility(View.GONE);
+                                cartItemModelList.clear();
                             }
                             Toast.makeText(context, "Removed successfully!", Toast.LENGTH_SHORT).show();
 

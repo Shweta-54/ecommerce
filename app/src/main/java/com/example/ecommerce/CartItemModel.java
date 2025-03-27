@@ -124,7 +124,7 @@ public class CartItemModel {
 
     //////cart total
 
-    public CartItemModel(int type, String productID, String productImage1, String productTitle, long freeCoupens, String productPrice, String cuttedPrice, long l, long l1, long l2, boolean inStock) {
+    public CartItemModel(int type) {
         this.type = type;
     }
 

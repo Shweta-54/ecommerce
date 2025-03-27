@@ -1,7 +1,6 @@
 package com.example.ecommerce;
 
 import android.app.Dialog;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -236,7 +235,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                     if (!ProductDetailsActivity.running_cart_query){
                         ProductDetailsActivity.running_cart_query = true;
 
-                        DBqueries.removeFromCart(position,itemView.getContext());
+                        DBqueries.removeFromCart(position,itemView.getContext(),cartTotalAmount);
                     }
                 }
             });
@@ -272,10 +271,12 @@ public class CartAdapter extends RecyclerView.Adapter {
             cartTotalAmount.setText("Rs."+totalAmountText+"/-");
             savedAmount.setText("You saved Rs."+savedAmountText+"/- on this order");
 
+            LinearLayout parent = (LinearLayout) cartTotalAmount.getParent().getParent();
             if (totalItemPriceText == 0){
                 DBqueries.cartItemModelList.remove(DBqueries.cartItemModelList.size()-1);
-                LinearLayout parent = (LinearLayout) cartTotalAmount.getParent().getParent();
                 parent.setVisibility(View.GONE);
+            }else {
+                parent.setVisibility(View.VISIBLE);
             }
         }
     }

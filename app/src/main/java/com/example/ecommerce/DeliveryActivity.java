@@ -1,21 +1,28 @@
 package com.example.ecommerce;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.Manifest;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -30,6 +37,10 @@ public class DeliveryActivity extends AppCompatActivity {
     private TextView fullName;
     private TextView fullAddress;
     private TextView pincode;
+    public static List<CartItemModel> cartItemModelList;
+    private Dialog loadingDialog;
+    private Dialog paymentMethodDialog;
+    private  ImageButton paytm;
 
 
     @SuppressLint("NotifyDataSetChanged")
@@ -59,6 +70,22 @@ public class DeliveryActivity extends AppCompatActivity {
 
 
 
+        ////loading dialog
+        loadingDialog = new Dialog(DeliveryActivity.this);
+        loadingDialog.setContentView(R.layout.loading_progress_dialog);
+        loadingDialog.setCancelable(false);
+        loadingDialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.slider_background));
+        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        ////loading dialog
+
+
+        ////loading dialog
+        paymentMethodDialog = new Dialog(DeliveryActivity.this);
+        paymentMethodDialog.setContentView(R.layout.payment_method);
+        paymentMethodDialog.setCancelable(true);
+        paymentMethodDialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.slider_background));
+        paymentMethodDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        ////loading dialog
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -66,7 +93,7 @@ public class DeliveryActivity extends AppCompatActivity {
 
 
 
-        CartAdapter cartAdapter = new CartAdapter(DBqueries.cartItemModelList,totalAmount,false);
+        CartAdapter cartAdapter = new CartAdapter(cartItemModelList,totalAmount,false);
         deliveryRecyclerView.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
 
@@ -77,8 +104,34 @@ public class DeliveryActivity extends AppCompatActivity {
             startActivity(myAddressesIntent);
         });
 
+        continuetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paymentMethodDialog.show();
+                 paytm = paymentMethodDialog.findViewById(R.id.paytm);
 
-           }
+
+            }
+        });
+
+        paytm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paymentMethodDialog.dismiss();
+                loadingDialog.show();
+
+                if (ContextCompat.checkSelfPermission(DeliveryActivity.this, Manifest.permission.READ_SMS)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(DeliveryActivity.this,
+                            new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS},
+                            101);
+                }
+
+            }
+        });
+
+    }
 
     @Override
     protected void onStart() {
