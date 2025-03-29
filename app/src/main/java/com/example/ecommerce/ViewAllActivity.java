@@ -12,7 +12,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ViewAllActivity extends AppCompatActivity {
@@ -54,9 +53,6 @@ public class ViewAllActivity extends AppCompatActivity {
 
 
             gridView.setVisibility(View.VISIBLE);
-
-
-
             GridProductLayoutAdapter gridProductLayoutAdapter = new GridProductLayoutAdapter(horizontalProductScrollModelList);
             gridView.setAdapter(gridProductLayoutAdapter);
         }

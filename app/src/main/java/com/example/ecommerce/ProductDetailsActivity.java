@@ -51,6 +51,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     //hiii
     public static String productID;
     public static MenuItem cartItem;
+    public static ProductDetailsActivity productDetailsActivity;
     private ViewPager productImagesViewpager;
     private TextView productTitle, averageRatingMiniView, totalRatingMiniView, productPrice, cuttedPrice;
     private ImageView codIndicator;
@@ -438,7 +439,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                             , (long) documentSnapshot.get("total_ratings")
                                                             , documentSnapshot.get("product_price").toString()
                                                             , documentSnapshot.get("cutted_price").toString()
-                                                            , (boolean) documentSnapshot.get("COD")));
+                                                            , (boolean) documentSnapshot.get("COD")
+                                                    ,(boolean) documentSnapshot.get("in_stock")));
                                                 }
 
                                                 ALREADY_ADDED_TO_WISHLIST = true;
@@ -606,7 +608,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 if (currentUser == null) {
                     logInDialog.show();
                 } else {
-                    DeliveryActivity.cartItemModelList.clear();
+                    DeliveryActivity.fromCart = false;
+                    loadingDialog.show();
                     DeliveryActivity.cartItemModelList = new ArrayList<>();
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM, productID
                             , documentSnapshot.get("product_image_1").toString()
@@ -617,7 +620,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             , (long) 1
                             , (long) 0
                             , (long) 0
-                            , (boolean) documentSnapshot.get("is_in_stock")));
+                            , (boolean) documentSnapshot.get("in_stock")));
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
                     if (DBqueries.addressesModelList.size() == 0) {
                         DBqueries.loadAddresses(ProductDetailsActivity.this, loadingDialog);

@@ -1,6 +1,7 @@
 pluginManagement {
     repositories {
         google {
+
             content {
                 includeGroupByRegex("com\\.android.*")
                 includeGroupByRegex("com\\.google.*")
@@ -17,8 +18,10 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url "https://jitpack.io" }
+
     }
 }
+
 
 rootProject.name = "ecommerce"
 include ':app'

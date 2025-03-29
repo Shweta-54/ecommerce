@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -178,10 +177,10 @@ public class HomeFragment extends Fragment {
     @SuppressLint("WrongConstant")
     private void reloadPage() {
         networkInfo = connectivityManager.getActiveNetworkInfo();
-        categoryModelList.clear();
-        lists.clear();
-        loadedCategoriesNames.clear();
-
+//        categoryModelList.clear();
+//        lists.clear();
+//        loadedCategoriesNames.clear();
+        DBqueries.clearData();
         if (networkInfo != null && networkInfo.isConnected() == true) {
             MainActivity.drawerLayout.setDrawerLockMode(0);
             noInternetConnection.setVisibility(View.GONE);
@@ -196,7 +195,7 @@ public class HomeFragment extends Fragment {
             loadCategories(categoryRecyclerView, getContext());
             loadedCategoriesNames.add("Home");
             lists.add(new ArrayList<HomePageModel>());
-            adapter = new HomePageAdapter(lists.get(0));
+//            adapter = new HomePageAdapter(lists.get(0));
             loadFragmentData(homePageRecyclerView, getContext(), 0, "Home");
         } else {
             MainActivity.drawerLayout.setDrawerLockMode(1);

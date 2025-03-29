@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +39,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     public static DrawerLayout drawerLayout;
+    public static MainActivity mainActivity;
     private NavigationView navigationView;
 
     private static final int HOME_FRAGMENT = 0;
@@ -81,9 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//        AppBarLayout appBarLayout = findViewById(R.id.appBarLayout);
-//        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-//        toolbar.setLayoutParams(params);
+
         drawerLayout = binding.drawerLayout;
         navigationView = binding.navView;
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -95,6 +95,18 @@ public class MainActivity extends AppCompatActivity {
         // ✅ Handle navigation item selection
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
         navigationView.getMenu().getItem(0).setChecked(true);
+
+        //from chatgpt
+        badgeCount = findViewById(R.id.badge_count);
+
+        if (badgeCount == null) {
+            Log.e("MainActivity", "Badge count TextView is null");
+        }
+
+        if (currentUser != null) {
+            DBqueries.loadCartList(this, new Dialog(this), false, badgeCount, new TextView(this));
+        }
+        //from chatgpt
 
 
         if (savedInstanceState == null)
@@ -244,47 +256,57 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawerLayout, toolbar,
+//                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
+//
+//        if (showCart) {
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            toggle.setDrawerIndicatorEnabled(false);
+//        } else {
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            toggle.setDrawerIndicatorEnabled(true);
+//        }
+//    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        // ✅ Ensure that the correct icon is set
-        if (showCart) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            toggle.setDrawerIndicatorEnabled(false);
-        } else {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            toggle.setDrawerIndicatorEnabled(true);
-        }
-    }
-
-    private void gotoFragment(String title,Fragment fragment,int fragmentNo) {
+    private void gotoFragment(String title, Fragment fragment, int fragmentNo) {
         actionbarlogo.setVisibility(View.GONE);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle(title);
         invalidateOptionsMenu();
 
         showCart = (fragmentNo == CART_FRAGMENT);
-        setFragment(fragment,fragmentNo);
+        setFragment(fragment, fragmentNo);
+
+        // Update drawer indicator based on the fragment
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
         if (showCart) {
+            // Cart fragment par bhi drawer ko accessible rakhenge
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            toggle.setDrawerIndicatorEnabled(true);  // Drawer icon enabled for cart
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED); // Unlock drawer
         } else {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toggle.setDrawerIndicatorEnabled(true);   // Enable drawer icon for other fragments
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         }
+
         if (fragmentNo == CART_FRAGMENT || showCart) {
             navigationView.getMenu().getItem(3).setChecked(true);
-//            params.setScrollFlags(0);
-
         }
     }
+
 
     @SuppressWarnings("StatemenWithEmptyBody")
 
