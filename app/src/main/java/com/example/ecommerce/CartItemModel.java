@@ -1,5 +1,8 @@
 package com.example.ecommerce;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CartItemModel {
 
     public static final int CART_ITEM = 0;
@@ -23,11 +26,15 @@ public class CartItemModel {
     private String productPrice;
     private String cuttedPrice;
     private Long productQuentity;
+    private Long maxQuentity;
+    private Long stockQuentity;
     private Long offersApplied;
     private Long coupensApplied;
   private boolean inStock;
 
-    public CartItemModel(int type, String productID,String productImage, String productTitle, Long freeCoupens, String productPrice, String cuttedPrice, Long productQuentity, Long offersApplied, Long coupensApplied,boolean inStock) {
+  private List<String> qtyIDs;
+
+    public CartItemModel(int type, String productID,String productImage, String productTitle, Long freeCoupens, String productPrice, String cuttedPrice, Long productQuentity, Long offersApplied, Long coupensApplied,boolean inStock,Long maxQuentity,Long stockQuentity) {
         this.type = type;
         this.productID = productID;
         this.productImage = productImage;
@@ -39,6 +46,33 @@ public class CartItemModel {
         this.offersApplied = offersApplied;
         this.coupensApplied = coupensApplied;
         this.inStock = inStock;
+        this.maxQuentity = maxQuentity;
+        this.stockQuentity = stockQuentity;
+        qtyIDs = new ArrayList<>();
+    }
+
+    public Long getStockQuentity() {
+        return stockQuentity;
+    }
+
+    public void setStockQuentity(Long stockQuentity) {
+        this.stockQuentity = stockQuentity;
+    }
+
+    public List<String> getQtyIDs() {
+        return qtyIDs;
+    }
+
+    public void setQtyIDs(List<String> qtyIDs) {
+        this.qtyIDs = qtyIDs;
+    }
+
+    public Long getMaxQuentity() {
+        return maxQuentity;
+    }
+
+    public void setMaxQuentity(Long maxQuentity) {
+        this.maxQuentity = maxQuentity;
     }
 
     public boolean isInStock() {

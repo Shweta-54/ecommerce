@@ -114,7 +114,9 @@ dependencies {
 ////from one video
 
     implementation(libs.checkout)
-
+    implementation 'com.google.firebase:firebase-messaging'
+    // Firebase BOM (Bill of Materials) for automatic version management
+    implementation platform(libs.firebase.bom)
 
 
 

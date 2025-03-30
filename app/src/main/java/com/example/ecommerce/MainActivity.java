@@ -29,6 +29,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.ecommerce.databinding.ActivityMainBinding;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static DrawerLayout drawerLayout;
     public static MainActivity mainActivity;
+    public static boolean resetMainActivity = false;
     private NavigationView navigationView;
+
 
     private static final int HOME_FRAGMENT = 0;
     private static final int CART_FRAGMENT = 1;
@@ -54,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private int currentFragment = -1;
     private TextView actionbarlogo;
     private TextView badgeCount;
-
+    private int scrollFlags;
+    private AppBarLayout.LayoutParams params;
     private static final int REWARDS_FRAGMENT = 4;
 
     private static final int ACCOUNT_FRAGMENT = 5;
@@ -83,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
 
         window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        scrollFlags = params.getScrollFlags();
 
         drawerLayout = binding.drawerLayout;
         navigationView = binding.navView;
@@ -160,9 +167,16 @@ public class MainActivity extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         super.onStart();
         if (currentUser == null){
-            navigationView.getMenu().getItem(navigationView.getMenu().size() -1).setEnabled(false);
+            navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         }else{
-            navigationView.getMenu().getItem(navigationView.getMenu().size() -1).setEnabled(true);
+            navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(true);
+        }
+
+        if (resetMainActivity) {
+            actionbarlogo.setVisibility(View.VISIBLE);
+            resetMainActivity = false;
+            setFragment(new HomeFragment(), HOME_FRAGMENT);
+            navigationView.getMenu().getItem(0).setChecked(true);
         }
         invalidateOptionsMenu();
     }
