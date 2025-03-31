@@ -195,7 +195,6 @@ public class HomeFragment extends Fragment {
             loadCategories(categoryRecyclerView, getContext());
             loadedCategoriesNames.add("Home");
             lists.add(new ArrayList<HomePageModel>());
-//            adapter = new HomePageAdapter(lists.get(0));
             loadFragmentData(homePageRecyclerView, getContext(), 0, "Home");
         } else {
             MainActivity.drawerLayout.setDrawerLockMode(1);

@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        com.example.ecommerce.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -217,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
                 badgeIcon.setImageResource(R.drawable.ic_cart);
                  badgeCount = cartItem.getActionView().findViewById(R.id.badge_count);
                  if (currentUser != null) {
+
                      if (DBqueries.cartList.size() == 0) {
                          DBqueries.loadCartList(MainActivity.this, new Dialog(MainActivity.this), false, badgeCount,new TextView(MainActivity.this));
                      } else {

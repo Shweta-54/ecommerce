@@ -684,15 +684,15 @@ public class ProductDetailsActivity extends AppCompatActivity {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         coupensRecyclerView.setLayoutManager(layoutManager);
 
-        // Sample rewards list
-        List<RewardModel> rewardModelList = new ArrayList<>();
-        rewardModelList.add(new RewardModel("CashBack", "till 2nd,June 2024", "GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
-        rewardModelList.add(new RewardModel("Discount", "till 2nd,June 2024", "GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
-        rewardModelList.add(new RewardModel("Buy 1 Get 1 Free", "till 2nd,June 2024", "GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
+//        // Sample rewards list
+//        List<RewardModel> rewardModelList = new ArrayList<>();
+//        rewardModelList.add(new RewardModel("CashBack", "till 2nd,June 2024", "GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
+//        rewardModelList.add(new RewardModel("Discount", "till 2nd,June 2024", "GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
+//        rewardModelList.add(new RewardModel("Buy 1 Get 1 Free", "till 2nd,June 2024", "GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
 
-        MyRewardsAdapter myRewardsAdapter = new MyRewardsAdapter(rewardModelList, true);
-        coupensRecyclerView.setAdapter(myRewardsAdapter);
-        myRewardsAdapter.notifyDataSetChanged();
+//        MyRewardsAdapter myRewardsAdapter = new MyRewardsAdapter(rewardModelList, true);
+//        coupensRecyclerView.setAdapter(myRewardsAdapter);
+//        myRewardsAdapter.notifyDataSetChanged();
 
         toggleRecyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
