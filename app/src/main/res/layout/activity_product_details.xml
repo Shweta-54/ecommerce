@@ -75,7 +75,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="ADD TA CART"
+                android:text="ADD TO CART"
                 android:drawableEnd="@drawable/ic_cart"
                 android:drawableTint="@color/lavender"
                 android:drawablePadding="8dp"
