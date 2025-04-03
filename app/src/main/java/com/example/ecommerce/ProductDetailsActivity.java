@@ -56,6 +56,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     public static ProductDetailsActivity productDetailsActivity;
     private ViewPager productImagesViewpager;
     private TextView productTitle, averageRatingMiniView, totalRatingMiniView, productPrice, cuttedPrice;
+    private String productOriginalPrice;
     private ImageView codIndicator;
     private TextView tvCodIndicator;
     private TabLayout viewpagerIndicator;
@@ -63,12 +64,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
     public static boolean ALREADY_ADDED_TO_WISHLIST = false;
     public static boolean ALREADY_ADDED_TO_CART = false;
     public static FloatingActionButton addToWishlistBtn;
-    private static RecyclerView coupensRecyclerView;
-    private static LinearLayout selectedCoupen;
+
+
     private TextView rewardTitle, rewardBody;
     private LinearLayout coupenRedemptionLayout;
     private TextView badgeCount;
-    private boolean inStock;
+    private boolean inStock = false;
 
     private DocumentSnapshot documentSnapshot;
 
@@ -85,7 +86,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private TextView productOnlyDescriptionBody;
 
     // Coupen dialog views
-    public static TextView coupentitle, coupenExpiryDate, coupenBody;
+    private TextView coupentitle, coupenExpiryDate, coupenBody;
+   private RecyclerView coupensRecyclerView;
+   private TextView originalPrice;
+   private TextView discountedPrice;
+   private  LinearLayout selectedCoupen;
 
     // Rating layout views
     public static int initialRating;
@@ -150,6 +155,35 @@ public class ProductDetailsActivity extends AppCompatActivity {
         loadingDialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.slider_background));
         loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         loadingDialog.show();
+
+
+        // Coupen dialog setup
+        final Dialog checkCoupenPriceDialog = new Dialog(ProductDetailsActivity.this);
+        checkCoupenPriceDialog.setContentView(R.layout.coupen_redeem_dialog);
+        checkCoupenPriceDialog.setCancelable(true);
+        checkCoupenPriceDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        ImageView toggleRecyclerView = checkCoupenPriceDialog.findViewById(R.id.toggle_recyclerview);
+        coupensRecyclerView = checkCoupenPriceDialog.findViewById(R.id.coupens_recyclerview);
+        selectedCoupen = checkCoupenPriceDialog.findViewById(R.id.selected_coupen);
+        coupentitle = checkCoupenPriceDialog.findViewById(R.id.coupen_title);
+        coupenExpiryDate = checkCoupenPriceDialog.findViewById(R.id.coupen_validity);
+        coupenBody = checkCoupenPriceDialog.findViewById(R.id.coupen_body);
+        originalPrice = checkCoupenPriceDialog.findViewById(R.id.original_price);
+        discountedPrice = checkCoupenPriceDialog.findViewById(R.id.discounted_price);
+
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(ProductDetailsActivity.this);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        coupensRecyclerView.setLayoutManager(layoutManager);
+        toggleRecyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogRecyclerView();
+            }
+        });
+        /////// End of coupen dialog
+
 
         // Initialize Firestore and load product data
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -232,12 +266,21 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                     averageRatingMiniView.setText(String.format("%.1f", avgRating));
                                                     averageRating.setText(String.format("%.1f", avgRating));
 
+                                                    // Fetching product price from Firestore
                                                     Long productPriceValue = documentSnapshot.getLong("product_price");
                                                     if (productPriceValue != null) {
+                                                        productOriginalPrice = String.valueOf(productPriceValue);
                                                         productPrice.setText("Rs." + productPriceValue + "/-");
+                                                        originalPrice.setText("Rs." + productOriginalPrice + "/-");
                                                     } else {
                                                         productPrice.setText("Rs. 0/-");
+                                                        productOriginalPrice = "0";
+                                                        originalPrice.setText("Rs. 0/-");
+                                                        Log.e("PriceError", "Product price is null in Firestore");
                                                     }
+                                                    MyRewardsAdapter myRewardsAdapter = new MyRewardsAdapter(DBqueries.rewardModelList, true, coupensRecyclerView, selectedCoupen,productOriginalPrice, coupentitle, coupenExpiryDate, coupenBody, discountedPrice);
+                                                    coupensRecyclerView.setAdapter(myRewardsAdapter);
+                                                    myRewardsAdapter.notifyDataSetChanged();
 
                                                     Long cuttedPriceValue = documentSnapshot.getLong("cutted_price");
                                                     if (cuttedPriceValue != null) {
@@ -310,24 +353,30 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
                                                     // Load user-specific data
                                                     if (currentUser != null) {
-                                                        if (DBqueries.wishList.size() == 0) {
-                                                            DBqueries.loadWishList(ProductDetailsActivity.this, loadingDialog, false);
-                                                        } else {
-                                                            loadingDialog.dismiss();
-                                                        }
                                                         if (DBqueries.cartList.size() == 0) {
                                                             DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false, badgeCount, new TextView(ProductDetailsActivity.this));
                                                         }
                                                         if (DBqueries.myRating.size() == 0) {
                                                             DBqueries.loadRatingList(ProductDetailsActivity.this);
                                                         }
+                                                        if (DBqueries.wishList.size() == 0) {
+                                                            DBqueries.loadWishList(ProductDetailsActivity.this, loadingDialog, false);
+                                                        }
+                                                        if (DBqueries.rewardModelList.size() == 0) {
+                                                            DBqueries.loadRewards(ProductDetailsActivity.this, loadingDialog,false);
+                                                        }
+                                                        if (DBqueries.cartList.size() != 0 && DBqueries.wishList.size() != 0 && DBqueries.rewardModelList.size() != 0) {
+                                                            loadingDialog.dismiss();
+                                                        }
+                                                        else {
+                                                            loadingDialog.dismiss();
+                                                        }
+
                                                         if (DBqueries.cartList.contains(productID)) {
                                                             ALREADY_ADDED_TO_CART = true;
                                                         } else {
                                                             ALREADY_ADDED_TO_CART = false;
                                                         }
-                                                    } else {
-                                                        loadingDialog.dismiss();
                                                     }
 
                                                     if (DBqueries.myRatedIds.contains(productID)) {
@@ -352,6 +401,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
                                                 if (task.getResult().getDocuments().size() < (long) documentSnapshot.get("stock_quantity")) {
                                                     inStock = true;
+                                                    BuyNowBtn.setVisibility(View.VISIBLE);
                                                     addToCartBtn.setOnClickListener(new View.OnClickListener() {
                                                         @Override
                                                         public void onClick(View v) {
@@ -366,7 +416,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                                     } else {
                                                                         Map<String, Object> addProduct = new HashMap<>();
                                                                         addProduct.put("product_ID_" + String.valueOf(DBqueries.cartList.size()), productID);
-                                                                        addProduct.put("list_size", (long) (DBqueries.wishList.size() + 1));
+                                                                        addProduct.put("list_size", (long) (DBqueries.cartList.size() + 1));
                                                                         firebaseFirestore.collection("USERS").document(currentUser.getUid()).collection("USER_DATA").document("MY_CART")
                                                                                 .update(addProduct).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                     @Override
@@ -380,7 +430,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                                                                         , documentSnapshot.get("product_price").toString()
                                                                                                         , documentSnapshot.get("cutted_price").toString()
                                                                                                         , (long) 1
-                                                                                                        , (long) 0
+                                                                                                        , (long) documentSnapshot.get("offers_applied")
                                                                                                         , (long) 0
                                                                                                         , inStock
                                                                                                         , (long) documentSnapshot.get("max_quantity")
@@ -644,7 +694,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             , documentSnapshot.get("product_price").toString()
                             , documentSnapshot.get("cutted_price").toString()
                             , (long) 1
-                            , (long) 0
+                            , (long) documentSnapshot.get("offers_applied")
                             , (long) 0
                             ,inStock
                     ,(long) documentSnapshot.get("max_quantity")
@@ -665,41 +715,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
         // Add to cart button click
 
 
-        // Coupen dialog setup
-        final Dialog checkCoupenPriceDialog = new Dialog(ProductDetailsActivity.this);
-        checkCoupenPriceDialog.setContentView(R.layout.coupen_redeem_dialog);
-        checkCoupenPriceDialog.setCancelable(true);
-        checkCoupenPriceDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        ImageView toggleRecyclerView = checkCoupenPriceDialog.findViewById(R.id.toggle_recyclerview);
-        coupensRecyclerView = checkCoupenPriceDialog.findViewById(R.id.coupens_recyclerview);
-        selectedCoupen = checkCoupenPriceDialog.findViewById(R.id.selected_coupen);
-        coupentitle = checkCoupenPriceDialog.findViewById(R.id.coupen_title);
-        coupenExpiryDate = checkCoupenPriceDialog.findViewById(R.id.coupen_validity);
-        coupenBody = checkCoupenPriceDialog.findViewById(R.id.coupen_body);
-        TextView originalPrice = checkCoupenPriceDialog.findViewById(R.id.original_price);
-        TextView discountedPrice = checkCoupenPriceDialog.findViewById(R.id.discounted_price);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(ProductDetailsActivity.this);
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        coupensRecyclerView.setLayoutManager(layoutManager);
-
-//        // Sample rewards list
-//        List<RewardModel> rewardModelList = new ArrayList<>();
-//        rewardModelList.add(new RewardModel("CashBack", "till 2nd,June 2024", "GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
-//        rewardModelList.add(new RewardModel("Discount", "till 2nd,June 2024", "GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
-//        rewardModelList.add(new RewardModel("Buy 1 Get 1 Free", "till 2nd,June 2024", "GET 20% CASHBACK on any product above Rs.200/- and Rs.3000/-."));
-
-//        MyRewardsAdapter myRewardsAdapter = new MyRewardsAdapter(rewardModelList, true);
-//        coupensRecyclerView.setAdapter(myRewardsAdapter);
-//        myRewardsAdapter.notifyDataSetChanged();
-
-        toggleRecyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialogRecyclerView();
-            }
-        });
 
         coupenRedeemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -751,28 +766,32 @@ public class ProductDetailsActivity extends AppCompatActivity {
             coupenRedemptionLayout.setVisibility(View.VISIBLE);
         }
         if (currentUser != null) {
-            if (DBqueries.cartList.contains(productID)) {
-                ALREADY_ADDED_TO_CART = true;
-            } else {
-                ALREADY_ADDED_TO_CART = false;
-            }
-
             if (DBqueries.myRating.size() == 0) {
                 DBqueries.loadRatingList(ProductDetailsActivity.this);
             }
-        } else {
-            loadingDialog.dismiss();
+            if (DBqueries.wishList.size() == 0) {
+                DBqueries.loadWishList(ProductDetailsActivity.this, loadingDialog, false);
+            }
+            if (DBqueries.rewardModelList.size() == 0) {
+                DBqueries.loadRewards(ProductDetailsActivity.this, loadingDialog, false);
+            }
+            if (DBqueries.cartList.size() != 0 && DBqueries.wishList.size() != 0 && DBqueries.rewardModelList.size() != 0) {
+                loadingDialog.dismiss();
+            } else {
+                loadingDialog.dismiss();
+            }
         }
+
         if (DBqueries.myRatedIds.contains(productID)) {
             int index = DBqueries.myRatedIds.indexOf(productID);
             initialRating = Integer.parseInt(String.valueOf(DBqueries.myRating.get(index))) - 1;
             setReting(initialRating);
         }
 
-        if (DBqueries.wishList.size() == 0) {
-            DBqueries.loadWishList(ProductDetailsActivity.this, loadingDialog, false);
+        if (DBqueries.cartList.contains(productID)) {
+            ALREADY_ADDED_TO_CART = true;
         } else {
-            loadingDialog.dismiss();
+            ALREADY_ADDED_TO_CART = false;
         }
 
         if (DBqueries.wishList.contains(productID)) {
@@ -784,7 +803,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         }
     }
 
-    public static void showDialogRecyclerView() {
+    private void showDialogRecyclerView() {
         if (coupensRecyclerView.getVisibility() == View.GONE) {
             coupensRecyclerView.setVisibility(View.VISIBLE);
             selectedCoupen.setVisibility(View.GONE);

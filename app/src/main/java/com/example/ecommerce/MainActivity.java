@@ -34,8 +34,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Objects;
-
 /** @noinspection ALL*/
 public class MainActivity extends AppCompatActivity {
 
@@ -80,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         actionbarlogo = findViewById(R.id.actionbar_logo);
         frameLayout = findViewById(R.id.main_framlayout);
@@ -217,7 +215,6 @@ public class MainActivity extends AppCompatActivity {
                 badgeIcon.setImageResource(R.drawable.ic_cart);
                  badgeCount = cartItem.getActionView().findViewById(R.id.badge_count);
                  if (currentUser != null) {
-
                      if (DBqueries.cartList.size() == 0) {
                          DBqueries.loadCartList(MainActivity.this, new Dialog(MainActivity.this), false, badgeCount,new TextView(MainActivity.this));
                      } else {
@@ -370,6 +367,8 @@ public class MainActivity extends AppCompatActivity {
                 window.setStatusBarColor(getResources().getColor(R.color.lavender));
                 toolbar.setBackgroundColor(getResources().getColor(R.color.lavender));
             }
+
+
             currentFragment = fragmentNo;
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.setCustomAnimations(R.anim.fade_in,R.anim.fade_out);

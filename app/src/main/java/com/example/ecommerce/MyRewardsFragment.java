@@ -44,13 +44,12 @@ public class MyRewardsFragment extends Fragment {
         myRewardsAdapter = new MyRewardsAdapter( DBqueries.rewardModelList,false);
         rewardsRecyclerView.setAdapter(myRewardsAdapter);
 
-
-        if (DBqueries.rewardModelList.size() == 0){
-            DBqueries.loadRewards(getContext(),loadingDialog);
-        }else {
+        if (DBqueries.rewardModelList.size() == 0) {
+            // Load the rewards and update adapter after loading
+            DBqueries.loadRewards(getContext(), loadingDialog, true);
+        } else {
             loadingDialog.dismiss();
         }
-        myRewardsAdapter.notifyDataSetChanged();
         return view;
     }
 }

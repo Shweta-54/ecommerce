@@ -23,6 +23,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,8 +50,6 @@ public class DBqueries {
     public static List<AddressesModel> addressesModelList = new ArrayList<>();
 
     public static List<RewardModel> rewardModelList = new ArrayList<>();
-
-
 
     public static void loadCategories(final RecyclerView categoryRecyclerView, final Context context) {
         categoryModelList.clear();
@@ -288,7 +287,6 @@ public class DBqueries {
                                     myRating.add((long) task.getResult().get("rating_" + x));
 
                                     if (task.getResult().get("product_ID_" + x).toString().equals(ProductDetailsActivity.productID)) {
-
                                         ProductDetailsActivity.initialRating = Integer.parseInt(String.valueOf((long) task.getResult().get("rating_" + x))) - 1;
                                         if (ProductDetailsActivity.rateNowCantainer != null) {
                                             ProductDetailsActivity.setReting(ProductDetailsActivity.initialRating);
@@ -310,17 +308,18 @@ public class DBqueries {
 
     public static void loadCartList(final Context context, final Dialog dialog, final boolean loadProductData, final TextView badgeCount,final TextView cartTotalAmount){
         cartList.clear();
+        cartItemModelList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_CART")
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()){
-                            for (long x = 0; x < (long) task.getResult().get("list_size"); x++){
-                                cartList.add(task.getResult().get("product_ID_"+x).toString());
+                        if (task.isSuccessful()) {
+                            for (long x = 0; x < (long) task.getResult().get("list_size"); x++) {
+                                cartList.add(task.getResult().get("product_ID_" + x).toString());
 
-                                if (DBqueries.cartList.contains(ProductDetailsActivity.productID)){
-                                    ProductDetailsActivity. ALREADY_ADDED_TO_CART = true;
-                                }else {
+                                if (DBqueries.cartList.contains(ProductDetailsActivity.productID)) {
+                                    ProductDetailsActivity.ALREADY_ADDED_TO_CART = true;
+                                } else {
                                     ProductDetailsActivity.ALREADY_ADDED_TO_CART = false;
                                 }
 
@@ -333,59 +332,54 @@ public class DBqueries {
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                     if (task.isSuccessful()) {
 
-
-
                                                         DocumentSnapshot documentSnapshot = task.getResult();
                                                         FirebaseFirestore.getInstance().collection("PRODUCTS").document(productID).collection("QUANTITY").orderBy("time", Query.Direction.ASCENDING).get()
                                                                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                                     @Override
                                                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                        if (task.isSuccessful()){
+                                                                        if (task.isSuccessful()) {
 
-                                                                            int index = 0 ;
-                                                                            if (cartList.size() >= 2){
+                                                                            int index = 0;
+                                                                            if (cartList.size() >= 2) {
                                                                                 index = cartList.size() - 2;
                                                                             }
 
-                                                                            if (task.getResult().getDocuments().size() < (long) documentSnapshot.get("stock_quantity")){
+                                                                            if (task.getResult().getDocuments().size() < (long) documentSnapshot.get("stock_quantity")) {
 
-                                                                                cartItemModelList.add(index,new CartItemModel(CartItemModel.CART_ITEM,productID
-                                                                                        ,documentSnapshot.get("product_image_1").toString()
+                                                                                cartItemModelList.add(index, new CartItemModel(CartItemModel.CART_ITEM, productID
+                                                                                        , documentSnapshot.get("product_image_1").toString()
                                                                                         , documentSnapshot.get("product_title").toString()
                                                                                         , (long) documentSnapshot.get("free_coupens")
-                                                                                        ,documentSnapshot.get("product_price").toString()
+                                                                                        , documentSnapshot.get("product_price").toString()
                                                                                         , documentSnapshot.get("cutted_price").toString()
-                                                                                        ,(long) 1
-                                                                                        ,(long) 0
-                                                                                        ,(long) 0
-                                                                                        ,true
-                                                                                        ,(long) documentSnapshot.get("max_quantity")
-                                                                                        ,(long) documentSnapshot.get("stock_quantity")));
-                                                                            }else {
-                                                                                cartItemModelList.add(index,new CartItemModel(CartItemModel.CART_ITEM,productID
-                                                                                        ,documentSnapshot.get("product_image_1").toString()
+                                                                                        , (long) 1
+                                                                                        , (long) documentSnapshot.get("offers_applied")
+                                                                                        , (long) 0
+                                                                                        , true
+                                                                                        , (long) documentSnapshot.get("max_quantity")
+                                                                                        , (long) documentSnapshot.get("stock_quantity")));
+                                                                            } else {
+                                                                                cartItemModelList.add(index, new CartItemModel(CartItemModel.CART_ITEM, productID
+                                                                                        , documentSnapshot.get("product_image_1").toString()
                                                                                         , documentSnapshot.get("product_title").toString()
                                                                                         , (long) documentSnapshot.get("free_coupens")
-                                                                                        ,documentSnapshot.get("product_price").toString()
+                                                                                        , documentSnapshot.get("product_price").toString()
                                                                                         , documentSnapshot.get("cutted_price").toString()
-                                                                                        ,(long) 1
-                                                                                        ,(long) 0
-                                                                                        ,(long) 0
-                                                                                        ,false
-                                                                                        ,(long) documentSnapshot.get("max_quantity")
-                                                                                        ,(long) documentSnapshot.get("stock_quantity")));
+                                                                                        , (long) 1
+                                                                                        , (long) documentSnapshot.get("offers_applied")
+                                                                                        , (long) 0
+                                                                                        , false
+                                                                                        , (long) documentSnapshot.get("max_quantity")
+                                                                                        , (long) documentSnapshot.get("stock_quantity")));
                                                                             }
                                                                             if (cartList.size() == 1) {
                                                                                 cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
                                                                                 LinearLayout parent = (LinearLayout) cartTotalAmount.getParent().getParent();
                                                                                 parent.setVisibility(View.VISIBLE);
                                                                             }
-                                                                            if (cartList.size() == 0) {
-                                                                                cartItemModelList.clear();
-                                                                            }
                                                                             MyCartFragment.cartAdapter.notifyDataSetChanged();
 
-                                                                        }else {
+                                                                        } else {
                                                                             //error
                                                                             String error = task.getException().getMessage();
                                                                             Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
@@ -404,30 +398,31 @@ public class DBqueries {
                                             });
                                 }
                             }
-//                            if (cartList.size() != 0){
-//                                badgeCount.setVisibility(View.VISIBLE);
-//                            }else {
-//                                badgeCount.setVisibility(View.INVISIBLE);
-//
-//                            }
-//                            if (DBqueries.cartList.size() < 99) {
-//                                badgeCount.setText(String.valueOf(DBqueries.cartList.size()));
-//                            }else {
-//                                badgeCount.setText("99");
-//                            }
 
+
+/// Update badge count
                             if (badgeCount != null) {
-                                badgeCount.setVisibility(View.VISIBLE);
-                                badgeCount.setText(String.valueOf(Math.min(cartList.size(), 99)));
-                            }
-                        }else{
-                            String error = task.getException().getMessage();
-                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                                if (cartList.size() > 0) {
+                                    badgeCount.setVisibility(View.VISIBLE);
+                                    badgeCount.setText(String.valueOf(cartList.size()));
+                                } else {
+                                    badgeCount.setVisibility(View.GONE);
+                                }
+                            } else {
+                            cartList.clear();
+                            cartItemModelList.clear();
                         }
                         dialog.dismiss();
+                    } else {
+                        String error = task.getException().getMessage();
+                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
                     }
-                });
+                }
+         });
     }
+
+
     public static void removeFromCart(int index, Context context,TextView cartTotalAmount) {
         String removedProductId = cartList.get(index);
         cartList.remove(index);
@@ -448,9 +443,11 @@ public class DBqueries {
                                 MyCartFragment.cartAdapter.notifyDataSetChanged();
                             }
                             if (cartList.size() == 0) {
+                                cartItemModelList.clear();
                                 LinearLayout parent = (LinearLayout) cartTotalAmount.getParent().getParent();
                                 parent.setVisibility(View.GONE);
-                                cartItemModelList.clear();
+                            }else {
+                                MyCartFragment.cartAdapter.notifyDataSetChanged();
                             }
                             Toast.makeText(context, "Removed successfully!", Toast.LENGTH_SHORT).show();
 
@@ -501,48 +498,66 @@ public class DBqueries {
                 });
     }
 
-    public static void loadRewards(Context context, final Dialog loadingDialog) {
+    public static void loadRewards(Context context, final Dialog loadingDialog,Boolean onRewardFragment) {
         rewardModelList.clear();
-        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_REWARDS").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-//                                Date validityDate = null;
-//                                // Fetch the timestamp and convert it to Date
-//                                if (documentSnapshot.get("validity") != null) {
-//                                    validityDate =
-//                                }
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
 
-                                if (documentSnapshot.get("type").toString().equals("Discount")) {
-                                    rewardModelList.add(new RewardModel(
-                                            documentSnapshot.get("type").toString(),
-                                            documentSnapshot.get("lower_limit").toString(),
-                                            documentSnapshot.get("upper_limit").toString(),
-                                            documentSnapshot.get("percentage").toString(),
-                                            documentSnapshot.get("body").toString(),
-                                            documentSnapshot.getTimestamp("validity").toDate()
-                                    ));
-                                } else {
-                                    rewardModelList.add(new RewardModel(
-                                            documentSnapshot.get("type").toString(),
-                                            documentSnapshot.get("lower_limit").toString(),
-                                            documentSnapshot.get("upper_limit").toString(),
-                                            documentSnapshot.get("amount").toString(),
-                                            documentSnapshot.get("body").toString(),
-                                            documentSnapshot.getTimestamp("validity").toDate()
-                                    ));
+                                    Date lastseenDate = task.getResult().getDate("Last_seen"); // Date lastseenDate = task.getResult().getTimestamp("Last_seen").toDate(); isko dalna h agar ish date pr error ayi to
+
+                                    firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_REWARDS").get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                                            if (documentSnapshot.get("type").toString().equals("Discount") && lastseenDate.before(documentSnapshot.getTimestamp("validity").toDate())) {
+                                                                rewardModelList.add(new RewardModel(documentSnapshot.getId(),
+                                                                        documentSnapshot.get("type").toString(),
+                                                                        documentSnapshot.get("lower_limit").toString(),
+                                                                        documentSnapshot.get("upper_limit").toString(),
+                                                                        documentSnapshot.get("percentage").toString(),
+                                                                        documentSnapshot.get("body").toString(),
+                                                                        documentSnapshot.getTimestamp("validity").toDate(),
+                                                                        (boolean)documentSnapshot.get("already_used")
+                                                                ));
+                                                            } else if (documentSnapshot.get("type").toString().trim().contains("Flat Rs.* OFF") && lastseenDate.before(documentSnapshot.getTimestamp("validity").toDate())){
+                                                                rewardModelList.add(new RewardModel(documentSnapshot.getId(),
+                                                                        documentSnapshot.get("type").toString(),
+                                                                        documentSnapshot.get("lower_limit").toString(),
+                                                                        documentSnapshot.get("upper_limit").toString(),
+                                                                        documentSnapshot.get("amount").toString(),
+                                                                        documentSnapshot.get("body").toString(),
+                                                                        documentSnapshot.getTimestamp("validity").toDate(),
+                                                                        (boolean)documentSnapshot.get("already_used")
+                                                                ));
+                                                            }
+                                                        }
+                                                        if (onRewardFragment) {
+                                                            MyRewardsFragment.myRewardsAdapter.notifyDataSetChanged();
+                                                        }
+
+                                                    } else {
+                                                        String error = task.getException().getMessage();
+                                                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    loadingDialog.dismiss();
+                                                }
+                                            });
+                                    }else {
+                                    loadingDialog.dismiss();
+                                    String error = task.getException().getMessage();
+                                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
                                 }
-                            }
-                            MyRewardsFragment.myRewardsAdapter.notifyDataSetChanged();
-                        } else {
-                            String error = task.getException().getMessage();
-                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
-                        }
-                        loadingDialog.dismiss();
-                    }
-                });
+                                }
+                        });
+
+
+
+
     }
 
 

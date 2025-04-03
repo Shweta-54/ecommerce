@@ -2,18 +2,22 @@ package com.example.ecommerce;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Splashscreen extends AppCompatActivity {
     //Variables
@@ -23,13 +27,13 @@ public class Splashscreen extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splashscreen);
+
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         //Animation
@@ -41,17 +45,31 @@ public class Splashscreen extends AppCompatActivity {
         logo.setAnimation(topanim);
         logoname.setAnimation(bottomanim);
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+
             FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-            Intent intent;
+
             if (currentUser == null) {
-                intent = new Intent(Splashscreen.this, Login.class);
+               Intent intent = new Intent(Splashscreen.this, Login.class);
+                startActivity(intent);
+                finish();
             } else {
-                intent = new Intent(Splashscreen.this, MainActivity.class);
+                FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid()).update("Last_seen", FieldValue.serverTimestamp())
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                   Intent mainintent = new Intent(Splashscreen.this, MainActivity.class);
+                                    startActivity(mainintent);
+                                    finish();
+                                }else {
+                                    String error = task.getException().getMessage();
+                                    Toast.makeText(Splashscreen.this, error, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
             }
-            startActivity(intent);
-            finish();
-        }, 2000); // just for checking
+
     }
 
 }

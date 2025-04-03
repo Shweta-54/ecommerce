@@ -33,6 +33,8 @@ public class CartItemModel {
         private boolean inStock;
         private List<String> qtyIDs;
         private boolean qtyError;
+        private String selectedCoupenId;
+        private String  discountedPrice;
 
     public CartItemModel(int type, String productID,String productImage, String productTitle, Long freeCoupens, String productPrice, String cuttedPrice, Long productQuentity, Long offersApplied, Long coupensApplied,boolean inStock,Long maxQuentity,Long stockQuentity) {
         this.type = type;
@@ -50,6 +52,22 @@ public class CartItemModel {
         this.stockQuentity = stockQuentity;
         qtyIDs = new ArrayList<>();
         qtyError = false;
+    }
+
+    public String getDiscountedPrice() {
+        return discountedPrice;
+    }
+
+    public void setDiscountedPrice(String discountedPrice) {
+        this.discountedPrice = discountedPrice;
+    }
+
+    public String getSelectedCoupenId() {
+        return selectedCoupenId;
+    }
+
+    public void setSelectedCoupenId(String selectedCoupenId) {
+        this.selectedCoupenId = selectedCoupenId;
     }
 
     public boolean isQtyError() {
@@ -166,10 +184,50 @@ public class CartItemModel {
     /////// cart item
 
     //////cart total
-
+        private  int totalItems,totalItemPrice,totalAmount,saveAmount;
+        String deliverPrice;
     public CartItemModel(int type) {
         this.type = type;
     }
 
+    public int getTotalItems() {
+        return totalItems;
+    }
+
+    public void setTotalItems(int totalItems) {
+        this.totalItems = totalItems;
+    }
+
+    public int getTotalItemPrice() {
+        return totalItemPrice;
+    }
+
+    public void setTotalItemPrice(int totalItemPrice) {
+        this.totalItemPrice = totalItemPrice;
+    }
+
+    public int getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(int totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public int getSaveAmount() {
+        return saveAmount;
+    }
+
+    public void setSaveAmount(int saveAmount) {
+        this.saveAmount = saveAmount;
+    }
+
+    public String getDeliverPrice() {
+        return deliverPrice;
+    }
+
+    public void setDeliverPrice(String deliverPrice) {
+        this.deliverPrice = deliverPrice;
+    }
     //////cart total
 }

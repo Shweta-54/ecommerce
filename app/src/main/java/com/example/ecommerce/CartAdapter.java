@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -30,6 +31,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,7 +81,13 @@ public class CartAdapter extends RecyclerView.Adapter {
                 return null;
         }
     }
-
+    private int safeParseInt(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException | NullPointerException e) {
+            return 0; // Return a default value (0) if parsing fails
+        }
+    }
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         switch (cartItemModelList.get(position).getType()) {
@@ -107,10 +115,24 @@ public class CartAdapter extends RecyclerView.Adapter {
                 int totalAmount;
                 int saveAmount = 0;
                 for (int x = 0; x < cartItemModelList.size(); x++) {
-
                     if (cartItemModelList.get(x).getType() == CartItemModel.CART_ITEM && cartItemModelList.get(x).isInStock()) {
-                        totalItems++;
-                        totalItemPrice = totalItemPrice + Integer.parseInt(cartItemModelList.get(x).getProductPrice());
+                        int quantity = safeParseInt(String.valueOf(cartItemModelList.get(x).getProductQuentity()));
+                        totalItems  = totalItems + quantity;
+                        if (TextUtils.isEmpty(cartItemModelList.get(x).getSelectedCoupenId())) {
+                            totalItemPrice = totalItemPrice + safeParseInt(cartItemModelList.get(x).getProductPrice()) * quantity;
+                        }else {
+                            totalItemPrice = totalItemPrice + safeParseInt(cartItemModelList.get(x).getDiscountedPrice()) * quantity;
+                        }
+                        if (!TextUtils.isEmpty(cartItemModelList.get(x).getCuttedPrice())) {
+                            saveAmount = saveAmount + (safeParseInt(cartItemModelList.get(x).getCuttedPrice()) - safeParseInt(cartItemModelList.get(x).getProductPrice())) * quantity;
+                            if (!TextUtils.isEmpty(cartItemModelList.get(x).getSelectedCoupenId())) {
+                                saveAmount = saveAmount + (safeParseInt(cartItemModelList.get(x).getProductPrice()) - safeParseInt(cartItemModelList.get(x).getDiscountedPrice())) * quantity;
+                            }
+                        }else {
+                            if (!TextUtils.isEmpty(cartItemModelList.get(x).getSelectedCoupenId())) {
+                                saveAmount = saveAmount + (safeParseInt(cartItemModelList.get(x).getProductPrice()) - safeParseInt(cartItemModelList.get(x).getDiscountedPrice())) * quantity;
+                            }
+                        }
                     }
                 }
                 if (totalItemPrice > 500) {
@@ -121,6 +143,11 @@ public class CartAdapter extends RecyclerView.Adapter {
                     totalAmount = totalItemPrice + 50;
                 }
 
+                cartItemModelList.get(position).setTotalItems(totalItems);
+                cartItemModelList.get(position).setTotalItemPrice(totalItemPrice);
+                cartItemModelList.get(position).setDeliverPrice(deliverPrice);
+                cartItemModelList.get(position).setTotalAmount(totalAmount);
+                cartItemModelList.get(position).setSaveAmount(saveAmount);
                 ((CartTotalAmountViewholder) viewHolder).setTotalAmount(totalItems, totalItemPrice, deliverPrice, totalAmount, saveAmount);
                 break;
             default:
@@ -151,8 +178,22 @@ public class CartAdapter extends RecyclerView.Adapter {
         private TextView coupensApplied;
         private TextView productQuantity;
         private LinearLayout coupenRedemptionLayout;
-
+        private TextView coupenRedemptionBody;
+        // Coupen dialog views
+        private TextView coupentitle, coupenExpiryDate, coupenBody;
+        private RecyclerView coupensRecyclerView;
+        private TextView originalPrice;
+        private TextView discountedPrice;
+        private  LinearLayout selectedCoupen;
+        private Button removeCoupenBtn;
+        private Button applyCoupenBtn;
         private LinearLayout deleteBtn;
+        private Button redeemBtn;
+        private LinearLayout applyORremoveBtnContaine;
+        private TextView footerText;
+        private String productOriginalPrice;
+
+
 
         public CartItemViewholder(@NonNull View itemView) {
             super(itemView);
@@ -166,15 +207,24 @@ public class CartAdapter extends RecyclerView.Adapter {
             coupensApplied = itemView.findViewById(R.id.coupens_applied);
             productQuantity = itemView.findViewById(R.id.product_quantity);
             coupenRedemptionLayout = itemView.findViewById(R.id.coupen_redemption_layout);
-
+            redeemBtn = itemView.findViewById(R.id.coupen_redemption_btn);
             deleteBtn = itemView.findViewById(R.id.remove_item_btn);
+            coupenRedemptionBody = itemView.findViewById(R.id.tv_coupen_redemption);
+
         }
 
         private void setItemDetails(String productId, String resource, String title, Long freecoupensNo, String productPriceText, String cuttedPriceText, Long offersAppliedNo, int position, boolean inStock, String Quantity, Long maxQuantity, boolean qtyError,List<String> qtyIds,long stockQty) {
                 Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.placeholder)).into(productImage);
-
-
                 productTitle.setText(title);
+
+            final Dialog checkCoupenPriceDialog = new Dialog(itemView.getContext());
+            checkCoupenPriceDialog.setContentView(R.layout.coupen_redeem_dialog);
+            checkCoupenPriceDialog.setCancelable(false);
+            checkCoupenPriceDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+
+
+            if (inStock) {
                 if (freecoupensNo > 0) {
                     freeCoupensIcon.setVisibility(View.VISIBLE);
                     freecoupens.setVisibility(View.VISIBLE);
@@ -187,11 +237,124 @@ public class CartAdapter extends RecyclerView.Adapter {
                     freeCoupensIcon.setVisibility(View.INVISIBLE);
                     freecoupens.setVisibility(View.INVISIBLE);
                 }
-                if (inStock) {
                     productPrice.setText("Rs." + productPriceText + "/-");
                     productPrice.setTextColor(Color.parseColor("#000000"));
                     cuttedPrice.setText("Rs." + cuttedPriceText + "/-");
                     coupenRedemptionLayout.setVisibility(View.VISIBLE);
+
+
+                    // Coupen dialog setup
+
+                    ImageView toggleRecyclerView = checkCoupenPriceDialog.findViewById(R.id.toggle_recyclerview);
+                    coupensRecyclerView = checkCoupenPriceDialog.findViewById(R.id.coupens_recyclerview);
+                    selectedCoupen = checkCoupenPriceDialog.findViewById(R.id.selected_coupen);
+                    coupentitle = checkCoupenPriceDialog.findViewById(R.id.coupen_title);
+                    coupenExpiryDate = checkCoupenPriceDialog.findViewById(R.id.coupen_validity);
+                    coupenBody = checkCoupenPriceDialog.findViewById(R.id.coupen_body);
+                    originalPrice = checkCoupenPriceDialog.findViewById(R.id.original_price);
+                    footerText = checkCoupenPriceDialog.findViewById(R.id.footer_text);
+                    applyORremoveBtnContaine = checkCoupenPriceDialog.findViewById(R.id.apply_or_remove_btns_container);
+                    discountedPrice = checkCoupenPriceDialog.findViewById(R.id.discounted_price);
+                    removeCoupenBtn = checkCoupenPriceDialog.findViewById(R.id.remove_btn);
+                    applyCoupenBtn = checkCoupenPriceDialog.findViewById(R.id.apply_btn);
+                    footerText.setVisibility(View.GONE);
+                    applyORremoveBtnContaine.setVisibility(View.VISIBLE);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(itemView.getContext());
+                    layoutManager.setOrientation(RecyclerView.VERTICAL);
+                    coupensRecyclerView.setLayoutManager(layoutManager);
+                    originalPrice.setText(productPrice.getText());
+                    productOriginalPrice = productPriceText;
+
+                    MyRewardsAdapter myRewardsAdapter = new MyRewardsAdapter(position,DBqueries.rewardModelList, true, coupensRecyclerView, selectedCoupen,productOriginalPrice, coupentitle, coupenExpiryDate, coupenBody, discountedPrice,cartItemModelList);
+                    coupensRecyclerView.setAdapter(myRewardsAdapter);
+                    myRewardsAdapter.notifyDataSetChanged();
+
+
+                    applyCoupenBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (!TextUtils.isEmpty(cartItemModelList.get(position).getSelectedCoupenId())) {
+                                for (RewardModel rewardModel : DBqueries.rewardModelList) {
+                                    if (rewardModel.getCoupenId().equals(cartItemModelList.get(position).getSelectedCoupenId())) {
+                                        rewardModel.setAlreadyUsed(true);
+                                        coupenRedemptionLayout.setBackground(itemView.getContext().getResources().getDrawable(R.drawable.rewad_gradient_backgruond));
+                                        coupenRedemptionBody.setText(rewardModel.getCoupenBody());
+                                        redeemBtn.setText("Coupen");
+                                    }
+                                }
+                                coupensApplied.setVisibility(View.VISIBLE);
+                                cartItemModelList.get(position).setDiscountedPrice(discountedPrice.getText().toString().substring(3,discountedPrice.getText().length() - 2));
+                                productPrice.setText(discountedPrice.getText());
+                                String offerDiscountedAmt = String.valueOf(Long.valueOf(productPriceText) - Long.valueOf(discountedPrice.getText().toString().substring(3,discountedPrice.getText().length() - 2)));
+                                coupensApplied.setText("Coupemn applied Rs." + offerDiscountedAmt);
+                                notifyItemChanged(cartItemModelList.size() - 1);
+                                checkCoupenPriceDialog.dismiss();
+                            }
+
+                        }
+
+                    });
+
+                    removeCoupenBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            for (RewardModel rewardModel : DBqueries.rewardModelList){
+                                if (rewardModel.getCoupenId().equals(cartItemModelList.get(position).getSelectedCoupenId())){
+                                    rewardModel.setAlreadyUsed(false);
+                                }
+                            }
+                            coupentitle.setText("Coupen");
+                            coupenExpiryDate.setText("validity");
+                            coupenBody.setText("Tap the icon on the top right corner to selecte and  redeem the coupen");
+                            coupensApplied.setVisibility(View.INVISIBLE);
+                            coupenRedemptionLayout.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorRed));
+                            coupenRedemptionBody.setText("Apply Your Coupen here");
+                            redeemBtn.setText("Redeem");
+                            cartItemModelList.get(position).setSelectedCoupenId(null);
+                            notifyItemChanged(cartItemModelList.size() - 1);
+                            checkCoupenPriceDialog.dismiss();
+                        }
+                    });
+
+                    toggleRecyclerView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialogRecyclerView();
+                        }
+                    });
+
+                    if (!TextUtils.isEmpty(cartItemModelList.get(position).getSelectedCoupenId())) {
+                        for (RewardModel rewardModel : DBqueries.rewardModelList) {
+                            if (rewardModel.getCoupenId().equals(cartItemModelList.get(position).getSelectedCoupenId())) {
+                                coupenRedemptionLayout.setBackground(itemView.getContext().getResources().getDrawable(R.drawable.rewad_gradient_backgruond));
+                                coupenRedemptionBody.setText(rewardModel.getCoupenBody());
+                                redeemBtn.setText("Coupen");
+                                coupenBody.setText(rewardModel.getCoupenBody());
+
+                                if (rewardModel.getType().equals("Discount")) {
+                                    coupentitle.setText(rewardModel.getType());
+                                } else {
+                                    coupentitle.setText("FLAT Rs." + rewardModel.getdiscORamt()+ "/- OFF");
+                                }
+                                final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy");
+                                coupenExpiryDate.setText("Till " + simpleDateFormat.format(rewardModel.getTimestamp()));
+
+                            }
+                        }
+
+                        discountedPrice.setText("Rs."+cartItemModelList.get(position).getDiscountedPrice()+"/-");
+                        coupensApplied.setVisibility(View.VISIBLE);
+                        productPrice.setText("Rs."+cartItemModelList.get(position).getDiscountedPrice()+"/-");
+                        String offerDiscountedAmt = String.valueOf(Long.valueOf(productPriceText) - Long.valueOf(cartItemModelList.get(position).getDiscountedPrice()));
+                        coupensApplied.setText("Coupemn applied Rs." + offerDiscountedAmt+"/-");
+                    }else {
+                        coupensApplied.setVisibility(View.INVISIBLE);
+                        coupenRedemptionLayout.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorRed));
+                        coupenRedemptionBody.setText("Apply Your Coupen here");
+                        redeemBtn.setText("Redeem");
+                    }
+
+                    /////// End of coupen dialog
 
                     productQuantity.setText("Qty: " + Quantity);
 
@@ -233,16 +396,18 @@ public class CartAdapter extends RecyclerView.Adapter {
                                         if (Long.valueOf(quantityNo.getText().toString()) <= maxQuantity && Long.valueOf(quantityNo.getText().toString()) != 0) {
 
                                             if (itemView.getContext() instanceof MainActivity) {
-                                                DBqueries.cartItemModelList.get(position).setProductQuentity(Long.valueOf(quantityNo.getText().toString()));
+                                               cartItemModelList.get(position).setProductQuentity(Long.valueOf(quantityNo.getText().toString()));
                                             } else {
                                                 if (DeliveryActivity.fromCart) {
-                                                    DBqueries.cartItemModelList.get(position).setProductQuentity(Long.valueOf(quantityNo.getText().toString()));
+                                                    cartItemModelList.get(position).setProductQuentity(Long.valueOf(quantityNo.getText().toString()));
                                                 } else {
                                                     DeliveryActivity.cartItemModelList.get(position).setProductQuentity(Long.valueOf(quantityNo.getText().toString()));
                                                 }
                                             }
                                             productQuantity.setText("Qty: " + quantityNo.getText());
+                                            notifyItemChanged(cartItemModelList.size() - 1);
                                             if (!showDeleteBtn){
+                                                DeliveryActivity.loadingDialog.show();
                                                 DeliveryActivity.cartItemModelList.get(position).setQtyError(false);
                                                 int initialQty = Integer.parseInt(Quantity);
                                                 int finalQty = Integer.parseInt(quantityNo.getText().toString());
@@ -260,7 +425,6 @@ public class CartAdapter extends RecyclerView.Adapter {
                                                                     @Override
                                                                     public void onSuccess(Void avoid) {
                                                                        qtyIds.add(quantityDocumentName);
-
                                                                         if (finalY + 1 == finalQty - initialQty) {
                                                                             firebaseFirestore.collection("PRODUCTS").document(productId).collection("QUANTITY").orderBy("time", Query.Direction.ASCENDING).limit(stockQty).get()
                                                                                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -268,31 +432,27 @@ public class CartAdapter extends RecyclerView.Adapter {
                                                                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                                                             if (task.isSuccessful()) {
                                                                                                 List<String> serverQuantity = new ArrayList<>();
-
                                                                                                 for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
                                                                                                     serverQuantity.add(queryDocumentSnapshot.getId());
                                                                                                 }
-
                                                                                                 long availableQty = 0;
                                                                                                 for (String qtyId : qtyIds) {
 
                                                                                                     if (!serverQuantity.contains(qtyId)) {
                                                                                                            DeliveryActivity.cartItemModelList.get(position).setQtyError(true);
                                                                                                            DeliveryActivity.cartItemModelList.get(position).setMaxQuentity(availableQty);
-                                                                                                            Toast.makeText(itemView.getContext(), " Sorry ! All products may not be available is required quantity......", Toast.LENGTH_SHORT).show();
-                                                                                                         DeliveryActivity.allProductsAvailable = false;
-
+                                                                                                            Toast.makeText(itemView.getContext(), " Sorry ! All products may not be available is required quantity......", Toast.LENGTH_SHORT).show(); 
                                                                                                     }else {
                                                                                                         availableQty++;
                                                                                                     }
                                                                                                 }
                                                                                                DeliveryActivity.cartAdapter.notifyDataSetChanged();
-
                                                                                             } else {
                                                                                                 String error = task.getException().getMessage();
                                                                                                 Toast.makeText(itemView.getContext(), error, Toast.LENGTH_SHORT).show();
                                                                                                 ////error
                                                                                             }
+                                                                                            DeliveryActivity.loadingDialog.dismiss();
                                                                                         }
                                                                                     });
 
@@ -305,13 +465,16 @@ public class CartAdapter extends RecyclerView.Adapter {
 
                                                     for (int x = 0;x < initialQty - finalQty;x++) {
                                                          String qtyId = qtyIds.get(qtyIds.size() - 1 - x);
-                                                        int finalX = x;
+                                                        final int finalX = x;
                                                         firebaseFirestore.collection("PRODUCTS").document(productId).collection("QUANTITY").document(qtyId).delete()
                                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                     @Override
                                                                     public void onSuccess(Void aVoid) {
                                                                         qtyIds.remove(qtyId);
                                                                         DeliveryActivity.cartAdapter.notifyDataSetChanged();
+                                                                        if (finalX + 1 ==  initialQty - finalQty){
+                                                                            DeliveryActivity.loadingDialog.dismiss();
+                                                                        }
                                                                     }
                                                                 });
                                                     }
@@ -335,7 +498,8 @@ public class CartAdapter extends RecyclerView.Adapter {
                     });
                     if (offersAppliedNo > 0) {
                         offersApplied.setVisibility(View.VISIBLE);
-                        offersApplied.setText(offersAppliedNo + " offers applied");
+                        String offerDiscountedAmt = String.valueOf(Long.valueOf(cuttedPriceText) - Long.valueOf(productPriceText));
+                        offersApplied.setText("Offer Applied Rs." + offerDiscountedAmt + "/-");
                     } else {
                         offersApplied.setVisibility(View.INVISIBLE);
                     }
@@ -351,25 +515,54 @@ public class CartAdapter extends RecyclerView.Adapter {
                     offersApplied.setVisibility(View.GONE);
                     freeCoupensIcon.setVisibility(View.INVISIBLE);
                 }
-
-
-                if (showDeleteBtn) {
+                if (Boolean.TRUE.equals(showDeleteBtn)) {
                     deleteBtn.setVisibility(View.VISIBLE);
                 } else {
                     deleteBtn.setVisibility(View.GONE);
                 }
+
+
+
+                redeemBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (RewardModel rewardModel : DBqueries.rewardModelList){
+                            if (rewardModel.getCoupenId().equals(cartItemModelList.get(position).getSelectedCoupenId())){
+                                rewardModel.setAlreadyUsed(false);
+                            }
+                        }
+                        checkCoupenPriceDialog.show();
+
+                    }
+                });
+
                 deleteBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (!TextUtils.isEmpty(cartItemModelList.get(position).getSelectedCoupenId())) {
+                            for (RewardModel rewardModel : DBqueries.rewardModelList){
+                                if (rewardModel.getCoupenId().equals(cartItemModelList.get(position).getSelectedCoupenId())){
+                                    rewardModel.setAlreadyUsed(false);
+                                }
+                            }
+                        }
                         if (!ProductDetailsActivity.running_cart_query) {
                             ProductDetailsActivity.running_cart_query = true;
-
                             DBqueries.removeFromCart(position, itemView.getContext(), cartTotalAmount);
                         }
                     }
                 });
 
             }
+        private void showDialogRecyclerView() {
+            if (coupensRecyclerView.getVisibility() == View.GONE) {
+                coupensRecyclerView.setVisibility(View.VISIBLE);
+                selectedCoupen.setVisibility(View.GONE);
+            } else {
+                coupensRecyclerView.setVisibility(View.GONE);
+                selectedCoupen.setVisibility(View.VISIBLE);
+            }
+        }
         }
 
         class CartTotalAmountViewholder extends RecyclerView.ViewHolder {
@@ -404,11 +597,11 @@ public class CartAdapter extends RecyclerView.Adapter {
                 LinearLayout parent = (LinearLayout) cartTotalAmount.getParent().getParent();
                 if (totalItemPriceText == 0) {
                     if (DeliveryActivity.fromCart) {
-                        DBqueries.cartItemModelList.remove(DBqueries.cartItemModelList.size() - 1);
+                        cartItemModelList.remove(cartItemModelList.size() - 1);
                         DeliveryActivity.cartItemModelList.remove(DeliveryActivity.cartItemModelList.size() - 1);
                     }
-                    if (showDeleteBtn){
-                        DBqueries.cartItemModelList.remove(DBqueries.cartItemModelList.size() - 1);
+                    if (Boolean.TRUE.equals(showDeleteBtn)){
+                        cartItemModelList.remove(cartItemModelList.size() - 1);
                     }
                     parent.setVisibility(View.GONE);
                 } else {

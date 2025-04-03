@@ -9,10 +9,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class OTPverificationActivity extends AppCompatActivity {
@@ -56,16 +62,30 @@ public class OTPverificationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String enteredOtp = otp.getText().toString().trim();
                 if (enteredOtp.equals(String.valueOf(OTP_number))) {
-                    DeliveryActivity.codOrderConfirmed = true;
-                    sendOrderConfirmationMessage(orderId);
 
-                    // Sending the order ID to DeliveryActivity
-                    Intent intent = new Intent(OTPverificationActivity.this, DeliveryActivity.class);
-                    intent.putExtra("orderId", orderId); // Pass the generated order ID
-                    startActivity(intent);
-                    finish();
+                    Map<String,Object> updateStatus = new HashMap<>();
+                    updateStatus.put("Payment_Status","Paid");
+                    updateStatus.put("Order_Status","Ordered");
+                    String s = getIntent().getStringExtra("ORDER_ID");
+                    FirebaseFirestore.getInstance().collection("ORDERS").document(s).update(updateStatus)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+                                        DeliveryActivity.codOrderConfirmed = true;
+                                        sendOrderConfirmationMessage(orderId);
+                                        // Sending the order ID to DeliveryActivity
+                                        Intent intent = new Intent(OTPverificationActivity.this, DeliveryActivity.class);
+                                        intent.putExtra("orderId", orderId); // Pass the generated order ID
+                                        startActivity(intent);
+                                        finish();
+                                        Toast.makeText(OTPverificationActivity.this, "OTP Verified Successfully!", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        Toast.makeText(OTPverificationActivity.this, "Order Cancelled", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
 
-                    Toast.makeText(OTPverificationActivity.this, "OTP Verified Successfully!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(OTPverificationActivity.this, "Incorrect OTP!", Toast.LENGTH_SHORT).show();
                 }

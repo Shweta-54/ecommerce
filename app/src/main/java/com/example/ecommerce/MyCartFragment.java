@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +22,13 @@ import java.util.ArrayList;
 public class MyCartFragment extends Fragment {
 
     private Dialog loadingDialog;
-    public static CartAdapter  cartAdapter;
+    public static CartAdapter cartAdapter;
     private TextView totalAmount;
 
     public MyCartFragment() {
         // Required empty public constructor
     }
+
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,13 +41,13 @@ public class MyCartFragment extends Fragment {
         loadingDialog.setContentView(R.layout.loading_progress_dialog);
         loadingDialog.setCancelable(false);
         loadingDialog.getWindow().setBackgroundDrawable(getContext().getDrawable(R.drawable.slider_background));
-        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         loadingDialog.show();
         ////loading dialog
 
         RecyclerView cartItemsRecyclerView = view.findViewById(R.id.cart_items_recyclerview);
         Button continueBtn = view.findViewById(R.id.cart_continue_btn);
-         totalAmount = view.findViewById(R.id.total_cart_amount);
+        totalAmount = view.findViewById(R.id.total_cart_amount);
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -53,7 +55,7 @@ public class MyCartFragment extends Fragment {
         cartItemsRecyclerView.setLayoutManager(layoutManager);
 
 
-        cartAdapter = new CartAdapter(DBqueries.cartItemModelList,totalAmount,true);
+        cartAdapter = new CartAdapter(DBqueries.cartItemModelList, totalAmount, true);
         cartItemsRecyclerView.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
 
@@ -63,9 +65,9 @@ public class MyCartFragment extends Fragment {
 
             DeliveryActivity.fromCart = true;
 
-            for (int x = 0;x < DBqueries.cartItemModelList.size();x++){
+            for (int x = 0; x < DBqueries.cartItemModelList.size(); x++) {
                 CartItemModel cartItemModel = DBqueries.cartItemModelList.get(x);
-                if (cartItemModel.isInStock()){
+                if (cartItemModel.isInStock()) {
                     DeliveryActivity.cartItemModelList.add(cartItemModel);
                 }
             }
@@ -73,7 +75,7 @@ public class MyCartFragment extends Fragment {
             loadingDialog.show();
             if (DBqueries.addressesModelList.size() == 0) {
                 DBqueries.loadAddresses(getContext(), loadingDialog);
-            }else {
+            } else {
                 loadingDialog.dismiss();
                 Intent deliveryIntent = new Intent(getContext(), DeliveryActivity.class);
                 startActivity(deliveryIntent);
@@ -86,16 +88,43 @@ public class MyCartFragment extends Fragment {
     public void onStart() {
         super.onStart();
         cartAdapter.notifyDataSetChanged();
-        if (DBqueries.cartItemModelList.size() == 0){
+
+        if (DBqueries.rewardModelList.size() == 0) {
+            loadingDialog.show();
+            DBqueries.loadRewards(getContext(), loadingDialog, false);
+        }
+
+
+        if (DBqueries.cartItemModelList.size() == 0) {
             DBqueries.cartList.clear();
-            DBqueries.loadCartList(getContext(),loadingDialog,true,new TextView(getContext()),totalAmount);
-        }else {
-            if (DBqueries.cartItemModelList.get(DBqueries.cartItemModelList.size()-1).getType() == CartItemModel.TOTAL_AMOUNT){
+            DBqueries.loadCartList(getContext(), loadingDialog, true, new TextView(getContext()), totalAmount);
+        } else {
+            if (DBqueries.cartItemModelList.get(DBqueries.cartItemModelList.size() - 1).getType() == CartItemModel.TOTAL_AMOUNT) {
                 LinearLayout parent = (LinearLayout) totalAmount.getParent().getParent();
                 parent.setVisibility(View.VISIBLE);
 
             }
             loadingDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        for (CartItemModel cartItemModel : DBqueries.cartItemModelList) {
+            if (!TextUtils.isEmpty(cartItemModel.getSelectedCoupenId())) {
+                for (RewardModel rewardModel : DBqueries.rewardModelList){
+                    if (rewardModel.getCoupenId().equals(cartItemModel.getSelectedCoupenId())){
+                        rewardModel.setAlreadyUsed(false);
+                    }
+                }
+
+                cartItemModel.setSelectedCoupenId(null);
+                if (MyRewardsFragment.myRewardsAdapter != null) {
+                    MyRewardsFragment.myRewardsAdapter.notifyDataSetChanged();
+                }
+
+            }
         }
     }
 }
