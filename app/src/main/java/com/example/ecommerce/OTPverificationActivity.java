@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -64,7 +65,6 @@ public class OTPverificationActivity extends AppCompatActivity {
                 if (enteredOtp.equals(String.valueOf(OTP_number))) {
 
                     Map<String,Object> updateStatus = new HashMap<>();
-                    updateStatus.put("Payment_Status","Paid");
                     updateStatus.put("Order_Status","Ordered");
                     String s = getIntent().getStringExtra("ORDER_ID");
                     FirebaseFirestore.getInstance().collection("ORDERS").document(s).update(updateStatus)
@@ -72,14 +72,28 @@ public class OTPverificationActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
-                                        DeliveryActivity.codOrderConfirmed = true;
-                                        sendOrderConfirmationMessage(orderId);
-                                        // Sending the order ID to DeliveryActivity
-                                        Intent intent = new Intent(OTPverificationActivity.this, DeliveryActivity.class);
-                                        intent.putExtra("orderId", orderId); // Pass the generated order ID
-                                        startActivity(intent);
-                                        finish();
-                                        Toast.makeText(OTPverificationActivity.this, "OTP Verified Successfully!", Toast.LENGTH_SHORT).show();
+
+                                        Map<String,Object> userOrder = new HashMap<>();
+                                        userOrder.put("ORDER_ID",s);
+                                        FirebaseFirestore.getInstance().collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS").document(s)
+                                                .set(userOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()){
+                                                            DeliveryActivity.codOrderConfirmed = true;
+                                                            sendOrderConfirmationMessage(orderId);
+                                                            // Sending the order ID to DeliveryActivity
+                                                            Intent intent = new Intent(OTPverificationActivity.this, DeliveryActivity.class);
+                                                            intent.putExtra("orderId", orderId); // Pass the generated order ID
+                                                            startActivity(intent);
+                                                            finish();
+                                                            Toast.makeText(OTPverificationActivity.this, "OTP Verified Successfully!", Toast.LENGTH_SHORT).show();
+                                                        }else {
+                                                            Toast.makeText(OTPverificationActivity.this, "failed to update user order list", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+
                                     }else {
                                         Toast.makeText(OTPverificationActivity.this, "Order Cancelled", Toast.LENGTH_SHORT).show();
                                     }

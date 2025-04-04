@@ -51,6 +51,8 @@ public class DBqueries {
 
     public static List<RewardModel> rewardModelList = new ArrayList<>();
 
+    public static  List<MyOrderItemModel> myOrderItemModelList = new ArrayList<>();
+
     public static void loadCategories(final RecyclerView categoryRecyclerView, final Context context) {
         categoryModelList.clear();
 
@@ -558,6 +560,41 @@ public class DBqueries {
 
 
 
+    }
+
+    public static void loadOrders(Context context,MyOrderAdapter myOrderAdapter){
+        myOrderItemModelList.clear();
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
+                                firebaseFirestore.collection("ORDERS").document(documentSnapshot.getString("ORDER_ID")).collection("OrderItems")
+                                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()){
+                                                    for (DocumentSnapshot orderItems : task.getResult().getDocuments()) {
+
+                                                        MyOrderItemModel myOrderItemModel = new MyOrderItemModel(orderItems.getString("Product_Id"), orderItems.getString("Order_Status"), orderItems.getString("Address"), orderItems.getString("Coupen_Id"), orderItems.getString("Cutted_Price"), orderItems.getDate("Ordered date"), orderItems.getDate("Packed date"), orderItems.getDate("Shipped date"), orderItems.getDate("Deliverd date"), orderItems.getDate("Cancelled date"), orderItems.getString("Discounted_Price"), orderItems.getLong("Free_Coupen"), orderItems.getString("FullName"), orderItems.getString("ORDER_ID"), orderItems.getString("Payment_Method"), orderItems.getString("Pinecode"), orderItems.getString("Product_Price"), orderItems.getLong("Product_Quantity"), orderItems.getString("User_Id"),orderItems.getString("Product_Image"),orderItems.getString("Product_Title"));
+                                                        myOrderItemModelList.add(myOrderItemModel);
+                                                    }
+                                                    myOrderAdapter.notifyDataSetChanged();
+
+                                                }else {
+                                                    String error = task.getException().getMessage();
+                                                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                            }
+                        }else {
+                            String error = task.getException().getMessage();
+                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
 

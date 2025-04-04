@@ -214,9 +214,20 @@ public class DeliveryActivity extends AppCompatActivity implements PaymentResult
                                 .addOnCompleteListener(task -> {
                                     loadingDialog.dismiss();
                                     if (task.isSuccessful()) {
-                                        // 3. Only show confirmation after both payment verification
-                                        // AND Firestore update succeed
-                                        showConfirmationLayout();
+                                        Map<String,Object> userOrder = new HashMap<>();
+                                        userOrder.put("ORDER_ID",s);
+                                        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS").document(s)
+                                                .set(userOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()){
+                                                            showConfirmationLayout();
+                                                        }else {
+                                                            Toast.makeText(DeliveryActivity.this, "failed to update user order list", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+
                                     } else {
                                         Toast.makeText(DeliveryActivity.this,
                                                 "Payment verified but order update failed",
@@ -499,6 +510,8 @@ public class DeliveryActivity extends AppCompatActivity implements PaymentResult
                 Map<String, Object> orderDetails = new HashMap<>();
                 orderDetails.put("ORDER_ID",s);
                 orderDetails.put("Product_Id",cartItemModel.getProductID());
+                orderDetails.put("Product_Image",cartItemModel.getProductImage());
+                orderDetails.put("Product_Title",cartItemModel.getProductTitle());
                 orderDetails.put("User_Id",userId);
                 orderDetails.put("Product_Quantity",cartItemModel.getProductQuentity());
                 if (cartItemModel.getCuttedPrice() != null){
@@ -517,7 +530,12 @@ public class DeliveryActivity extends AppCompatActivity implements PaymentResult
                 }else {
                     orderDetails.put("Discounted_Price", "");
                 }
-                orderDetails.put("Date",FieldValue.serverTimestamp());
+                orderDetails.put("Ordered date",FieldValue.serverTimestamp());
+                orderDetails.put("Packed date",FieldValue.serverTimestamp());
+                orderDetails.put("Shipped date",FieldValue.serverTimestamp());
+                orderDetails.put("Deliverd date",FieldValue.serverTimestamp());
+                orderDetails.put("Cancelled date",FieldValue.serverTimestamp());
+                orderDetails.put("Order_Status","Ordered");
                 orderDetails.put("Payment_Method",paymentMethod);
                 orderDetails.put("Address",fullAddress.getText());
                 orderDetails.put("FullName",fullName.getText());
@@ -612,6 +630,23 @@ public class DeliveryActivity extends AppCompatActivity implements PaymentResult
         otpIntent.putExtra("ORDER_ID", s);
         startActivity(otpIntent);
 
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Ensure any previous dialogs are dismissed
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
+        loadingDialog = null;
     }
 
 

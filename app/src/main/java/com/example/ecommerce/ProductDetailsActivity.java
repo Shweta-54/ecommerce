@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -682,10 +684,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loadingDialog.show();
                 if (currentUser == null) {
+                    loadingDialog.dismiss(); // Add this line
                     logInDialog.show();
+                    return;
                 } else {
                     DeliveryActivity.fromCart = false;
-                    loadingDialog.show();
                     DeliveryActivity.cartItemModelList = new ArrayList<>();
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM, productID
                             , documentSnapshot.get("product_image_1").toString()
@@ -704,9 +707,15 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     if (DBqueries.addressesModelList.size() == 0) {
                         DBqueries.loadAddresses(ProductDetailsActivity.this, loadingDialog);
                     }else {
-                        loadingDialog.dismiss();
+                        // Dismiss dialog and start activity with a slight delay
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                            if (loadingDialog != null && loadingDialog.isShowing()) {
+                                loadingDialog.dismiss();
+                            }
                         Intent deliveryIntent = new Intent(ProductDetailsActivity.this, DeliveryActivity.class);
                         startActivity(deliveryIntent);
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        }, 300);
                     }
                 }
             }

@@ -10,9 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class MyOrdersFragment extends Fragment {
 
@@ -34,15 +31,12 @@ public class MyOrdersFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         myordersRecyclerView.setLayoutManager(layoutManager);
 
-        List<MyOrderItemModel> myOrderItemModelList =  new ArrayList<>();
-        myOrderItemModelList.add(new MyOrderItemModel(R.drawable.sh14,2,"Pixcel 2 (Black)","Deliverd on Mon,15th JAN 2013"));
-        myOrderItemModelList.add(new MyOrderItemModel(R.drawable.sh15,1,"Pixcel 2 (Black)","Deliverd on Mon,15th JAN 2013"));
-        myOrderItemModelList.add(new MyOrderItemModel(R.drawable.sh16,0,"Pixcel 2 (Black)","Cancelled"));
-        myOrderItemModelList.add(new MyOrderItemModel(R.drawable.sh17,4,"Pixcel 2 (Black)","Deliverd on Mon,15th JAN 2013"));
 
-        MyOrderAdapter myOrderAdapter = new MyOrderAdapter(myOrderItemModelList);
+        MyOrderAdapter myOrderAdapter = new MyOrderAdapter(DBqueries.myOrderItemModelList);
         myordersRecyclerView.setAdapter(myOrderAdapter);
-        myOrderAdapter.notifyDataSetChanged();
+        if (DBqueries.myOrderItemModelList.size() == 0) {
+            DBqueries.loadOrders(getContext(),myOrderAdapter);
+        }
         return view;
     }
 }
