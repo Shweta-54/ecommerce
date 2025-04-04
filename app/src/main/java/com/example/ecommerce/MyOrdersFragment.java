@@ -18,6 +18,7 @@ public class MyOrdersFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static MyOrderAdapter myOrderAdapter;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -32,7 +33,7 @@ public class MyOrdersFragment extends Fragment {
         myordersRecyclerView.setLayoutManager(layoutManager);
 
 
-        MyOrderAdapter myOrderAdapter = new MyOrderAdapter(DBqueries.myOrderItemModelList);
+        myOrderAdapter = new MyOrderAdapter(DBqueries.myOrderItemModelList);
         myordersRecyclerView.setAdapter(myOrderAdapter);
         if (DBqueries.myOrderItemModelList.size() == 0) {
             DBqueries.loadOrders(getContext(),myOrderAdapter);

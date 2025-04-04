@@ -28,7 +28,7 @@ public class MyOrderItemModel {
     private String productPrice;
     private Long productQuantity;
     private String userId;
-    private int rating;
+    private int rating = 0;
 
     public MyOrderItemModel(String productId, String orderStatus, String address, String coupenId,
                             String cuttedPrice, Date orderedDate, Date packedDate, Date shippedDate, Date deliverdDte,
@@ -55,6 +55,14 @@ public class MyOrderItemModel {
         this.productPrice = productPrice;
         this.productQuantity = productQuantity;
         this.userId = userId;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
     public String getProductId() {

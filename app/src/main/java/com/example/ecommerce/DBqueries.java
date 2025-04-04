@@ -284,6 +284,12 @@ public class DBqueries {
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
 
+                                List<String> orderProductIds = new ArrayList<>();
+                                for (int x = 0; x < myOrderItemModelList.size(); x++) {
+                                    orderProductIds.add(myOrderItemModelList.get(x).getProductId());
+                                }
+
+
                                 for (long x = 0; x < (long) task.getResult().get("list_size"); x++) {
                                     myRatedIds.add(task.getResult().get("product_ID_" + x).toString());
                                     myRating.add((long) task.getResult().get("rating_" + x));
@@ -295,6 +301,13 @@ public class DBqueries {
                                         }
                                     }
 
+                                    if (orderProductIds.contains(task.getResult().get("product_ID_" + x).toString())) {
+                                        myOrderItemModelList.get(orderProductIds.indexOf(task.getResult().get("product_ID_" + x).toString())).setRating(Integer.parseInt(String.valueOf((long) task.getResult().get("rating_" + x))) - 1);
+                                    }
+
+                                }
+                                if (MyOrdersFragment.myOrderAdapter != null) {
+                                    MyOrdersFragment.myOrderAdapter.notifyDataSetChanged();
                                 }
 
                             } else {
@@ -580,6 +593,7 @@ public class DBqueries {
                                                         MyOrderItemModel myOrderItemModel = new MyOrderItemModel(orderItems.getString("Product_Id"), orderItems.getString("Order_Status"), orderItems.getString("Address"), orderItems.getString("Coupen_Id"), orderItems.getString("Cutted_Price"), orderItems.getDate("Ordered date"), orderItems.getDate("Packed date"), orderItems.getDate("Shipped date"), orderItems.getDate("Deliverd date"), orderItems.getDate("Cancelled date"), orderItems.getString("Discounted_Price"), orderItems.getLong("Free_Coupen"), orderItems.getString("FullName"), orderItems.getString("ORDER_ID"), orderItems.getString("Payment_Method"), orderItems.getString("Pinecode"), orderItems.getString("Product_Price"), orderItems.getLong("Product_Quantity"), orderItems.getString("User_Id"),orderItems.getString("Product_Image"),orderItems.getString("Product_Title"));
                                                         myOrderItemModelList.add(myOrderItemModel);
                                                     }
+                                                        loadRatingList(context);
                                                     myOrderAdapter.notifyDataSetChanged();
 
                                                 }else {

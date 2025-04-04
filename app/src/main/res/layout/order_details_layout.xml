@@ -347,7 +347,6 @@
             android:layout_weight="1"
             android:src="@drawable/baseline_star_24"
             app:tint="#bebebe" />
-
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -362,7 +361,7 @@
         android:id="@+id/divider7"
         android:layout_width="409dp"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
