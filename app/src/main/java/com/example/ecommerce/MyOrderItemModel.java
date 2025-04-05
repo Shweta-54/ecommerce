@@ -28,12 +28,13 @@ public class MyOrderItemModel {
     private String productPrice;
     private Long productQuantity;
     private String userId;
+    private String deliverPrice;
     private int rating = 0;
 
     public MyOrderItemModel(String productId, String orderStatus, String address, String coupenId,
                             String cuttedPrice, Date orderedDate, Date packedDate, Date shippedDate, Date deliverdDte,
                             Date cancelledDate, String discountedPrice, Long freeCoupens, String fullName, String orderId,
-                            String paymentMethod, String pincode, String productPrice, Long productQuantity, String userId,String productImage,String productTitle) {
+                            String paymentMethod, String pincode, String productPrice, Long productQuantity, String userId,String productImage,String productTitle,String deliverPrice) {
         this.productImage = productImage;
         this.productTitle = productTitle;
         this.productId = productId;
@@ -55,6 +56,15 @@ public class MyOrderItemModel {
         this.productPrice = productPrice;
         this.productQuantity = productQuantity;
         this.userId = userId;
+        this.deliverPrice = deliverPrice;
+    }
+
+    public String getDeliverPrice() {
+        return deliverPrice;
+    }
+
+    public void setDeliverPrice(String deliverPrice) {
+        this.deliverPrice = deliverPrice;
     }
 
     public int getRating() {

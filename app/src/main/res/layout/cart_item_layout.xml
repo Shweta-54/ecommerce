@@ -54,6 +54,18 @@
         app:layout_constraintStart_toEndOf="@+id/free_coupen_icon"
         app:layout_constraintTop_toBottomOf="@+id/products_title" />
 
+    <ImageView
+        android:id="@+id/cod_indicator"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_free_coupen"
+        app:layout_constraintStart_toEndOf="@+id/tv_free_coupen"
+        app:layout_constraintTop_toTopOf="@+id/tv_free_coupen"
+        app:layout_constraintVertical_bias="0.352"
+        app:srcCompat="@drawable/cash_on_delivery" />
+
     <TextView
         android:id="@+id/products_price"
         android:layout_width="wrap_content"

@@ -35,8 +35,9 @@ public class CartItemModel {
         private boolean qtyError;
         private String selectedCoupenId;
         private String  discountedPrice;
+        private boolean COD;
 
-    public CartItemModel(int type, String productID,String productImage, String productTitle, Long freeCoupens, String productPrice, String cuttedPrice, Long productQuentity, Long offersApplied, Long coupensApplied,boolean inStock,Long maxQuentity,Long stockQuentity) {
+    public CartItemModel(boolean COD,int type, String productID,String productImage, String productTitle, Long freeCoupens, String productPrice, String cuttedPrice, Long productQuentity, Long offersApplied, Long coupensApplied,boolean inStock,Long maxQuentity,Long stockQuentity) {
         this.type = type;
         this.productID = productID;
         this.productImage = productImage;
@@ -52,6 +53,15 @@ public class CartItemModel {
         this.stockQuentity = stockQuentity;
         qtyIDs = new ArrayList<>();
         qtyError = false;
+        this.COD = COD;
+    }
+
+    public boolean isCOD() {
+        return COD;
+    }
+
+    public void setCOD(boolean COD) {
+        this.COD = COD;
     }
 
     public String getDiscountedPrice() {

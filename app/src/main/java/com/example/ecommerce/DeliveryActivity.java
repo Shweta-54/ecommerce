@@ -68,6 +68,8 @@ public class DeliveryActivity extends AppCompatActivity implements PaymentResult
     Button changeORaddNewAddressbtn;
     private String s = UUID.randomUUID().toString().substring(0,28);;
     public static boolean codOrderConfirmed = false;
+    private TextView codTitle;
+    private View divider;
 
     private FirebaseFirestore firebaseFirestore;
     public static boolean getQtyIDs = true;
@@ -131,6 +133,8 @@ public class DeliveryActivity extends AppCompatActivity implements PaymentResult
         paymentMethodDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         payment = paymentMethodDialog.findViewById(R.id.paytm);
         cod = paymentMethodDialog.findViewById(R.id.cod_btn);
+        codTitle = paymentMethodDialog.findViewById(R.id.cod_btn_title);
+        divider = paymentMethodDialog.findViewById(R.id.divider);
         ////payment dialog
 
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -159,10 +163,24 @@ public class DeliveryActivity extends AppCompatActivity implements PaymentResult
             public void onClick(View v) {
                 Boolean allProductsAvailable = true;
                 for (CartItemModel cartItemModel : cartItemModelList) {
-                   if (cartItemModel.isQtyError()) {
-                       allProductsAvailable = false;
-                   }
-
+                    if (cartItemModel.isQtyError()) {
+                        allProductsAvailable = false;
+                        break;
+                    }
+                    if (cartItemModel.getType() == CartItemModel.CART_ITEM) {
+                        if (!cartItemModel.isCOD()) {
+                            cod.setEnabled(false);
+                            cod.setAlpha(0.5f);
+                            codTitle.setAlpha(0.5f);
+                            divider.setVisibility(View.GONE);
+                            break;
+                        } else {
+                            cod.setEnabled(true);
+                            cod.setAlpha(1f);
+                            codTitle.setAlpha(1f);
+                            divider.setVisibility(View.VISIBLE);
+                        }
+                    }
                 }
                 if (allProductsAvailable){
                     paymentMethodDialog.show();
@@ -541,6 +559,7 @@ public class DeliveryActivity extends AppCompatActivity implements PaymentResult
                 orderDetails.put("FullName",fullName.getText());
                 orderDetails.put("Pinecode",pincode.getText());
                 orderDetails.put("Free_Coupen",cartItemModel.getFreeCoupens());
+                orderDetails.put("Delivery Price",cartItemModel.getDeliverPrice());
                 firebaseFirestore.collection("ORDERS").document(s).collection("OrderItems").document(cartItemModel.getProductID())
                         .set(orderDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override

@@ -425,7 +425,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                                                     public void onComplete(@NonNull Task<Void> task) {
                                                                                         if (task.isSuccessful()) {
                                                                                             if (DBqueries.cartItemModelList.size() != 0) {
-                                                                                                DBqueries.cartItemModelList.add(0, new CartItemModel(CartItemModel.CART_ITEM, productID
+                                                                                                DBqueries.cartItemModelList.add(0, new CartItemModel(documentSnapshot.getBoolean("COD"),CartItemModel.CART_ITEM, productID
                                                                                                         , documentSnapshot.get("product_image_1").toString()
                                                                                                         , documentSnapshot.get("product_title").toString()
                                                                                                         , (long) documentSnapshot.get("free_coupens")
@@ -601,6 +601,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
+
                                                     Map<String, Object> myRating = new HashMap<>();
                                                     if (DBqueries.myRatedIds.contains(productID)) {
                                                         myRating.put("rating_" + DBqueries.myRatedIds.indexOf(productID), (long) starPosition + 1);
@@ -690,7 +691,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 } else {
                     DeliveryActivity.fromCart = false;
                     DeliveryActivity.cartItemModelList = new ArrayList<>();
-                    DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM, productID
+                    DeliveryActivity.cartItemModelList.add(new CartItemModel(documentSnapshot.getBoolean("COD"),CartItemModel.CART_ITEM, productID
                             , documentSnapshot.get("product_image_1").toString()
                             , documentSnapshot.get("product_title").toString()
                             , (long) documentSnapshot.get("free_coupens")

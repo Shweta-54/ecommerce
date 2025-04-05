@@ -361,7 +361,7 @@ public class DBqueries {
 
                                                                             if (task.getResult().getDocuments().size() < (long) documentSnapshot.get("stock_quantity")) {
 
-                                                                                cartItemModelList.add(index, new CartItemModel(CartItemModel.CART_ITEM, productID
+                                                                                cartItemModelList.add(index, new CartItemModel(documentSnapshot.getBoolean("COD"),CartItemModel.CART_ITEM, productID
                                                                                         , documentSnapshot.get("product_image_1").toString()
                                                                                         , documentSnapshot.get("product_title").toString()
                                                                                         , (long) documentSnapshot.get("free_coupens")
@@ -374,7 +374,7 @@ public class DBqueries {
                                                                                         , (long) documentSnapshot.get("max_quantity")
                                                                                         , (long) documentSnapshot.get("stock_quantity")));
                                                                             } else {
-                                                                                cartItemModelList.add(index, new CartItemModel(CartItemModel.CART_ITEM, productID
+                                                                                cartItemModelList.add(index, new CartItemModel(documentSnapshot.getBoolean("COD"),CartItemModel.CART_ITEM, productID
                                                                                         , documentSnapshot.get("product_image_1").toString()
                                                                                         , documentSnapshot.get("product_title").toString()
                                                                                         , (long) documentSnapshot.get("free_coupens")
@@ -575,7 +575,7 @@ public class DBqueries {
 
     }
 
-    public static void loadOrders(Context context,MyOrderAdapter myOrderAdapter){
+    public static void loadOrders(Context context,MyOrderAdapter myOrderAdapter,final Dialog loadingDialog){
         myOrderItemModelList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -590,7 +590,7 @@ public class DBqueries {
                                                 if (task.isSuccessful()){
                                                     for (DocumentSnapshot orderItems : task.getResult().getDocuments()) {
 
-                                                        MyOrderItemModel myOrderItemModel = new MyOrderItemModel(orderItems.getString("Product_Id"), orderItems.getString("Order_Status"), orderItems.getString("Address"), orderItems.getString("Coupen_Id"), orderItems.getString("Cutted_Price"), orderItems.getDate("Ordered date"), orderItems.getDate("Packed date"), orderItems.getDate("Shipped date"), orderItems.getDate("Deliverd date"), orderItems.getDate("Cancelled date"), orderItems.getString("Discounted_Price"), orderItems.getLong("Free_Coupen"), orderItems.getString("FullName"), orderItems.getString("ORDER_ID"), orderItems.getString("Payment_Method"), orderItems.getString("Pinecode"), orderItems.getString("Product_Price"), orderItems.getLong("Product_Quantity"), orderItems.getString("User_Id"),orderItems.getString("Product_Image"),orderItems.getString("Product_Title"));
+                                                        MyOrderItemModel myOrderItemModel = new MyOrderItemModel(orderItems.getString("Product_Id"), orderItems.getString("Order_Status"), orderItems.getString("Address"), orderItems.getString("Coupen_Id"), orderItems.getString("Cutted_Price"), orderItems.getDate("Ordered date"), orderItems.getDate("Packed date"), orderItems.getDate("Shipped date"), orderItems.getDate("Deliverd date"), orderItems.getDate("Cancelled date"), orderItems.getString("Discounted_Price"), orderItems.getLong("Free_Coupen"), orderItems.getString("FullName"), orderItems.getString("ORDER_ID"), orderItems.getString("Payment_Method"), orderItems.getString("Pinecode"), orderItems.getString("Product_Price"), orderItems.getLong("Product_Quantity"), orderItems.getString("User_Id"),orderItems.getString("Product_Image"),orderItems.getString("Product_Title"),orderItems.getString("Delivery Price"));
                                                         myOrderItemModelList.add(myOrderItemModel);
                                                     }
                                                         loadRatingList(context);
@@ -600,10 +600,12 @@ public class DBqueries {
                                                     String error = task.getException().getMessage();
                                                     Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
                                                 }
+                                                loadingDialog.dismiss();
                                             }
                                         });
                             }
                         }else {
+                            loadingDialog.dismiss();
                             String error = task.getException().getMessage();
                             Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
                         }
@@ -624,6 +626,7 @@ public class DBqueries {
         myRating.clear();
         addressesModelList.clear();
         rewardModelList.clear();
+        myOrderItemModelList.clear();
     }
 
 }
