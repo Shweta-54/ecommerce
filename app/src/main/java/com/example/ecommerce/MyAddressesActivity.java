@@ -39,6 +39,7 @@ public class MyAddressesActivity extends AppCompatActivity {
     private TextView addressesSaved;
     private int previousAddress;
     private Dialog loadingDialog;
+    private int mode;
 
 
     @SuppressLint("NotifyDataSetChanged")
@@ -73,7 +74,7 @@ public class MyAddressesActivity extends AppCompatActivity {
         myAddressesRecyclerView.setLayoutManager(layoutManager);
 
 
-        int mode = getIntent().getIntExtra("MODE",-1);
+        mode = getIntent().getIntExtra("MODE",-1);
         if (mode == SELECT_ADDRESS){
             deliverHereBtn.setVisibility(View.VISIBLE);
         }else {
@@ -144,10 +145,12 @@ public class MyAddressesActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home){
-            if (DBqueries.selectedAddress != previousAddress) {
-                DBqueries.addressesModelList.get(DBqueries.selectedAddress).setSelected(false);
-                DBqueries.addressesModelList.get(previousAddress).setSelected(true);
-                DBqueries.selectedAddress = previousAddress;
+            if (mode == SELECT_ADDRESS) {
+                if (DBqueries.selectedAddress != previousAddress) {
+                    DBqueries.addressesModelList.get(DBqueries.selectedAddress).setSelected(false);
+                    DBqueries.addressesModelList.get(previousAddress).setSelected(true);
+                    DBqueries.selectedAddress = previousAddress;
+                }
             }
             finish();
             return true;
@@ -158,10 +161,12 @@ public class MyAddressesActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (mode == SELECT_ADDRESS){
         if (DBqueries.selectedAddress != previousAddress) {
             DBqueries.addressesModelList.get(DBqueries.selectedAddress).setSelected(false);
             DBqueries.addressesModelList.get(previousAddress).setSelected(true);
             DBqueries.selectedAddress = previousAddress;
+        }
         }
         super.onBackPressed();
     }

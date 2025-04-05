@@ -706,7 +706,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
                     if (DBqueries.addressesModelList.size() == 0) {
-                        DBqueries.loadAddresses(ProductDetailsActivity.this, loadingDialog);
+                        DBqueries.loadAddresses(ProductDetailsActivity.this, loadingDialog,true);
                     }else {
                         // Dismiss dialog and start activity with a slight delay
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {

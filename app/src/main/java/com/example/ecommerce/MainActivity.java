@@ -8,7 +8,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +18,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -28,11 +29,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.ecommerce.databinding.ActivityMainBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /** @noinspection ALL*/
 public class MainActivity extends AppCompatActivity {
@@ -48,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int ORDERS_FRAGMENT = 2;
     private static final int WISHLIST_FRAGMENT = 3;
 
+    private CircleImageView profileView;
+    private TextView fullname,email;
+    private ImageView addprofileIcon;
 
 
 
@@ -83,6 +95,13 @@ public class MainActivity extends AppCompatActivity {
         actionbarlogo = findViewById(R.id.actionbar_logo);
         frameLayout = findViewById(R.id.main_framlayout);
 
+        navigationView = binding.navView;
+
+        profileView = navigationView.getHeaderView(0).findViewById(R.id.main_profile_image);
+        fullname = navigationView.getHeaderView(0).findViewById(R.id.main_fullname);
+        email = navigationView.getHeaderView(0).findViewById(R.id.main_email);
+        addprofileIcon = navigationView.getHeaderView(0).findViewById(R.id.add_profile_icon);
+
         window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
@@ -91,35 +110,36 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout = binding.drawerLayout;
         navigationView = binding.navView;
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+
 
         // ✅ Handle navigation item selection
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
         navigationView.getMenu().getItem(0).setChecked(true);
-
-        //from chatgpt
-        badgeCount = findViewById(R.id.badge_count);
-
-        if (badgeCount == null) {
-            Log.e("MainActivity", "Badge count TextView is null");
-        }
-
-        if (currentUser != null) {
-            DBqueries.loadCartList(this, new Dialog(this), false, badgeCount, new TextView(this));
-        }
-        //from chatgpt
-
+//
+//        //from chatgpt
+//        badgeCount = findViewById(R.id.badge_count);
+//
+//        if (badgeCount == null) {
+//            Log.e("MainActivity", "Badge count TextView is null");
+//        }
+//
+//        if (currentUser != null) {
+//            DBqueries.loadCartList(this, new Dialog(this), false, badgeCount, new TextView(this));
+//        }
+//        //from chatgpt
 
         if (savedInstanceState == null)
             if (showCart) {
+                mainActivity = this;
                 drawerLayout.setDrawerLockMode(1);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 gotoFragment("My Cart", new MyCartFragment(), -2);
             } else {
+                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                        this, drawerLayout, toolbar,
+                        R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                drawerLayout.addDrawerListener(toggle);
+                toggle.syncState();
                 setFragment(new HomeFragment(), HOME_FRAGMENT);
             }
 
@@ -162,11 +182,35 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         super.onStart();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null){
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         }else{
+            FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()){
+                                DBqueries.fullname = task.getResult().getString("fullname");
+                                DBqueries.email = task.getResult().getString("email");
+                                DBqueries.profile = task.getResult().getString("profile");
+
+                                fullname.setText(DBqueries.fullname);
+                                email.setText(DBqueries.email);
+                                if (DBqueries.profile.equals("")){
+                                    addprofileIcon.setVisibility(View.VISIBLE);
+                                }else {
+                                    addprofileIcon.setVisibility(View.INVISIBLE);
+                                    Glide.with(MainActivity.this).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.mipmap.profile_round)).into(profileView);
+                                }
+
+                            }else {
+                                String error = task.getException().getMessage();
+                                Toast.makeText(MainActivity.this, error, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(true);
         }
 
@@ -268,24 +312,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawerLayout, toolbar,
-//                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawerLayout.addDrawerListener(toggle);
-//        toggle.syncState();
-//
-//        if (showCart) {
-//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//            toggle.setDrawerIndicatorEnabled(false);
-//        } else {
-//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//            toggle.setDrawerIndicatorEnabled(true);
-//        }
-//    }
+
 
     private void gotoFragment(String title, Fragment fragment, int fragmentNo) {
         actionbarlogo.setVisibility(View.GONE);

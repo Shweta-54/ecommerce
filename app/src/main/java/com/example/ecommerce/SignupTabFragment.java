@@ -254,6 +254,8 @@ public class SignupTabFragment extends Fragment {
 
                                     Map<String,Object > userdata = new HashMap<>();
                                     userdata.put("fullname",fullname.getText().toString());
+                                    userdata.put("email",email.getText().toString());
+                                    userdata.put("profile","");
 
                                     firebaseFirestore.collection("USERS").document(firebaseAuth.getUid())
                                             .set(userdata)

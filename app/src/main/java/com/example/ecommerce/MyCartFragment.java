@@ -74,7 +74,7 @@ public class MyCartFragment extends Fragment {
             DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
             loadingDialog.show();
             if (DBqueries.addressesModelList.size() == 0) {
-                DBqueries.loadAddresses(getContext(), loadingDialog);
+                DBqueries.loadAddresses(getContext(), loadingDialog,true);
             } else {
                 loadingDialog.dismiss();
                 Intent deliveryIntent = new Intent(getContext(), DeliveryActivity.class);
