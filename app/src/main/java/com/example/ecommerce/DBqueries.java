@@ -577,7 +577,7 @@ public class DBqueries {
 
     public static void loadOrders(Context context,MyOrderAdapter myOrderAdapter,final Dialog loadingDialog){
         myOrderItemModelList.clear();
-        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS")
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS").orderBy("time", Query.Direction.DESCENDING)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -590,7 +590,7 @@ public class DBqueries {
                                                 if (task.isSuccessful()){
                                                     for (DocumentSnapshot orderItems : task.getResult().getDocuments()) {
 
-                                                        MyOrderItemModel myOrderItemModel = new MyOrderItemModel(orderItems.getString("Product_Id"), orderItems.getString("Order_Status"), orderItems.getString("Address"), orderItems.getString("Coupen_Id"), orderItems.getString("Cutted_Price"), orderItems.getDate("Ordered date"), orderItems.getDate("Packed date"), orderItems.getDate("Shipped date"), orderItems.getDate("Deliverd date"), orderItems.getDate("Cancelled date"), orderItems.getString("Discounted_Price"), orderItems.getLong("Free_Coupen"), orderItems.getString("FullName"), orderItems.getString("ORDER_ID"), orderItems.getString("Payment_Method"), orderItems.getString("Pinecode"), orderItems.getString("Product_Price"), orderItems.getLong("Product_Quantity"), orderItems.getString("User_Id"),orderItems.getString("Product_Image"),orderItems.getString("Product_Title"),orderItems.getString("Delivery Price"));
+                                                        MyOrderItemModel myOrderItemModel = new MyOrderItemModel(orderItems.getString("Product_Id"), orderItems.getString("Order_Status"), orderItems.getString("Address"), orderItems.getString("Coupen_Id"), orderItems.getString("Cutted_Price"), orderItems.getDate("Ordered date"), orderItems.getDate("Packed date"), orderItems.getDate("Shipped date"), orderItems.getDate("Deliverd date"), orderItems.getDate("Cancelled date"), orderItems.getString("Discounted_Price"), orderItems.getLong("Free_Coupen"), orderItems.getString("FullName"), orderItems.getString("ORDER_ID"), orderItems.getString("Payment_Method"), orderItems.getString("Pinecode"), orderItems.getString("Product_Price"), orderItems.getLong("Product_Quantity"), orderItems.getString("User_Id"),orderItems.getString("Product_Image"),orderItems.getString("Product_Title"),orderItems.getString("Delivery Price"),orderItems.getBoolean("Cancellation requested"));
                                                         myOrderItemModelList.add(myOrderItemModel);
                                                     }
                                                         loadRatingList(context);

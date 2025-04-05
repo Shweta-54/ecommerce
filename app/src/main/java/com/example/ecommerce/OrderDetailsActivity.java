@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -50,6 +51,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
     private TextView totalItems,totalItemsPrice,deliveryPrice,totalAmount,savedAmount;
     private  Dialog loadingDialog;
     private SimpleDateFormat simpleDateFormat;
+    private Button cancelOrderBtn;
+    private Dialog cancelDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +78,21 @@ public class OrderDetailsActivity extends AppCompatActivity {
         loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ////loading dialog
 
+        ////cancel dialog
+        cancelDialog = new Dialog(OrderDetailsActivity.this);
+        cancelDialog.setContentView(R.layout.order_cancel_dialog);
+        cancelDialog.setCancelable(true);
+        cancelDialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.slider_background));
+//        cancelDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ////cancel dialog
+
         position = getIntent().getIntExtra("Position",-1);
         MyOrderItemModel model = DBqueries.myOrderItemModelList.get(position);
+
         title = findViewById(R.id.product_title4);
         price = findViewById(R.id.product_price4);
         quantity = findViewById(R.id.product_quantity4);
+        cancelOrderBtn = findViewById(R.id.cancel_btn);
         productImage = findViewById(R.id.product_image4);
         orderIndicator = findViewById(R.id.order_indicator1);
         packegeIndicator = findViewById(R.id.packed_indicator);
@@ -125,6 +138,11 @@ public class OrderDetailsActivity extends AppCompatActivity {
             case "Ordered":
                 orderIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.SuccessGreen)));
                 orderedDate.setText(String.valueOf(simpleDateFormat.format(model.getOrderedDate())));
+
+
+                P_S_progress.setVisibility(View.GONE);
+                S_D_progress.setVisibility(View.GONE);
+                O_P_progress.setVisibility(View.GONE);
 
                 packegeIndicator.setVisibility(View.GONE);
                 packedBody.setVisibility(View.GONE);
@@ -355,6 +373,75 @@ public class OrderDetailsActivity extends AppCompatActivity {
         }
         //////rating layout
 
+        if (model.isCancellationRequested()){
+            cancelOrderBtn.setVisibility(View.VISIBLE);
+            cancelOrderBtn.setEnabled(false);
+            cancelOrderBtn.setText("Cancellation in progress.");
+            cancelOrderBtn.setTextColor(getResources().getColor(R.color.colorRed));
+            cancelOrderBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+        }else {
+            if (model.getOrderStatus().equals("Ordered") || model.getOrderStatus().equals("Packed")) {
+                cancelOrderBtn.setVisibility(View.VISIBLE);
+                cancelOrderBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        cancelDialog.findViewById(R.id.no_btn).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                cancelDialog.dismiss();
+                            }
+                        });
+
+                        cancelDialog.findViewById(R.id.yes_btn).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                cancelDialog.dismiss();
+                                loadingDialog.show();
+                                Map<String,Object> map = new HashMap<>();
+                                map.put("order_id",model.getOrderId());
+                                map.put("product_id",model.getProductId());
+                                map.put("Order Cancelled",false);
+                                FirebaseFirestore.getInstance().collection("CANCELLED_ORDERS").document().set(map)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()){
+                                                    FirebaseFirestore.getInstance().collection("ORDERS").document(model.getOrderId()).collection("OrderItems").document(model.getProductId()).update("Cancellation requested",true)
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    if (task.isSuccessful()){
+                                                                        model.setCancellationRequested(true);
+                                                                        cancelOrderBtn.setEnabled(false);
+                                                                        cancelOrderBtn.setText("Cancellation in progress.");
+                                                                        cancelOrderBtn.setTextColor(getResources().getColor(R.color.colorRed));
+                                                                        cancelOrderBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+                                                                    }else {
+
+                                                                        String error = task.getException().getMessage();
+                                                                        Toast.makeText(OrderDetailsActivity.this, error, Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                    loadingDialog.dismiss();
+                                                                }
+                                                            });
+                                                }else {
+                                                    loadingDialog.dismiss();
+                                                    String error = task.getException().getMessage();
+                                                    Toast.makeText(OrderDetailsActivity.this, error, Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                            }
+                        });
+                        cancelDialog.show();
+
+                    }
+                });
+
+            }
+        }
+
         fullName.setText(model.getFullName());
         Address.setText(model.getAddress());
         Pincode.setText(model.getPincode());
@@ -368,15 +455,14 @@ public class OrderDetailsActivity extends AppCompatActivity {
             totalItemsPrice.setText("Rs."+totalItemPricValue+"/-");
         }else {
             totalItemPricValue = model.getProductQuantity()*Long.valueOf(model.getDiscountedPrice());
-            totalItemsPrice.setText("Rs."+ totalItemsPrice +"/-");
+            totalItemsPrice.setText("Rs."+ totalItemPricValue +"/-");
         }
-        if (model.getDeliverPrice().equals("FREE")){
+        if (model.getDeliverPrice().equals("Free")){
             deliveryPrice.setText(model.getDeliverPrice());
             totalAmount.setText(totalItemsPrice.getText());
         }else {
             deliveryPrice.setText("Rs." + model.getDeliverPrice() + "/-");
-            totalAmount.setText("Rs."+ (totalItemPricValue + Long.valueOf( model.getDeliverPrice()))+"/-");
-
+            totalAmount.setText("Rs."+ totalItemPricValue + Long.valueOf(model.getDeliverPrice())+"/-");
         }
 
         if (!model.getCuttedPrice().equals("")){

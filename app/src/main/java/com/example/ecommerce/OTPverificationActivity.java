@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -63,7 +64,6 @@ public class OTPverificationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String enteredOtp = otp.getText().toString().trim();
                 if (enteredOtp.equals(String.valueOf(OTP_number))) {
-
                     Map<String,Object> updateStatus = new HashMap<>();
                     updateStatus.put("Order_Status","Ordered");
                     String s = getIntent().getStringExtra("ORDER_ID");
@@ -72,9 +72,9 @@ public class OTPverificationActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
-
                                         Map<String,Object> userOrder = new HashMap<>();
                                         userOrder.put("ORDER_ID",s);
+                                        userOrder.put("time", FieldValue.serverTimestamp());
                                         FirebaseFirestore.getInstance().collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS").document(s)
                                                 .set(userOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override

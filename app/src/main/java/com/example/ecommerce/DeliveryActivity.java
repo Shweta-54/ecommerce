@@ -226,7 +226,6 @@ public class DeliveryActivity extends AppCompatActivity implements PaymentResult
                         updateStatus.put("Payment_Status","Paid");
                         updateStatus.put("Order_Status","Ordered");
                         updateStatus.put("razorpay_payment_id", razorpayPaymentId);
-
                         firebaseFirestore.collection("ORDERS").document(s)
                                 .update(updateStatus)
                                 .addOnCompleteListener(task -> {
@@ -234,6 +233,7 @@ public class DeliveryActivity extends AppCompatActivity implements PaymentResult
                                     if (task.isSuccessful()) {
                                         Map<String,Object> userOrder = new HashMap<>();
                                         userOrder.put("ORDER_ID",s);
+                                        userOrder.put("time",FieldValue.serverTimestamp());
                                         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS").document(s)
                                                 .set(userOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
@@ -559,7 +559,8 @@ public class DeliveryActivity extends AppCompatActivity implements PaymentResult
                 orderDetails.put("FullName",fullName.getText());
                 orderDetails.put("Pinecode",pincode.getText());
                 orderDetails.put("Free_Coupen",cartItemModel.getFreeCoupens());
-                orderDetails.put("Delivery Price",cartItemModel.getDeliverPrice());
+                orderDetails.put("Delivery Price",cartItemModelList.get(cartItemModelList.size() - 1).getDeliverPrice());
+                orderDetails.put("Cancellation requested",false);
                 firebaseFirestore.collection("ORDERS").document(s).collection("OrderItems").document(cartItemModel.getProductID())
                         .set(orderDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
