@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -29,6 +30,7 @@ public class MyAccountFragment extends Fragment {
         // Required empty public constructor
     }
 
+    private FloatingActionButton settingsBtn;
     public static final int MANAGE_ADDRESS = 1;
     private CircleImageView profileView, currentOrderImage;
     private TextView name,email,tvCurrentOrderStatus;
@@ -74,6 +76,7 @@ public class MyAccountFragment extends Fragment {
         address = view.findViewById(R.id.addresses);
         pincode = view.findViewById(R.id.address_pincode);
         signOutBtn = view.findViewById(R.id.sign_out_btn);
+        settingsBtn = view.findViewById(R.id.settings_btn);
 
         name.setText(DBqueries.fullname);
         email.setText(DBqueries.email);
@@ -175,6 +178,15 @@ public class MyAccountFragment extends Fragment {
             startActivity(registerIntent);
             getActivity().finish();
         });
+
+        settingsBtn.setOnClickListener(v -> {
+            Intent updateuserInfo = new Intent(getContext(), UpdateUserInfoActivity.class);
+            updateuserInfo.putExtra("Name",name.getText());
+            updateuserInfo.putExtra("Email",email.getText());
+            updateuserInfo.putExtra("Photo",DBqueries.profile);
+            startActivity(updateuserInfo);
+        });
+
 
         return view;
     }
