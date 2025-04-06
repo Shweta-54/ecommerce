@@ -187,30 +187,43 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser == null){
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         }else{
-            FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()){
-                                DBqueries.fullname = task.getResult().getString("fullname");
-                                DBqueries.email = task.getResult().getString("email");
-                                DBqueries.profile = task.getResult().getString("profile");
+            if (DBqueries.email == null) {
+                FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DBqueries.fullname = task.getResult().getString("fullname");
+                                    DBqueries.email = task.getResult().getString("email");
+                                    DBqueries.profile = task.getResult().getString("profile");
 
-                                fullname.setText(DBqueries.fullname);
-                                email.setText(DBqueries.email);
-                                if (DBqueries.profile.equals("")){
-                                    addprofileIcon.setVisibility(View.VISIBLE);
-                                }else {
-                                    addprofileIcon.setVisibility(View.INVISIBLE);
-                                    Glide.with(MainActivity.this).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.mipmap.profile_round)).into(profileView);
+                                    fullname.setText(DBqueries.fullname);
+                                    email.setText(DBqueries.email);
+                                    if (DBqueries.profile.equals("")) {
+
+                                        addprofileIcon.setVisibility(View.VISIBLE);
+                                    } else {
+                                        addprofileIcon.setVisibility(View.INVISIBLE);
+                                        Glide.with(MainActivity.this).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.mipmap.profile_round)).into(profileView);
+                                    }
+
+                                } else {
+                                    String error = task.getException().getMessage();
+                                    Toast.makeText(MainActivity.this, error, Toast.LENGTH_SHORT).show();
                                 }
-
-                            }else {
-                                String error = task.getException().getMessage();
-                                Toast.makeText(MainActivity.this, error, Toast.LENGTH_SHORT).show();
                             }
-                        }
-                    });
+                        });
+            }else {
+                fullname.setText(DBqueries.fullname);
+                email.setText(DBqueries.email);
+                if (DBqueries.profile.equals("")) {
+                    profileView.setImageResource(R.mipmap.profile_round);
+                    addprofileIcon.setVisibility(View.VISIBLE);
+                } else {
+                    addprofileIcon.setVisibility(View.INVISIBLE);
+                    Glide.with(MainActivity.this).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.mipmap.profile_round)).into(profileView);
+                }
+            }
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(true);
         }
 
@@ -349,10 +362,19 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressWarnings("StatemenWithEmptyBody")
 
+    MenuItem menuItem;
     public boolean onNavigationItemSelected(MenuItem item) {
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
-        if (currentUser !=null) {
+        menuItem = item;
+
+        if (currentUser != null) {
+            drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+                @Override
+                public void onDrawerClosed(@NonNull View drawerView) {
+                    super.onDrawerClosed(drawerView);
+
+
                     int id = item.getItemId();
                     if (id == R.id.nav_my_mall) {
                         actionbarlogo.setVisibility(View.VISIBLE);
@@ -375,7 +397,10 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(registerIntent);
                         finish();
                     }
+                    drawerLayout.removeDrawerListener(this);
 
+                }
+            });
             return true;
         }else {
             logInDialog.show();

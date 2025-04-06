@@ -78,11 +78,7 @@ public class MyAccountFragment extends Fragment {
         signOutBtn = view.findViewById(R.id.sign_out_btn);
         settingsBtn = view.findViewById(R.id.settings_btn);
 
-        name.setText(DBqueries.fullname);
-        email.setText(DBqueries.email);
-        if (!DBqueries.profile.equals("")){
-            Glide.with(getContext()).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.drawable.baseline_person_24)).into(profileView);
-        }
+
         layoutContainer.getChildAt(1).setVisibility(View.GONE);
         loadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -194,6 +190,15 @@ public class MyAccountFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        name.setText(DBqueries.fullname);
+        email.setText(DBqueries.email);
+        if (!DBqueries.profile.equals("")){
+            Glide.with(getContext()).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.drawable.baseline_person_24)).into(profileView);
+        }else {
+            profileView.setImageResource(R.drawable.baseline_person_24);
+        }
+
         if (!loadingDialog.isShowing()){
             if (DBqueries.addressesModelList.size() == 0) {
                 addressname.setText("No address found.");

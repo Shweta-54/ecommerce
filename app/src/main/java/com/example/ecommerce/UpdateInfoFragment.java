@@ -234,7 +234,6 @@ public class UpdateInfoFragment extends Fragment {
                                               @Override
                                               public void onComplete(@NonNull Task<Void> task) {
                                                   if (task.isSuccessful()) {
-
                                                       updatePhoto(user);
                                                   }else {
                                                       loadingDialog.dismiss();
@@ -371,6 +370,7 @@ public class UpdateInfoFragment extends Fragment {
                             }else {
                                 DBqueries.fullname = nameField.getText().toString().trim();
                             }
+                            getActivity().finish();
                             Toast.makeText(getContext(), "Profile Updated", Toast.LENGTH_SHORT).show();
                         }else {
                             String error = task.getException().getMessage();
