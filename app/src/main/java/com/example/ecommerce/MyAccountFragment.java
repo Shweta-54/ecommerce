@@ -151,27 +151,7 @@ public class MyAccountFragment extends Fragment {
                             address.setText("-");
                             pincode.setText("-");
                         } else {
-                            String nametext, mobileNo;
-                            nametext = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getName();
-                            mobileNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMobileNo();
-                            if (DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo().equals("")) {
-                                addressname.setText(nametext + " / " + mobileNo);
-                            }else {
-                                addressname.setText(nametext + " / " + mobileNo + " / " + DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo());
-                            }
-                            String flatNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFlatNo();
-                            String locality = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLocality();
-                            String landmark = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLandmark();
-                            String city = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getCity();
-                            String state = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getState();
-                            if (landmark.equals(" ")){
-                                address.setText(flatNo + ", " + locality + " , " + city + ", " + state);
-
-                            }else {
-                                address.setText(flatNo + ", " + locality + ", " + landmark + ", " + city + ", " + state);
-
-                            }
-                            pincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPinCode());
+                            setAddress();
                         }
                     }
                 });
@@ -197,5 +177,43 @@ public class MyAccountFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!loadingDialog.isShowing()){
+            if (DBqueries.addressesModelList.size() == 0) {
+                addressname.setText("No address found.");
+                address.setText("-");
+                pincode.setText("-");
+            } else {
+                setAddress();
+            }
+        }
+    }
+
+    private void setAddress() {
+        String nametext, mobileNo;
+        nametext = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getName();
+        mobileNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMobileNo();
+        if (DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo().equals("")) {
+            addressname.setText(nametext + " / " + mobileNo);
+        }else {
+            addressname.setText(nametext + " / " + mobileNo + " / " + DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo());
+        }
+        String flatNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFlatNo();
+        String locality = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLocality();
+        String landmark = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLandmark();
+        String city = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getCity();
+        String state = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getState();
+        if (landmark.equals(" ")){
+            address.setText(flatNo + ", " + locality + " , " + city + ", " + state);
+
+        }else {
+            address.setText(flatNo + ", " + locality + ", " + landmark + ", " + city + ", " + state);
+
+        }
+        pincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPinCode());
     }
 }

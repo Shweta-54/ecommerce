@@ -4,6 +4,7 @@ import static com.example.ecommerce.DeliveryActivity.SELECT_ADDRESS;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -61,6 +62,13 @@ public class MyAddressesActivity extends AppCompatActivity {
         loadingDialog.setCancelable(false);
         loadingDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.slider_background));
         loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        loadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                addressesSaved.setText(String.valueOf(DBqueries.addressesModelList.size()) + " saved addresses ");
+
+            }
+        });
         ////loading dialog
 
         RecyclerView myAddressesRecyclerView = findViewById(R.id.addresses_recyclerview);
@@ -114,7 +122,7 @@ public class MyAddressesActivity extends AppCompatActivity {
                 }
             }
         });
-         addressesAdapter = new AddressesAdapter(DBqueries.addressesModelList,mode);
+         addressesAdapter = new AddressesAdapter(DBqueries.addressesModelList,mode,loadingDialog);
         myAddressesRecyclerView.setAdapter(addressesAdapter);
         ((SimpleItemAnimator) Objects.requireNonNull(myAddressesRecyclerView.getItemAnimator())).setSupportsChangeAnimations(false);
         addressesAdapter.notifyDataSetChanged();
@@ -123,8 +131,13 @@ public class MyAddressesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent addNewAddressIntent = new Intent(MyAddressesActivity.this, AddAddressActivity.class);
-                addNewAddressIntent.putExtra("INTENT","null");
-                startActivity(addNewAddressIntent);
+                if (mode != SELECT_ADDRESS){
+                    addNewAddressIntent.putExtra("INTENT","manage");
+
+                }else {
+                    addNewAddressIntent.putExtra("INTENT", "null");
+                }
+                    startActivity(addNewAddressIntent);
             }
         });
     }
@@ -139,9 +152,7 @@ public class MyAddressesActivity extends AppCompatActivity {
     public static  void refreshItem(int deselect, int select){
         addressesAdapter.notifyItemChanged(deselect);
         addressesAdapter.notifyItemChanged(select);
-
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home){

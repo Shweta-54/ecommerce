@@ -133,7 +133,9 @@ public class AddAddressActivity extends AppCompatActivity {
                         if (!TextUtils.isEmpty(pinCode.getText()) && pinCode.getText().length() == 6) {
                             if (!TextUtils.isEmpty(name.getText())) {
                                 if (!TextUtils.isEmpty(mobileNo.getText()) && mobileNo.getText().length() == 10) {
+
                                     loadingDialog.show();
+
                                     Map<String,Object> addAddress = new HashMap();
 
                                     addAddress.put("city_"+String.valueOf(position+1),city.getText().toString());
@@ -148,7 +150,16 @@ public class AddAddressActivity extends AppCompatActivity {
 
                                     if (!updateAddress) {
                                         addAddress.put("list_size", (long) DBqueries.addressesModelList.size() + 1);
-                                        addAddress.put("selected_"+String.valueOf(position+1),true);
+                                        if (getIntent().getStringExtra("INTENT").equals("manage")) {
+                                            if (DBqueries.addressesModelList.size() == 0) {
+                                                addAddress.put("selected_"+String.valueOf(position+1),true);
+                                            }else {
+                                                addAddress.put("selected_"+String.valueOf(position+1),false);
+
+                                            }
+                                        }else {
+                                            addAddress.put("selected_"+String.valueOf(position+1),true);
+                                        }
                                         if (DBqueries.addressesModelList.size() > 0) {
                                             addAddress.put("selected_" + (DBqueries.selectedAddress + 1), false);
                                         }
@@ -166,7 +177,15 @@ public class AddAddressActivity extends AppCompatActivity {
                                                                 DBqueries.addressesModelList.get(DBqueries.selectedAddress).setSelected(false);
                                                             }
                                                             DBqueries.addressesModelList.add(new AddressesModel(true,city.getText().toString(),locality.getText().toString(),flatNo.getText().toString(),pinCode.getText().toString(),landmark.getText().toString(),name.getText().toString(),mobileNo.getText().toString(),alternateMobileNo.getText().toString(),selectedState));
-                                                            DBqueries.selectedAddress = DBqueries.addressesModelList.size() - 1;
+
+                                                            if (getIntent().getStringExtra("INTENT").equals("manage")) {
+                                                                if (DBqueries.addressesModelList.size() == 0) {
+                                                                    DBqueries.selectedAddress = DBqueries.addressesModelList.size() - 1;
+                                                                }
+                                                            }else {
+                                                                DBqueries.selectedAddress = DBqueries.addressesModelList.size() - 1;
+                                                            }
+
                                                         }else {
                                                             DBqueries.addressesModelList.set(position,new AddressesModel(true,city.getText().toString(),locality.getText().toString(),flatNo.getText().toString(),pinCode.getText().toString(),landmark.getText().toString(),name.getText().toString(),mobileNo.getText().toString(),alternateMobileNo.getText().toString(),selectedState));
 

@@ -165,7 +165,8 @@
                 android:hint="Moblie no.*"
                 android:inputType="number"
                 android:minHeight="48dp"
-                android:textColor="@color/lavender" />
+                android:textColor="@color/lavender"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <EditText
                 android:id="@+id/alternate_moblie_no"
