@@ -24,7 +24,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
 
     private boolean fromSearch;
-    private final List<WishlistModel> wishlistModelList;
+    private List<WishlistModel> wishlistModelList;
     private final Boolean wishlist;
     private int lastPosition = -1;
 
