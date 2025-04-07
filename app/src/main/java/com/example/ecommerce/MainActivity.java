@@ -115,18 +115,6 @@ public class MainActivity extends AppCompatActivity {
         // ✅ Handle navigation item selection
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
         navigationView.getMenu().getItem(0).setChecked(true);
-//
-//        //from chatgpt
-//        badgeCount = findViewById(R.id.badge_count);
-//
-//        if (badgeCount == null) {
-//            Log.e("MainActivity", "Badge count TextView is null");
-//        }
-//
-//        if (currentUser != null) {
-//            DBqueries.loadCartList(this, new Dialog(this), false, badgeCount, new TextView(this));
-//        }
-//        //from chatgpt
 
         if (savedInstanceState == null)
             if (showCart) {
@@ -187,6 +175,9 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser == null){
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         }else{
+
+            DBqueries.checkNotifications(false);
+
             if (DBqueries.email == null) {
                 FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -234,6 +225,13 @@ public class MainActivity extends AppCompatActivity {
             navigationView.getMenu().getItem(0).setChecked(true);
         }
         invalidateOptionsMenu();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DBqueries.checkNotifications(true);
     }
 
     public void onBackPressed() {
@@ -303,7 +301,8 @@ public class MainActivity extends AppCompatActivity {
             //todo: search
             return true;
         }else if (id == R.id.main_notification_icon){
-            //todo: notification
+           Intent notificationIntent = new Intent(this, NotificationActivity.class);
+           startActivity(notificationIntent);
             return true;
         }else if (id == R.id.main_cart_icon) {
           Dialog signInDialog = new Dialog(MainActivity.this);

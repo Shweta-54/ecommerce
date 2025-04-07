@@ -46,7 +46,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class ProductDetailsActivity extends AppCompatActivity {
     public static boolean running_widhlist_query = false;
@@ -116,7 +115,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         // Setup toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         // Bind views
@@ -910,6 +909,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
+            productDetailsActivity = null;
             finish();
             return true;
         } else if (id == R.id.main_search_icon) {
