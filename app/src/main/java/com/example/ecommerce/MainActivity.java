@@ -175,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser == null){
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         }else{
-
             DBqueries.checkNotifications(false);
 
             if (DBqueries.email == null) {
@@ -298,7 +297,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
         if (id == R.id.main_search_icon) {
-            //todo: search
+            Intent searchIntent = new Intent(this, SearchActivity.class);
+            startActivity(searchIntent);
             return true;
         }else if (id == R.id.main_notification_icon){
            Intent notificationIntent = new Intent(this, NotificationActivity.class);
@@ -372,8 +372,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDrawerClosed(@NonNull View drawerView) {
                     super.onDrawerClosed(drawerView);
-
-
                     int id = item.getItemId();
                     if (id == R.id.nav_my_mall) {
                         actionbarlogo.setVisibility(View.VISIBLE);

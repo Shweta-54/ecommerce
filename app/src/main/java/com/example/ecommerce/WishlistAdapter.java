@@ -23,19 +23,36 @@ import java.util.List;
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHolder> {
 
 
+    private boolean fromSearch;
     private final List<WishlistModel> wishlistModelList;
     private final Boolean wishlist;
     private int lastPosition = -1;
+
+    public boolean isFromSearch() {
+        return fromSearch;
+    }
+
+    public void setFromSearch(boolean fromSearch) {
+        this.fromSearch = fromSearch;
+    }
 
     public WishlistAdapter(List<WishlistModel> wishlistModelList,Boolean wishlist) {
         this.wishlistModelList = wishlistModelList;
         this.wishlist = wishlist;
     }
 
+    public List<WishlistModel> getWishlistModelList() {
+        return wishlistModelList;
+    }
+    public void setWishlistModelList(List<WishlistModel> wishlistModelList){
+        this.wishlistModelList = wishlistModelList;
+    }
+
+
     @NonNull
     @Override
     public WishlistAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater .from(viewGroup.getContext()).inflate(R.layout.wishlist_item_layout,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.wishlist_item_layout,viewGroup,false);
         return new ViewHolder(view);
     }
 
@@ -139,9 +156,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                 paymentMethod.setVisibility(View.INVISIBLE);
 
             }
-
-
-
 
 
             if (wishlist){

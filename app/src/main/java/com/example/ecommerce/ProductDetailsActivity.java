@@ -51,6 +51,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     public static boolean running_widhlist_query = false;
     public static boolean running_rating_query = false;
     public static boolean running_cart_query = false;
+    public static boolean fromSearch = false;
     //hiii
     public static String productID;
     public static MenuItem cartItem;
@@ -925,5 +926,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        fromSearch = false;
     }
 }
