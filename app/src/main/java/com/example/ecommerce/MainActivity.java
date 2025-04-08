@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser == null){
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         }else{
-            DBqueries.checkNotifications(false);
+//            DBqueries.checkNotifications(false);
 
             if (DBqueries.email == null) {
                 FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        DBqueries.checkNotifications(true);
+//        DBqueries.checkNotifications(true);
     }
 
     public void onBackPressed() {
@@ -291,6 +291,23 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+            MenuItem notifyItem = menu.findItem(R.id.main_notification_icon);
+            notifyItem.setActionView(R.layout.badge_layout);
+            ImageView notifyIcon = notifyItem.getActionView().findViewById(R.id.badge_icon);
+            notifyIcon.setImageResource(R.drawable.baseline_notifications_24);
+            TextView notifyCount = cartItem.getActionView().findViewById(R.id.badge_count);
+            if(currentUser != null){
+                DBqueries.checkNotifications(false,notifyCount);
+            }
+            notifyItem.getActionView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent notificationIntent = new Intent(MainActivity.this,NotificationActivity.class);
+                    startActivity(notificationIntent);
+                }
+            });
+            /////usha
+
         }
         return true;
     }
@@ -416,8 +433,6 @@ public class MainActivity extends AppCompatActivity {
                 window.setStatusBarColor(getResources().getColor(R.color.lavender));
                 toolbar.setBackgroundColor(getResources().getColor(R.color.lavender));
             }
-
-
             currentFragment = fragmentNo;
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.setCustomAnimations(R.anim.fade_in,R.anim.fade_out);
