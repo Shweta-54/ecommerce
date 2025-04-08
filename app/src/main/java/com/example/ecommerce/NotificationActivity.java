@@ -62,7 +62,6 @@ public class NotificationActivity extends AppCompatActivity {
         super.onDestroy();
         for (int x = 0; x < DBqueries.notificationModelList.size(); x++) {
             DBqueries.notificationModelList.get(x).setReaded(true);
-
         }
     }
 

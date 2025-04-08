@@ -357,7 +357,6 @@ public class HomePageAdapter extends RecyclerView.Adapter {
                     productPrice.setText("");
                     continue;
                 }
-
                 if (model.getProductImage() == null || model.getProductImage().isEmpty()
                         || model.getProductTitle() == null || model.getProductTitle().isEmpty()) {
                     // Load missing product data from Firestore

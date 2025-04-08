@@ -129,7 +129,6 @@ public class MyAccountFragment extends Fragment {
                     } else {
                         break;
                     }
-
                 }
                 if (i == 0) {
                     yourrecentorderTitle.setText("No recent Orders.");
@@ -137,10 +136,10 @@ public class MyAccountFragment extends Fragment {
 
                 if (i < 3) {
                     for (int x = i; x < 4; x++) {
-                        recentOrdersContainer.getChildAt(i).setVisibility(View.GONE);
+                        recentOrdersContainer.getChildAt(x).setVisibility(View.GONE);
                     }
                 }
-                loadingDialog.show();
+//                loadingDialog.show();
                 loadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
@@ -226,10 +225,8 @@ public class MyAccountFragment extends Fragment {
         String state = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getState();
         if (landmark.equals(" ")){
             address.setText(flatNo + ", " + locality + " , " + city + ", " + state);
-
         }else {
             address.setText(flatNo + ", " + locality + ", " + landmark + ", " + city + ", " + state);
-
         }
         pincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPinCode());
     }
